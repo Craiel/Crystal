@@ -1,0 +1,14 @@
+# Eclipse
+.settings
+.project
+
+# system
+Thumbs.db
+.DS_Store
+.~lock*
+
+# grunt and node.js stuff
+bin
+tmp
+node_modules
+npm-debug.log
