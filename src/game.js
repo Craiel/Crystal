@@ -8,7 +8,6 @@ define(function(require) {
     // Load up the basic game elements
     require('game/inventory');
     
-    
     Game.prototype = Crystal.createComponent();
     Game.prototype.$super = parent;
     Game.prototype.constructor = Game;
@@ -17,20 +16,18 @@ define(function(require) {
         this.title = "#no name";
         this.version = 0.1;
         this.versionForceReset = 0.1;
-        
-        this.testInventory = Crystal.createInventory("Test");
-        
+                
         // ---------------------------------------------------------------------------
         // overrides
         // ---------------------------------------------------------------------------
-        this.baseInit = this.init;
-        this.baseUpdate = this.update;
+        this.componentInit = this.init;
+        this.componentUpdate = this.update;
         
         // ---------------------------------------------------------------------------
         // main functions
         // ---------------------------------------------------------------------------
         this.init = function() {
-            this.baseInit();
+            this.componentInit();
             
             save.load();
             
@@ -40,10 +37,10 @@ define(function(require) {
         };
         
         this.update = function(currentTime) {
-            if(!this.baseUpdate(currentTime)) {
+            if(!this.componentUpdate(currentTime)) {
                 return;
             }
-                   
+            
             // process auto-saving
             this.updateAutoSave(currentTime);
         };

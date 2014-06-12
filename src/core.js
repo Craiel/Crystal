@@ -1,4 +1,5 @@
-define(["system/component"], function() {
+define(function(require) {
+    require("system/component");
     
     Crystal.isDebug = true;
     
