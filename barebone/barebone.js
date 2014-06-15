@@ -3,6 +3,7 @@ requirejs.config({
 
     paths : {
         // Map the system files for easier access
+        component: 'system/component',
         assert: 'system/assert',
         event: 'system/event',
         utils: 'system/utils',
@@ -12,10 +13,6 @@ requirejs.config({
         jquery : 'external/jquery-2.1.1',
     }
 });
-
-//Set the namespaces
-Crystal = {};
-Crystal.UI = {};
 
 require(["core"], function() {
     // Load globals

@@ -1,6 +1,7 @@
 define(function(require) {
     var save = require('save');
     var assert = require('assert');
+    var component = require('component');
     
     // ---------------------------------------------------------------------------
     // internal functions
@@ -80,7 +81,7 @@ define(function(require) {
     // ---------------------------------------------------------------------------
     // Inventory object
     // ---------------------------------------------------------------------------
-    Inventory.prototype = Crystal.createComponent();
+    Inventory.prototype = component.create();
     Inventory.prototype.$super = parent;
     Inventory.prototype.constructor = Inventory;
     
@@ -276,5 +277,7 @@ define(function(require) {
     };
     
     // Register into the main namespace
-    Crystal.createInventory = function(id) { return new Inventory(id); };
+    return {
+        create: function(id) { return new Inventory(id); }
+    };
 });

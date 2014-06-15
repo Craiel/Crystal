@@ -1,6 +1,7 @@
-define(function() {
+define(function(require) {
+    var component = require('component');
     
-    State.prototype = Crystal.createComponent();
+    State.prototype = component.create();
     State.prototype.$super = parent;
     State.prototype.constructor = State;
     

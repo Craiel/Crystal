@@ -1,6 +1,7 @@
 # Eclipse
 .settings
 .project
+.externalToolBuilders
 
 # system
 Thumbs.db

@@ -1,6 +1,7 @@
-define(function() {
+define(function(require) {
+    var element = require("ui/element");
     
-	ControlPanel.prototype = Crystal.UI.createUIElement();
+	ControlPanel.prototype = element.create();
     ControlPanel.prototype.$super = parent;
     ControlPanel.prototype.constructor = ControlPanel;
     
@@ -8,6 +9,8 @@ define(function() {
         this.id = id;
     };
     
-    Crystal.UI.createControlPanel = function(id) { return new ControlPanel(id); };
+    return {
+        create: function(id) { return new ControlPanel(id); }
+    };
     
 });

@@ -1,9 +1,8 @@
 define(function(require) {
+    var element = require("ui/element");
+    var controlPanel = require('ui/controlPanel');
     
-    // Load up required controls
-    require('ui/controlPanel');
-    
-    ScreenMain.prototype = Crystal.UI.createUIElement();
+    ScreenMain.prototype = element.create();
     ScreenMain.prototype.$super = parent;
     ScreenMain.prototype.constructor = ScreenMain;
     
@@ -24,7 +23,7 @@ define(function(require) {
         this.init = function(parent) {
             this.elementInit(parent);
             
-            this.controlPanel = Crystal.UI.createControlPanel("MainControlPanel");
+            this.controlPanel = controlPanel.create("MainControlPanel");
             this.controlPanel.init(this);
         };
         
@@ -38,6 +37,8 @@ define(function(require) {
         };
     };
     
-    Crystal.UI.createScreenMain = function(id) { return new ScreenMain(id); };
+    return {
+        create: function(id) { return new ScreenMain(id); }
+    };
     
 });

@@ -40,6 +40,8 @@ define(function() {
         };
     }
     
-    Crystal.createComponent = function() { return new Component(); };
+    return {
+        create: function() { return new Component(); }
+    };
     
 });

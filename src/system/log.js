@@ -76,5 +76,5 @@ define(["enums", "utils"], function(enums, utils) {
         };
     };
     
-    return new Log;
+    return new Log();
 });

@@ -1,12 +1,10 @@
 define(function(require) {
     var log = require("log");
     var state = require("game/state");
+    var component = require("component");
+    var screenMain = require('ui/screenMain');
     
-    // Load up the basic ui elements
-    require("ui/uielement");
-    require('ui/screenMain');
-    
-    UI.prototype = Crystal.createComponent();
+    UI.prototype = component.create();
     UI.prototype.$super = parent;
     UI.prototype.constructor = UI;
         
@@ -28,7 +26,7 @@ define(function(require) {
         this.init = function() {
             this.componentInit();
             
-            this.screenMain = Crystal.UI.createScreenMain("MainScreen");
+            this.screenMain = screenMain.create("MainScreen");
             this.screenMain.init();
         };
         

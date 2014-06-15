@@ -1,6 +1,9 @@
 define(function(require) {
-    require("system/component");
     
+    // set the main namespace
+    Crystal = {};
+    
+    // Set debug mode
     Crystal.isDebug = true;
     
     // For compatibility between older versions:

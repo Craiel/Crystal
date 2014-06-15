@@ -1,4 +1,6 @@
-define(["save", "assert"], function(save, assert) {
+define(function(require) {
+    var save = require("save");
+    var assert = require("assert");
     
     // ---------------------------------------------------------------------------
     // statistic object

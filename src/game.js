@@ -4,11 +4,9 @@ define(function(require) {
     var utils = require("utils");
     var state = require("game/state");
     var log = require("log");
+    var component = require("component");
     
-    // Load up the basic game elements
-    require('game/inventory');
-    
-    Game.prototype = Crystal.createComponent();
+    Game.prototype = component.create();
     Game.prototype.$super = parent;
     Game.prototype.constructor = Game;
     
