@@ -8,7 +8,9 @@ requirejs.config({
         event: 'system/event',
         utils: 'system/utils',
         save: 'system/save',
+        type: 'system/type',
         log: 'system/log',
+        runtime: 'system/runtime',
         
         jquery : 'external/jquery-2.1.1',
     }
@@ -17,11 +19,12 @@ requirejs.config({
 require(["core"], function() {
     // Load globals
     require(["jquery", "log", "data", "game", "ui"], function($, log, data, game, ui) {
+        
         log.info("Initializing Barebone");
             
         // override our data root
         data.setRoot("../data/");
-                
+        
         // Add hook for document ready
         $(document).ready(onDocumentReady);
 

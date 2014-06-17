@@ -7,6 +7,10 @@ define(function(require) {
     
     function State() {
         
+        this.title = "Crystal";
+        this.version = 0.1;
+        this.versionForceReset = 0.1;
+        
         this.lastAutoSave = Date.now();
         
         this.lastPlayedVersion = 0;

@@ -14,6 +14,7 @@ define(function(require) {
             this.root = root;
             this.imageRoot = this.root + "images/";
             this.iconRoot = this.imageRoot + "icons/";
+            this.cssRoot = this.root + "css/";
             
             this.enableDragDrop = true;
             this.dragDelay = 300; // delay before starting to drag

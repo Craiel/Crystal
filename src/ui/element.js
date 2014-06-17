@@ -1,5 +1,6 @@
 define(function(require) {
     var log = require("log");
+    var utils = require("utils");
     var assert = require("assert");
     var templates = require("data/templates");
     var component = require("component");
@@ -24,7 +25,7 @@ define(function(require) {
         // ---------------------------------------------------------------------------
         // main functions
         // ---------------------------------------------------------------------------
-        this.init = function(parent) {
+        this.init = function(parent, attributes) {
             this.componentInit();
             
             assert.isDefined(this.id, "UIElement needs valid Id");
@@ -34,7 +35,7 @@ define(function(require) {
             
             // Check if we have a valid element target, if not create it
             if(this._mainDiv === undefined || this._mainDiv.length === 0) {
-                var template = templates.GetTemplate(this.id);
+                var template = templates.GetTemplate(this.id, attributes);
                 this._mainDiv = $(template);
                 
                 // We are creating it so either append to body or a given parent

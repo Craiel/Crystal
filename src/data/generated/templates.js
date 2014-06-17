@@ -1,6 +1,6 @@
 define(function() {
     return {
-        'MainScreen': '<div id={{id}}>TEST123</div>',
-        'MainControlPanel': '<div id={{id}}>TEST123</div>'
+        'MainScreen': '<div id="{{id}}" class="noSelect"></div>',
+        'MainControlPanel': '<div id="{{id}}" class="noSelect"></div>'
     };
 });

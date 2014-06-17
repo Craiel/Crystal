@@ -6,15 +6,16 @@ define(function(require) {
     var log = require("log");
     var component = require("component");
     
+    if(Crystal.isDebug) {
+        var debug = require("debug");
+    }
+    
     Game.prototype = component.create();
     Game.prototype.$super = parent;
     Game.prototype.constructor = Game;
     
     function Game() {
-        this.title = "#no name";
-        this.version = 0.1;
-        this.versionForceReset = 0.1;
-                
+        
         // ---------------------------------------------------------------------------
         // overrides
         // ---------------------------------------------------------------------------
@@ -26,6 +27,10 @@ define(function(require) {
         // ---------------------------------------------------------------------------
         this.init = function() {
             this.componentInit();
+            
+            if(Crystal.isDebug) {
+                debug.init();
+            }
             
             save.load();
             
@@ -50,13 +55,13 @@ define(function(require) {
             state.lastPlayedVersion = settings.savedVersion;
             
             // If the saved version is below the force threshold we reset automatically
-            if(settings.savedVersion < this.versionForceReset) {
+            if(settings.savedVersion < state.versionForceReset) {
                 log.warning("Saved version is too old (" + settings.savedVersion + "), forcing reset!");
                 save.reset();
                 state.resetForced = true;
             }
             
-            settings.savedVersion = this.version;
+            settings.savedVersion = state.version;
         };
         
         this.updateAutoSave = function(currentTime) {

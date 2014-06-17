@@ -1,4 +1,4 @@
-define(function(require) {
+define(function() {
     
     // set the main namespace
     Crystal = {};
@@ -16,4 +16,5 @@ define(function(require) {
             return Object.toString.call(obj) === '[object Array]';
         };
     };
+    
 });

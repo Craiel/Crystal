@@ -1,8 +1,8 @@
-define(function() {
+define(function(require) {
     
     // Get the global namespace and register the local namespace root
     var global = Function('return this')() || (42, eval)('this');
-        
+
     function Utils() {
         // ---------------------------------------------------------------------------
         // misc utility functions
@@ -52,6 +52,27 @@ define(function() {
             
             return false;
         };
+        
+        this.mergeObjects = function(objectA, objectB) {
+            var result = {};
+            if(objectA !== undefined) {
+                for(var key in objectA) {
+                    result[key] = objectA[key];
+                };
+            }
+            
+            if(objectB !== undefined) {
+                for(var key in objectB) {
+                    result[key] = objectB[key];
+                };
+            }
+            
+            return result;
+        };
+        
+        this.getStackTrace = function() {
+            return new Error().stack;
+        }
         
         // ---------------------------------------------------------------------------
         // Time / Date functions
