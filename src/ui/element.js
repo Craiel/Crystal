@@ -9,8 +9,8 @@ define(function(require) {
     UIElement.prototype.$super = parent;
     UIElement.prototype.constructor = UIElement;
     
-    function UIElement() {
-        this.id = undefined;
+    function UIElement(id) {
+        this.id = id;
         
         this.isVisible = true;
         
@@ -75,9 +75,47 @@ define(function(require) {
         this.getMainElement = function() {
             return this._mainDiv;
         };
+        
+        this.checkClassExist = function(className) {
+            if(Crystal.isDebug === false) {
+                return;
+            }
+            
+            if($("."+className).length > 0) {
+                return;
+            }
+            
+            log.warning("ClassVerifyError: "+className+" on "+this.id);
+        };
+        
+        this.addClass = function(className) {
+            assert.isFalse(this._mainDiv.hasClass(className));
+            this.checkClassExist(className);
+            
+            this._mainDiv.addClass(className);
+        };
+        
+        this.removeClass = function(className) {
+            assert.isTrue(this._mainDiv.hasClass(className));
+            this.checkClassExist(className);
+            
+            this._mainDiv.removeClass(className);
+        };
+        
+        this.toggleClass = function(className) {
+            if(this._mainDiv.hasClass(className) === true) {
+                this.removeClass(className);
+            } else {
+                this.addClass(className);
+            };
+        };
+        
+        this.setText = function(text) {
+            this._mainDiv.text(text);
+        };
     };
     
     return {
-        create: function() { return new UIElement(); }
+        create: function(id) { return new UIElement(id); }
     };
 });

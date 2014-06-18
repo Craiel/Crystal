@@ -7,8 +7,8 @@ define(["enums", "utils"], function(enums, utils) {
             warning: 4,
         };
     
-    var getLevelDisplay = function(level) {
-        switch(level) {
+    var getLevelDisplay = function(targetLevel) {
+        switch(targetLevel) {
             case level.info: {
                 return "INFO";
                 break;
@@ -29,6 +29,8 @@ define(["enums", "utils"], function(enums, utils) {
                 break;
             };
         };
+        
+        throw new Error("Unknown Error Level: " + targetLevel);
     };
     
     var logFormat = function(time, level, message) {

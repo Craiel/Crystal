@@ -9,7 +9,8 @@
 }
 
 .clickable {
-    cursor:hand;
+    cursor: hand;
+    cursor: pointer;
 }
 
 .hidden{

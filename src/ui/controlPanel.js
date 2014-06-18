@@ -1,12 +1,23 @@
 define(function(require) {
-    var element = require("ui/element");
+    var panel = require("ui/panel");
     
-	ControlPanel.prototype = element.create();
+	ControlPanel.prototype = panel.create();
     ControlPanel.prototype.$super = parent;
     ControlPanel.prototype.constructor = ControlPanel;
     
     function ControlPanel(id) {
         this.id = id;
+        
+        this.canClose = false;
+        this.canShowInfo = false;
+        
+        this.options = {};
+        
+        this.addOption = function(id, arguments) {
+            assert.isDefined(this.getMainElement(), "addOption must be called after init");
+            
+            // Build the option control div
+        };
     };
     
     return {

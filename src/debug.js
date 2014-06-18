@@ -7,6 +7,8 @@ define(function(require) {
         init: function() {
             log.debug("DEBUG MODE - Initializing");
             runtime.loadDynamic([data.cssRoot + "generic.css"], 0);
+            runtime.loadDynamic([data.cssRoot + "panel.css"], 0);
+            runtime.loadDynamic([data.cssRoot + "ui.css"], 0);
         }
     };
     
