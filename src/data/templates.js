@@ -16,16 +16,15 @@ define(function(require) {
     };
     
     function Templates() {
-        this.GetTemplate = function(id, attributes) {
+        this.GetTemplate = function(templateName, attributes) {
             var template;
-            if(data[id] !== undefined) {
-                template = data[id];
+            if(data[templateName] !== undefined) {
+                template = data[templateName];
             } else {
-                log.warning("Template.Default: " + id);
+                log.warning("Template.Default: " + templateName);
                 template = '<div id="{{id}}"></div>';
             }
             
-            template = applyTemplateAttributes(template, {id: id});
             if(attributes !== undefined) {
                 return applyTemplateAttributes(template, attributes);
             }

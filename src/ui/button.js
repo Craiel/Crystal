@@ -25,7 +25,7 @@ define(function(require) {
             
             assert.isDefined(this.onClick, "No click event defined for button");
             
-            this.getMainElement().click(this.onClick);
+            this.getMainElement().click({self: this}, this.onClick);
         };
     };
     

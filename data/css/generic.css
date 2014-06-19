@@ -13,6 +13,12 @@
     cursor: pointer;
 }
 
-.hidden{
+.hidden {
     display: none;
+}
+
+.inline {
+	display: inline-block;
+    display: -moz-inline-stack; /* for firefox 2 */
+    *display: inline; /* for ie 6 and 7 */
 }

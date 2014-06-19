@@ -2,7 +2,7 @@ define(function() {
     return {
         'MainScreen': '<div id="{{id}}" class="screen"></div>',
         
-        'OptionPanel': '<div id="{{id}}" class="controlPanel">\
+        'OptionPanel': '<div id="{{id}}" class="optionPanel inline">\
                 <div id="{{id}}_bg" class="noSelect panelBackground"></div>\
                 <div id="{{id}}_content" class="noSelect panelContent panelContentBorder">\
                     <div id="{{id}}_content_bg" class="noSelect panelContentBackground"></div>\

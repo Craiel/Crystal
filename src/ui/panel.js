@@ -64,11 +64,13 @@ define(function(require) {
             this.title.setText(title);
         };
         
-        this.onCloseClick = function() {
-            log.debug("onCloseClick: " +this.id);
+        this.onCloseClick = function(event) {
+            var self = event.data.self.parent;
+            self.hide();
         };
         
-        this.onInfoClick = function() {
+        this.onInfoClick = function(event) {
+            var self = event.data.self.parent;
             log.debug("onInfoClick: " +this.id);
         };
     };

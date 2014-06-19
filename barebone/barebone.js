@@ -10,6 +10,7 @@ requirejs.config({
         save: 'system/save',
         type: 'system/type',
         log: 'system/log',
+        math: 'system/math',
         runtime: 'system/runtime',
         
         jquery : 'external/jquery-2.1.1',

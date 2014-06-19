@@ -1,5 +1,7 @@
 define(function(require) {
+    var math = require("math");
     var element = require("ui/element");
+    var panel = require("ui/panel");
     var controlPanel = require('ui/controlPanel');
     
     ScreenMain.prototype = element.create();
@@ -9,6 +11,7 @@ define(function(require) {
     function ScreenMain(id) {
         this.id = id;
         
+        this.testPanel = undefined;
         this.controlPanel = undefined;
         
         // ---------------------------------------------------------------------------
@@ -25,6 +28,12 @@ define(function(require) {
             
             this.controlPanel = controlPanel.create("MainControlPanel");
             this.controlPanel.init(this);
+            
+            this.testPanel = panel.create("TestPanel");
+            this.testPanel.templateName = "OptionPanel";
+            this.testPanel.init(this);
+            this.testPanel.setSize(math.point(400, 300));
+            this.testPanel.setPosition(math.point(100, 50));
         };
         
         this.update = function(currentTime) {
