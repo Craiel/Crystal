@@ -1,7 +1,11 @@
 define(function() {
     
     // set the main namespace
-    Crystal = {};
+    Crystal = {
+            componentUpdateList: [],
+            componentUpdateCount: 0,
+            componentInitCount: 0
+    };
     
     // Set debug mode
     Crystal.isDebug = true;
@@ -17,4 +21,10 @@ define(function() {
         };
     };
     
+    return {
+        resetFrame: function() {
+            Crystal.componentUpdateList = [];
+            Crystal.componentUpdateCount = 0;
+        }
+    };
 });

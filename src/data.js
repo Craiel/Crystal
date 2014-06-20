@@ -6,6 +6,7 @@ define(function(require) {
     Data.prototype.constructor = Data;
     
     function Data() {
+        this.id = 'data';
         
         // ---------------------------------------------------------------------------
         // data functions

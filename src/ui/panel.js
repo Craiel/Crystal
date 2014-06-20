@@ -16,6 +16,7 @@ define(function(require) {
         this.onClose = undefined;
         this.onShowInfo = undefined;
         
+        this.contentProvider = undefined;
         this.content = undefined;
         this.title = undefined;
         
@@ -30,14 +31,8 @@ define(function(require) {
         this.init = function(parent) {
             this.elementInit(parent);
             
-            var background = element.create(this.id + "_bg");
-            background.init(this);
-            
             this.content = element.create(this.id + "_content");
             this.content.init(this);
-            
-            var contentBackground = element.create(this.content.id + "_bg");
-            contentBackground.init(this.content);
             
             this.title = element.create(this.id + "_title");
             this.title.init(this);
@@ -62,6 +57,11 @@ define(function(require) {
         // ---------------------------------------------------------------------------
         this.setTitle = function(title) {
             this.title.setText(title);
+        };
+        
+        this.setContent = function(contentProvider) {
+            this.contentProvider = contentProvider;
+            this.content.setContent(contentProvider.getMainElement());
         };
         
         this.onCloseClick = function(event) {

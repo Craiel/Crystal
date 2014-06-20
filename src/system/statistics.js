@@ -31,6 +31,10 @@ define(function(require) {
             
             this.stats[key] += count;
         };
+        
+        this.get = function(key) {
+            return this.stats[key];
+        };
     };
     
     return {

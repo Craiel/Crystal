@@ -15,6 +15,7 @@ define(function(require) {
     Game.prototype.constructor = Game;
     
     function Game() {
+        this.id = 'game';
         
         // ---------------------------------------------------------------------------
         // overrides

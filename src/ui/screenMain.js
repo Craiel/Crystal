@@ -3,6 +3,7 @@ define(function(require) {
     var element = require("ui/element");
     var panel = require("ui/panel");
     var controlPanel = require('ui/controlPanel');
+    var statisticsView = require("ui/statisticsView");
     
     ScreenMain.prototype = element.create();
     ScreenMain.prototype.$super = parent;
@@ -13,6 +14,8 @@ define(function(require) {
         
         this.testPanel = undefined;
         this.controlPanel = undefined;
+        
+        this.statisticsView = undefined;
         
         // ---------------------------------------------------------------------------
         // overrides
@@ -29,11 +32,16 @@ define(function(require) {
             this.controlPanel = controlPanel.create("MainControlPanel");
             this.controlPanel.init(this);
             
+            this.statisticsView = statisticsView.create('StatisticsView');
+            this.statisticsView.init();
+            
             this.testPanel = panel.create("TestPanel");
             this.testPanel.templateName = "OptionPanel";
             this.testPanel.init(this);
             this.testPanel.setSize(math.point(400, 300));
             this.testPanel.setPosition(math.point(100, 50));
+            this.testPanel.setTitle("Test Panel");
+            this.testPanel.setContent(this.statisticsView);
         };
         
         this.update = function(currentTime) {
@@ -43,6 +51,8 @@ define(function(require) {
             
             // Update the controls
             this.controlPanel.update(currentTime);
+            
+            this.statisticsView.update(currentTime);
         };
     };
     

@@ -23,19 +23,7 @@ define(function(require) {
         // fetch the template to use, either custom or go by the id
         var template = templates.GetTemplate(templateName, attributes);
         
-        var content = $(template);
-        
-        // We are creating it so either append to body or a given parent
-        if(parent === undefined) {
-            log.warning("Creating ui element in Root: " + id);
-            $(document.body).append(content);
-        } else {
-            assert.isDefined(parent.getMainElement(), "Parent needs to be of UIElement type and initialized");
-            log.debug("Appending child " + id + " to " + parent.id);
-            parent.getMainElement().append(content);
-        }
-        
-        return content;
+        return $(template);
     };
     
     UIElement.prototype = component.create();
@@ -66,15 +54,25 @@ define(function(require) {
             this.parent = parent;
             this.componentInit();
             
-            assert.isDefined(this.id, "UIElement needs valid Id");
-            
             // try to get our element target
             this._mainDiv = $('#' + this.id);
             
             // Check if we have a valid element target, if not create it
             if(this._mainDiv === undefined || this._mainDiv.length === 0) {
-                
                 this._mainDiv = createElementContent(this.id, parent, this.templateName, attributes);
+                
+                // undefined means no registration, null will put it into root
+                if(parent !== undefined) {
+                    // either append to body or a given parent
+                    if(parent === null) {
+                        log.warning("Creating ui element in Root: " + this.id);
+                        $(document.body).append(this._mainDiv);
+                    } else {
+                        assert.isDefined(parent.getMainElement(), "Parent needs to be of UIElement type and initialized");
+                        log.debug("Appending child " + this.id + " to " + parent.id);
+                        parent.getMainElement().append(this._mainDiv);
+                    }
+                }
             }
         };
         
@@ -150,6 +148,11 @@ define(function(require) {
             this._mainDiv.width(size.x);
             this._mainDiv.height(size.y);
             this._mainDiv.trigger( "updatelayout" );
+        };
+        
+        this.setContent = function(content) {
+            this._mainDiv.empty();
+            this._mainDiv.append(content);
         };
         
         this.setText = function(text) {

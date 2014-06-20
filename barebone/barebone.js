@@ -17,7 +17,7 @@ requirejs.config({
     }
 });
 
-require(["core"], function() {
+require(["core"], function(core) {
     // Load globals
     require(["jquery", "log", "data", "game", "ui"], function($, log, data, game, ui) {
         
@@ -50,6 +50,7 @@ require(["core"], function() {
         function onUpdate() {
             currentTime = Date.now();
             
+            core.resetFrame();
             data.update(currentTime);
             game.update(currentTime);
         };

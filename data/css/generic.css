@@ -13,6 +13,10 @@
     cursor: pointer;
 }
 
+.noIBar {
+	cursor: default;
+}
+
 .hidden {
     display: none;
 }

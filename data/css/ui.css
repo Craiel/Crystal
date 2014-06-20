@@ -2,3 +2,32 @@
 	width: 100%;
 	height: 100%;
 }
+
+.defaultFontColor {
+	color: #FFFFFF;
+}
+
+.contentProvider {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	margin: 2px;
+}
+
+.statisticsSection {
+	margin: 0px 0px 10px 0px;
+}
+
+.statisticsHeader {
+	font-weight: bold;
+	margin: 4px;
+}
+
+.statisticsContent {
+	margin: 1px 8px 1px 8px;
+	text-align: right;
+}
+
+.statisticsDivider {
+	margin: 2px;
+}

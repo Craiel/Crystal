@@ -8,12 +8,19 @@
     border-width: 2px;
 }
 
-.panelContent {
+.panelContentFrame {
     position: absolute;
     top: 30px;
     bottom: 0px;
     margin: 4px;
     width: calc(100% - 12px);
+}
+
+.panelContent {
+	position: absolute;
+	width: calc(100% - 8px);
+	height: calc(100% - 8px);
+    margin: 2px;
 }
 
 .panelBackground {
@@ -46,8 +53,11 @@
 }
 
 .panelTitle {
+	position: absolute;
+	top: 6px;
+	left: 35px;
 	text-align: left;
-	color: #FFFFFF;
+	font-weight: bold;
 }
 
 .panelButtonClose {
@@ -62,28 +72,13 @@
     left: 2px;
 }
 
+.panelButtonText {
+	font-weight: bold;
+}
+
 .optionPanel {
 	position: relative;
 	float: left;
 	z-index: 1;
 	padding: 0;
-}
-
-.controlPanel {
-	position: absolute;
-	top: 0px;
-    right: 0px;
-	height: 34px;
-	width: 500px;
-}
-
-.controlPanelContent {
-	border-style: solid;
-    border-color: #468278;
-    border-width: 2px;
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    margin: 4px;
-    width: calc(100% - 12px);
 }

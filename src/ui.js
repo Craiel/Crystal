@@ -9,6 +9,7 @@ define(function(require) {
     UI.prototype.constructor = UI;
         
     function UI() {
+        this.id = 'ui';
         
         this.screenMain = undefined;
         
@@ -27,7 +28,9 @@ define(function(require) {
             this.componentInit();
             
             this.screenMain = screenMain.create("MainScreen");
-            this.screenMain.init();
+            this.screenMain.init(null);
+            
+            this.activeScreen = this.screenMain;
         };
         
         this.update = function(currentTime) {
