@@ -1,8 +1,10 @@
 define(function() {
     return {
-        'MainScreen': '<div id="{{id}}" class="screen"></div>',
+        'MainScreen': '<div id="{{id}}" class="noSelect screen"></div>',
         
-        'OptionPanel': '<div id="{{id}}" class="optionPanel inline">\
+        'PluginBar': '<div class="noSelect pluginBar"></div>',
+       
+        'OptionPanel': '<div id="{{id}}" class="noSelect optionPanel inline">\
                 <div id="{{id}}_bg" class="noSelect panelBackground"></div>\
                 <div class="noSelect panelContentFrame panelContentBorder">\
                     <div class="noSelect panelContentBackground"></div>\
@@ -12,8 +14,10 @@ define(function() {
                 <div id="{{id}}_btInfo" class="noSelect clickable panelButton panelButtonInfo panelButtonText">i</div>\
                 <div id="{{id}}_title" class="noSelect noIBar defaultFontColor panelTitle"></div>\
             </div>',
-            
-         'MainControlPanel': '<div id="{{id}}" class="noSelect controlPanel">\
+
+         'ControlPanelFrame': '<div class="noSelect controlPanelFrame"></div>',
+         
+         'ControlPanel': '<div id="{{id}}" class="noSelect controlPanel">\
                 <div id="{{id}}_bg" class="noSelect panelBackground"></div>\
                 <div class="noSelect controlPanelContentFrame panelContentBorder">\
                     <div class="noSelect panelContentBackground"></div>\

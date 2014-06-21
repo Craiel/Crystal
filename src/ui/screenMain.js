@@ -2,6 +2,7 @@ define(function(require) {
     var math = require("math");
     var element = require("ui/element");
     var panel = require("ui/panel");
+    var pluginBar = require('ui/pluginBar');
     var controlPanel = require('ui/controlPanel');
     var statisticsView = require("ui/statisticsView");
     
@@ -13,6 +14,10 @@ define(function(require) {
         this.id = id;
         
         this.testPanel = undefined;
+        
+        this.pluginBar = undefined;
+        
+        this.controlPanelFrame = undefined;
         this.controlPanel = undefined;
         
         this.statisticsView = undefined;
@@ -29,8 +34,14 @@ define(function(require) {
         this.init = function(parent) {
             this.elementInit(parent);
             
-            this.controlPanel = controlPanel.create("MainControlPanel");
-            this.controlPanel.init(this);
+            this.pluginBar = pluginBar.create("PluginBar");
+            this.pluginBar.init(this);
+            
+            this.controlPanelFrame = element.create("ControlPanelFrame");
+            this.controlPanelFrame.init(this);
+            
+            this.controlPanel = controlPanel.create("ControlPanel");
+            this.controlPanel.init(this.controlPanelFrame);
             
             this.statisticsView = statisticsView.create('StatisticsView');
             this.statisticsView.init();

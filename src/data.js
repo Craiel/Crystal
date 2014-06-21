@@ -13,7 +13,7 @@ define(function(require) {
         // ---------------------------------------------------------------------------
         this.setRoot = function(root) {
             this.root = root;
-            this.imageRoot = this.root + "images/";
+            this.imageRoot = this.root + "img/";
             this.iconRoot = this.imageRoot + "icons/";
             this.cssRoot = this.root + "css/";
             

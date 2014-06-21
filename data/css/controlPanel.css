@@ -1,9 +1,16 @@
+.controlPanelFrame {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	width: 20%;
+	height: 100%;
+}
+
 .controlPanel {
     position: absolute;
     top: 0px;
-    right: 0px;
     height: 34px;
-    width: 500px;
+    width: 100%;
 }
 
 .controlPanelContentFrame {

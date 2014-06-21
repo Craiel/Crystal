@@ -9,7 +9,7 @@ define(function(require) {
         switch(key) {
             case settings.stats.autoSaveCount: return 'Auto save count';
             case settings.stats.gameLoadCount: return 'Game load count';
-            default: return key;
+            default: return 'ERR_' + key;
         }
     };
     
@@ -35,7 +35,6 @@ define(function(require) {
         this.init = function(parent) {
             this.elementInit(parent);
             
-            // Todo
             var totalContent = this.getMainElement().find('#'+this.id+'_totalContent');
             var sessionContent = this.getMainElement().find('#'+this.id+'_sessionContent');
             
@@ -66,6 +65,7 @@ define(function(require) {
                 } else {
                     this.entriesTotal[key].show();
                     this.entriesSession[key].show();
+                    
                     this.getMainElement().find('#' + this.id + '_T' + key + '_value').text(value);
                     this.getMainElement().find('#' + this.id + '_S' + key + '_value').text(value);
                 }
