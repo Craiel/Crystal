@@ -1,5 +1,6 @@
 define(function(require) {
     var math = require("math");
+    var state = require("game/state");
     var element = require("ui/element");
     var panel = require("ui/panel");
     var pluginBar = require('ui/pluginBar');
@@ -17,9 +18,10 @@ define(function(require) {
         
         this.pluginBar = undefined;
         
-        this.controlPanelFrame = undefined;
+        this.optionsContent = undefined;
         this.controlPanel = undefined;
         
+        this.statisticsFrame = undefined;
         this.statisticsView = undefined;
         
         // ---------------------------------------------------------------------------
@@ -37,33 +39,48 @@ define(function(require) {
             this.pluginBar = pluginBar.create("PluginBar");
             this.pluginBar.init(this);
             
-            this.controlPanelFrame = element.create("ControlPanelFrame");
-            this.controlPanelFrame.init(this);
+            this.optionsContent = element.create("OptionsContent");
+            this.optionsContent.init();
             
             this.controlPanel = controlPanel.create("ControlPanel");
-            this.controlPanel.init(this.controlPanelFrame);
+            this.controlPanel.init();
+            this.controlPanel.addOption("CPOStatistics", "optionStatisticsActive");
+            this.controlPanel.addOption("CPOtest1", "test1");
+            this.controlPanel.addOption("CPOtest2", "test2");
             
             this.statisticsView = statisticsView.create('StatisticsView');
             this.statisticsView.init();
-            
-            this.testPanel = panel.create("TestPanel");
-            this.testPanel.templateName = "OptionPanel";
-            this.testPanel.init(this);
-            this.testPanel.setSize(math.point(400, 300));
-            this.testPanel.setPosition(math.point(100, 50));
-            this.testPanel.setTitle("Test Panel");
-            this.testPanel.setContent(this.statisticsView);
         };
         
         this.update = function(currentTime) {
             if(this.elementUpdate(currentTime) === false) {
                 return;
             }
-            
+                        
             // Update the controls
             this.controlPanel.update(currentTime);
             
-            this.statisticsView.update(currentTime);
+            this.updateStatistics();
+        };
+        
+        this.updateStatistics = function() {
+        	if (state.optionStatisticsActive === true) {
+        		if(this.statisticsFrame === undefined) {
+        			var optionPanel = panel.create(this.statisticsView.id + "Panel");
+        			optionPanel.templateName = "OptionPanel";
+        			optionPanel.init(this.optionsContent);
+        			optionPanel.setContent(this.statisticsView);
+        			optionPanel.onClose = function() { state.optionStatisticsActive = !state.optionStatisticsActive; };
+        			this.statisticsFrame = optionPanel;
+        		}
+        		
+        		this.statisticsView.update(currentTime);
+        	} else {
+        		if(this.statisticsFrame !== undefined) {
+        			this.statisticsFrame.remove();
+        			this.statisticsFrame = undefined;
+        		}
+        	}
         };
     };
     

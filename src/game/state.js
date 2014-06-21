@@ -20,6 +20,8 @@ define(function(require) {
         this.fpsSinceUpdate = 0;
         this.fps = 0;
         
+        this.optionStatisticsActive = false;
+        
     };
     
     return new State();

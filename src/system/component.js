@@ -21,7 +21,7 @@ define(function(require) {
             assert.isDefined(this.id, "Component needs valid Id");
             
             if(Crystal.isDebug === true) {
-                assert.isUndefined(idCheck[this.id]);
+                assert.isUndefined(idCheck[this.id], "Duplicate ID: " + this.id);
                 idCheck[this.id] = true;
             }
             

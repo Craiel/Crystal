@@ -31,7 +31,7 @@ define(function(require) {
         this.addPlugin = function(id, arguments) {
             assert.isDefined(this.getMainElement(), "addPlugin must be called after init");
             
-            // Build the plugin and add it
+            // Build the plug-in and add it
         };
     };
     

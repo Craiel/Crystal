@@ -18,13 +18,24 @@ module.exports = function(grunt) {
                     baseUrl  : "src",
                     out      : "bin/Crystal.min.js",
                     optimize : 'uglify2',
-                    name     : 'main',
+                    name     : '../main',
 
                     uglify2 : {
                         mangle : true
                     },
 
                     paths : {
+                    	// Map the system files for easier access
+                        component: 'system/component',
+                        assert: 'system/assert',
+                        event: 'system/event',
+                        utils: 'system/utils',
+                        save: 'system/save',
+                        type: 'system/type',
+                        log: 'system/log',
+                        math: 'system/math',
+                        runtime: 'system/runtime',
+                        
                         jquery    : 'external/jquery-2.1.1.min',
                     }
                 }
@@ -51,7 +62,6 @@ module.exports = function(grunt) {
         },
     });
 
-    // Load the plugin that provides the "uglify" task.
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-copy');

@@ -23,7 +23,7 @@ define(function(require) {
             this.floatFadeDelay = 300; // delay for floating windows to fade on close 
             
             // Icons
-            this.iconPlaceholder = 'icon_placeholder.png';
+            this.iconPlaceholder = 'placeholder.png';
         };
         
     };
