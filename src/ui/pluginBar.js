@@ -11,6 +11,12 @@ define(function(require) {
         
         this.plugins = {};
         
+        this.pluginAlignment = {
+                left: 0,
+                center: 1,
+                right: 2,
+        };
+        
         // ---------------------------------------------------------------------------
         // overrides
         // ---------------------------------------------------------------------------
@@ -28,9 +34,9 @@ define(function(require) {
         // ---------------------------------------------------------------------------
         // bar functions
         // ---------------------------------------------------------------------------
-        this.addPlugin = function(id, arguments) {
+        this.addPlugin = function(id, content, arguments) {
             assert.isDefined(this.getMainElement(), "addPlugin must be called after init");
-            
+            assert.isDefined(content, "addPlugin called without content");
             // Build the plug-in and add it
         };
     };

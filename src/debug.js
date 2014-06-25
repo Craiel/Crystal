@@ -12,6 +12,7 @@ define(function(require) {
             runtime.loadDynamic([data.cssRoot + "generic.css"], 0);
             runtime.loadDynamic([data.cssRoot + "panel.css"], 0);
             runtime.loadDynamic([data.cssRoot + "pluginBar.css"], 0);
+            runtime.loadDynamic([data.cssRoot + "progressBar.css"], 0);
             runtime.loadDynamic([data.cssRoot + "ui.css"], 0);
             
             // This only works running from http:\\

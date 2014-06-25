@@ -6,10 +6,8 @@ define(function(require) {
     var applyTemplateAttributes = function(template, attributes) {
         assert.isDefined(template);
         assert.isDefined(attributes);
-        console.log(attributes)
         var result = template;
         for(var key in attributes) {
-        	log.debug(key + " -> " + attributes[key])
             result = result.replace(new RegExp('{{'+key+'}}', "gi"), attributes[key]);
         }
         

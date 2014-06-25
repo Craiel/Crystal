@@ -22,6 +22,9 @@ define(function(require) {
         save.register(this, 'autoSaveInterval').asNumber(60 * 1000).persistent();
         
         save.register(this, 'savedVersion').asFloat().persistent();
+        
+        // UI Settings
+        save.register(this, 'optionStatisticsActive').asBool();
     
         // ---------------------------------------------------------------------------
         // stats

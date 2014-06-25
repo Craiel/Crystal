@@ -1,9 +1,10 @@
 define(function(require) {
     var math = require("math");
-    var state = require("game/state");
+    var settings = require("settings");
     var element = require("ui/element");
     var panel = require("ui/panel");
     var pluginBar = require('ui/pluginBar');
+    var progressBar = require('ui/progressBar');
     var controlPanel = require('ui/controlPanel');
     var statisticsView = require("ui/statisticsView");
     
@@ -50,6 +51,10 @@ define(function(require) {
             
             this.statisticsView = statisticsView.create('StatisticsView');
             this.statisticsView.init();
+            
+            var bla = progressBar.create("TestProgressBar");
+            bla.init(this);
+            bla.setProgress(50);
         };
         
         this.update = function(currentTime) {
@@ -64,13 +69,13 @@ define(function(require) {
         };
         
         this.updateStatistics = function() {
-        	if (state.optionStatisticsActive === true) {
+        	if (settings.optionStatisticsActive === true) {
         		if(this.statisticsFrame === undefined) {
         			var optionPanel = panel.create(this.statisticsView.id + "Panel");
         			optionPanel.templateName = "OptionPanel";
         			optionPanel.init(this.optionsContent);
         			optionPanel.setContent(this.statisticsView);
-        			optionPanel.onClose = function() { state.optionStatisticsActive = !state.optionStatisticsActive; };
+        			optionPanel.onClose = function() { settings.optionStatisticsActive = !settings.optionStatisticsActive; };
         			this.statisticsFrame = optionPanel;
         		}
         		

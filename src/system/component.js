@@ -55,6 +55,12 @@ define(function(require) {
             return true;
         };
         
+        this.remove = function() {
+            if(Crystal.isDebug) {
+                delete idCheck[this.id];
+            }
+        };
+        
         this.invalidate = function() {
             this.invalidated = true;
         };

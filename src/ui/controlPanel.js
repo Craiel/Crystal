@@ -2,7 +2,7 @@ define(function(require) {
 	var log = require("log");
 	var assert = require("assert");	
 	var data = require("data");
-	var state = require("game/state");
+	var settings = require("settings");
 	var element = require("ui/element");
     var panel = require("ui/panel");
     var button = require("ui/button");
@@ -27,6 +27,7 @@ define(function(require) {
         // ---------------------------------------------------------------------------
         this.panelInit = this.init;
         this.panelUpdate = this.update;
+        this.panelRemove = this.remove;
         
         // ---------------------------------------------------------------------------
         // main functions
@@ -44,8 +45,14 @@ define(function(require) {
             }
         	
         	for(var key in this.options) {
-        		var option = this.options[key].setActive(state[key]);
+        		var option = this.options[key].setActive(settings[key]);
         	};
+        };
+        
+        this.remove = function(keepDivAlive) {
+            this.panelRemove(keepDivAlive);
+            
+            this.contentTarget.remove(true);
         };
         
         // ---------------------------------------------------------------------------
@@ -66,7 +73,7 @@ define(function(require) {
             var optionButton = button.create(id + "_button");
             optionButton.isToggle = true;
             optionButton.templateName = "ControlPanelButton";
-            optionButton.onClick = function() { state[stateSetting] = !state[stateSetting]; };
+            optionButton.onClick = function() { settings[stateSetting] = !settings[stateSetting]; };
             optionButton.init(this.contentTarget);
             optionButton.setIcon(buttonIcon);
             

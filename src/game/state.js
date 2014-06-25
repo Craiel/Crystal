@@ -1,4 +1,5 @@
 define(function(require) {
+    var save = require('save');
     var component = require('component');
     
     State.prototype = component.create();
@@ -6,6 +7,7 @@ define(function(require) {
     State.prototype.constructor = State;
     
     function State() {
+        this.id = "State";
         
         this.title = "Crystal";
         this.version = 0.1;
@@ -20,8 +22,8 @@ define(function(require) {
         this.fpsSinceUpdate = 0;
         this.fps = 0;
         
-        this.optionStatisticsActive = false;
-        
+        // Core game
+        save.register(this, 'credits').asNumber();
     };
     
     return new State();

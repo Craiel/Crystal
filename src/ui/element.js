@@ -46,6 +46,7 @@ define(function(require) {
         // ---------------------------------------------------------------------------
         this.componentInit = this.init;
         this.componentUpdate = this.update;
+        this.componentRemove = this.remove;
         
         // ---------------------------------------------------------------------------
         // main functions
@@ -53,7 +54,7 @@ define(function(require) {
         this.init = function(parent, attributes) {
             this.parent = parent;
             this.componentInit();
-            log.debug("Element Init: "+this.id + " -> "+attributes);
+
             // try to get our element target
             this._mainDiv = $('#' + this.id);
             
@@ -84,6 +85,14 @@ define(function(require) {
             return this.componentUpdate(currentTime);
         };
         
+        this.remove = function(keepDivAlive) {
+            this.componentRemove();
+            
+            if(keepDivAlive !== true) {
+                this._mainDiv.remove();
+            }
+        };
+        
         // ---------------------------------------------------------------------------
         // ui functions
         // ---------------------------------------------------------------------------
@@ -96,10 +105,6 @@ define(function(require) {
             this.isVisible = true;
             this._mainDiv.show();
             this.invalidate();
-        };
-        
-        this.remove = function() {
-        	this._mainDiv.remove();
         };
         
         this.getMainElement = function() {

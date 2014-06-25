@@ -22,11 +22,14 @@ define(function(require) {
         this.contentProvider = undefined;
         this.content = undefined;
         this.title = undefined;
+        this.closeButton = undefined;
+        this.infoButton = undefined;
         
         // ---------------------------------------------------------------------------
         // overrides
         // ---------------------------------------------------------------------------
         this.elementInit = this.init;
+        this.elementRemove = this.remove;
         
         // ---------------------------------------------------------------------------
         // main functions
@@ -43,17 +46,34 @@ define(function(require) {
             }
             
             if (this.canClose === true) {
-                var closeButton = button.create(this.id + "_btClose");
-                closeButton.onClick = this.onCloseClick;
-                closeButton.init(this);
-                closeButton.setText("x");
+                this.closeButton = button.create(this.id + "_btClose");
+                this.closeButton.onClick = this.onCloseClick;
+                this.closeButton.init(this);
+                this.closeButton.setText("x");
             }
             
             if (this.canShowInfo === true) {
-                var infoButton = button.create(this.id + "_btInfo");
-                infoButton.onClick = this.onInfoClick;
-                infoButton.init(this);
-                infoButton.setText("i");
+                this.infoButton = button.create(this.id + "_btInfo");
+                this.infoButton.onClick = this.onInfoClick;
+                this.infoButton.init(this);
+                this.infoButton.setText("i");
+            }
+        };
+        
+        this.remove = function(keepDivAlive) {
+            this.elementRemove(keepDivAlive);
+            
+            this.content.remove();
+            if(this.title !== undefined) {
+                this.title.remove();
+            }
+            
+            if(this.closeButton !== undefined) {
+                this.closeButton.remove();
+            }
+            
+            if(this.infoButton !== undefined) {
+                this.infoButton.remove();
             }
         };
         

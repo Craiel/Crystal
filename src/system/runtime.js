@@ -23,7 +23,6 @@ define(function(require) {
                 return;
             }
     
-            log.debug("Loading " + script, false);
             loadedScripts.push(script);
             try {
                 if (/\.js$/.exec(script)) {
@@ -41,7 +40,7 @@ define(function(require) {
                         type : 'text/css',
                         href : script
                     }).appendTo($('head'));
-                    log.debug("  -> DONE", false);
+                    
                     this.loadDynamic(scripts, nextId + 1, finish);
                 } else {
                     log.error("Unhandled script type!");
