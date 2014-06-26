@@ -1,6 +1,7 @@
 define(function(require) {
     var $ = require('jquery');
     var log = require("log");
+    var utils = require("utils");
     var element = require("ui/element");
     var settings = require("settings");
     var templates = require("data/templates");
@@ -9,7 +10,19 @@ define(function(require) {
         switch(key) {
             case settings.stats.autoSaveCount: return 'Auto save count';
             case settings.stats.gameLoadCount: return 'Game load count';
+            case settings.stats.playTime: return 'Played time';
+            case settings.stats.sessionCount: return 'Sessions';
             default: return 'ERR_' + key;
+        }
+    };
+    
+    var getStatDisplayFormatter = function(key) {
+        switch(key) {
+            case settings.stats.autoSaveCount: return settings.getNumberFormatter();
+            case settings.stats.gameLoadCount: return settings.getNumberFormatter();
+            case settings.stats.playTime: return function(n) { return utils.getShortTimeDisplay(n); };
+            case settings.stats.sessionCount: return settings.getNumberFormatter();
+            default: return utils.formatRaw;
         }
     };
     
@@ -58,6 +71,8 @@ define(function(require) {
             for(var statKey in settings.stats) {
                 var key = settings.stats[statKey];
                 var value = settings.totalStats.get(key);
+                var formatter = getStatDisplayFormatter(key);
+                var formattedValue = formatter(value);
                 
                 if(value === undefined || value === 0) {
                     this.entriesTotal[key].hide();
@@ -66,8 +81,8 @@ define(function(require) {
                     this.entriesTotal[key].show();
                     this.entriesSession[key].show();
                     
-                    this.getMainElement().find('#' + this.id + '_T' + key + '_value').text(value);
-                    this.getMainElement().find('#' + this.id + '_S' + key + '_value').text(value);
+                    this.getMainElement().find('#' + this.id + '_T' + key + '_value').text(formattedValue);
+                    this.getMainElement().find('#' + this.id + '_S' + key + '_value').text(formattedValue);
                 }
             }
         };

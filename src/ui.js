@@ -27,7 +27,7 @@ define(function(require) {
         this.init = function() {
             this.componentInit();
             
-            this.screenMain = screenMain.create("MainScreen");
+            this.screenMain = screenMain.create("ScreenMain");
             this.screenMain.init(null);
             
             this.activeScreen = this.screenMain;

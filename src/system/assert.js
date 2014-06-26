@@ -32,6 +32,14 @@ define(function() {
             
             console.assert(eval === false, msg);
         };
+        
+        this.isNumber = function(arg, msg) {
+            if($.isNumeric(arg)) {
+                return;
+            }
+            
+            console.assert(false, msg);
+        };
     }
     
     return new Assert();

@@ -7,7 +7,7 @@ define(function(require) {
     
     function Component() {
         this.initDone = false;
-        this.updateTime = 0;
+        this.updateTime = Date.now();
         this.updateInterval = 0;
         
         this.enabled = true;

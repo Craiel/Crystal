@@ -12,6 +12,8 @@ define(function(require) {
     function Panel(id) {
         this.id = id;
         
+        this.templateName = "Panel";
+        
         this.canClose = true;
         this.canShowInfo = true;
         this.canShowTitle = true;

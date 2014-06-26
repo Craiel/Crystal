@@ -1,0 +1,59 @@
+.colorBackground {
+	background-color: #FFFFFF;
+}
+
+/* base default color */
+.colorDefault {
+    color: #283c5a;
+}
+
+.colorDefaultBackground {
+	background-color: #283c5a;
+}
+
+.colorDefaultBorder {
+    border-color: #283c5a;
+}
+
+.colorDefaultFont {
+    color: #FFFFFF;
+}
+
+/* Accent colors */
+.colorAccent {
+    color: #5082be;
+}
+
+.colorAccentBackground {
+    background-color: #5082be;
+}
+
+.colorAccentBorder {
+    border-color: #5082be;
+}
+
+/* Highlight colors */
+.colorHighlight {
+	color: #FFFFFF;
+}
+
+.colorHighlightBackground {
+    background-color: #FFFFFF;
+}
+
+.colorHighlightBorder {
+    border-color: #FFFFFF;
+}
+
+/* Inactive color */
+.colorInactive {
+	color: #141414
+}
+
+.colorInactiveBackground {
+    background-color: #141414;
+}
+
+.colorInactiveBorder {
+    border-color: #141414;
+}

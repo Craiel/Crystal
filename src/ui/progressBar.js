@@ -11,6 +11,8 @@ define(function(require) {
     function ProgressBar(id) {
         this.id = id;
 
+        this.templateName = "ProgressBar";
+        
         this.value = 0;
         this.maxValue = 100;
         
@@ -23,11 +25,9 @@ define(function(require) {
         // main functions
         // ---------------------------------------------------------------------------
         this.init = function(parent, attributes) {
-            // Force the use of the generic template
-            this.templateName = 'ProgressBar';
             this.elementInit(parent, attributes);
             
-            
+            // Todo or remove
         };
         
         // ---------------------------------------------------------------------------

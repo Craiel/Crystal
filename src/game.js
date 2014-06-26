@@ -41,12 +41,17 @@ define(function(require) {
         };
         
         this.update = function(currentTime) {
+            var elapsedTime = currentTime - this.updateTime;
+            
             if(!this.componentUpdate(currentTime)) {
                 return;
             }
             
             // process auto-saving
             this.updateAutoSave(currentTime);
+            
+            // Register the elapsed time
+            settings.addStat(settings.stats.playTime, elapsedTime);
         };
         
         // ---------------------------------------------------------------------------

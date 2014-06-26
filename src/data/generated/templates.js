@@ -1,17 +1,19 @@
 define(function() { return {
-	ControlPanelButton: '<div id="{{id}}" class="noSelect controlPanelButton clickable"><img id="{{id}}_icon" class="noSelect controlPanelButtonIcon"/></div>',
+	OptionsPanelButton: '<div id="{{id}}" class="noSelect optionsPanelButton clickable"><div id="{{id}}_overlay" class="noSelect overlay"></div><img id="{{id}}_icon" class="noSelect optionsPanelButtonIcon"/></div>',
 
-	MainScreen: '<div id="MainScreen" class="noSelect screen"><div id="MainScreenContent" class="noSelect screenContent"></div><div class="noSelect controlPanelFrame"><div id="ControlPanel" class="noSelect controlPanel"><div class="noSelect panelBackground"></div><div class="noSelect controlPanelContentFrame panelContentBorder"><div class="noSelect panelContentBackground"></div><div id="ControlPanelContent" class="noSelect controlPanelContent"></div></div></div><div id="OptionsContent" class="noSelect optionsContent"></div></div></div>',
+	Panel: '<div id="{{id}}" class="noSelect optionPanel inline"><div id="{{id}}_bg" class="noSelect panelBackground colorInactiveBackground"></div>    <div class="noSelect panelContentFrame elementBorderDefault colorAccentBorder">    <div class="noSelect panelContentBackground colorDefaultBackground"></div>        <div id="{{id}}_content" class="noSelect panelContent"></div>    </div>    <div id="{{id}}_btClose" class="noSelect clickable panelButton colorAccent colorAccentBorder panelButtonClose panelButtonText">x</div>    <div id="{{id}}_btInfo" class="noSelect clickable panelButton colorAccent colorAccentBorder panelButtonInfo panelButtonText">i</div>    <div id="{{id}}_title" class="noSelect noIBar colorDefaultFont panelTitle"></div></div>',
 
-	OptionPanel: '<div id="{{id}}" class="noSelect optionPanel inline"><div id="{{id}}_bg" class="noSelect panelBackground"></div>    <div class="noSelect panelContentFrame panelContentBorder">    <div class="noSelect panelContentBackground"></div>        <div id="{{id}}_content" class="noSelect panelContent"></div>    </div>    <div id="{{id}}_btClose" class="noSelect clickable panelButton panelButtonClose panelButtonText">x</div>    <div id="{{id}}_btInfo" class="noSelect clickable panelButton panelButtonInfo panelButtonText">i</div>    <div id="{{id}}_title" class="noSelect noIBar defaultFontColor panelTitle"></div></div>',
+	PluginBar: '<div class="noSelect pluginBar colorAccentBorder"></div>',
 
-	PluginBar: '<div class="noSelect pluginBar"></div>',
+	PluginTime: '<div class="noSelect pluginTimeFrame colorAccentBorder"><div class="noSelect noIBar pluginTimeContent colorDefaultFont"></div></div>',
 
-	ProgressBar: '<div id="{{id}}" class="noSelect progressBarMain"><div class="noSelect progressBarContent"></div></div>',
+	ProgressBar: '<div id="{{id}}" class="noSelect progressBarMain colorDefaultBackground">    <div class="noSelect progressBarContent colorAccentBackground colorDefaultFont"></div></div>',
 
-	StatisticsView: '<div id="{{id}}" class="noSelect contentProvider"><div class="noSelect statisticsSection"><div class="noSelect noIBar defaultFontColor statisticsHeader">All time:</div><hr class="noSelect statisticsDivider"/><table id="{{id}}_totalContent"></table></div><div class="noSelect statisticsSection"><div class="noSelect noIBar defaultFontColor statisticsHeader">This session:</div><hr class="noSelect statisticsDivider"/><table id="{{id}}_sessionContent"></table></div></div>',
+	ScreenMain: '<div id="{{id}}" class="noSelect screen"><div id="{{id}}Content" class="noSelect screenContent"></div><div class="noSelect optionsPanelFrame"><div id="OptionsPanel" class="noSelect optionsPanel"><div class="noSelect panelBackground colorDefaultBackground"></div><div class="noSelect optionsPanelContentFrame colorAccentBorder"><div class="noSelect panelContentBackground colorDefaultBackground"></div><div id="OptionsPanelContent" class="noSelect optionsPanelContent"></div></div></div><div id="OptionsContent" class="noSelect screenMainOptionsContent"></div></div></div>',
 
-	StatisticsViewEntry: '<tr><td><div class="noSelect noIBar defaultFontColor statisticsContent">{{name}}:&nbsp;</div></td><td id="{{id}}_value" class="noSelect noIBar defaultFontColor statisticsContent"></td></tr>',
+	StatisticsView: '<div id="{{id}}" class="noSelect contentProvider scrollVertical"><div class="noSelect statisticsSection"><div class="noSelect noIBar colorDefaultFont statisticsHeader">All time:</div><hr class="noSelect statisticsDivider"/><table id="{{id}}_totalContent"></table></div><div class="noSelect statisticsSection"><div class="noSelect noIBar colorDefaultFont statisticsHeader">This session:</div><hr class="noSelect statisticsDivider"/><table id="{{id}}_sessionContent"></table></div></div>',
+
+	StatisticsViewEntry: '<tr><td><div class="noSelect noIBar colorDefaultFont statisticsContent">{{name}}:&nbsp;</div></td><td id="{{id}}_value" class="noSelect noIBar colorDefaultFont statisticsContent"></td></tr>',
 
 
 }; });

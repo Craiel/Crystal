@@ -1,4 +1,5 @@
 define(function(require) {
+    var $ = require('jquery');
     
     // Get the global namespace and register the local namespace root
     var global = Function('return this')() || (42, eval)('this');
@@ -72,11 +73,64 @@ define(function(require) {
         
         this.getStackTrace = function() {
             return new Error().stack;
-        }
+        };
+        
+        // ---------------------------------------------------------------------------
+        // element and jquery functions
+        // ---------------------------------------------------------------------------
+        
+        // NOTE: this will not work when running from disk, at least for chrome.
+        //   Both rules lists will be null
+        this.getDefinedClasses = function() {
+            var definedClasses = [];
+            for(var i = 0;i < document.styleSheets.length; i++) {
+                var styleSheet = document.styleSheets[i];
+                var classes = styleSheet.rules || styleSheet.cssRules;
+                for(var n = 0; n < classes.length; n++) {
+                    if($.inArray( classes[n], definedClasses ) >= 0) {
+                        console.assert(false, "Potential duplicate CSS: " + classes[n]);
+                        continue;
+                    }
+                    
+                    definedClasses.push(classes[n]);
+                }
+            }
+            
+            return definedClasses;
+        };
+        
+        this.getUsedClasses = function(elementObject) {
+            var usedList = [];
+            var processQueue = [elementObject];
+            while(processQueue.length > 0) {
+                var current = processQueue.pop();
+                
+                var children = current.children();
+                for(var i = 0;i < children.length; i++) {
+                    processQueue.push($(children[i]));
+                }
+                
+                var rawClasses = current.attr("class");
+                if(rawClasses === undefined) {
+                    continue;
+                }
+                
+                var split = $.trim(rawClasses).replace(/\s+/g,' ').split(' ');
+                for(var i = 0; i < split.length; i++) {
+                    if($.inArray( split[i], usedList ) >= 0) {
+                        continue;
+                    }
+                    
+                    usedList.push(split[i]);
+                }
+            };
+            
+            return usedList;
+        };
         
         // ---------------------------------------------------------------------------
         // Time / Date functions
-        // ---------------------------------------------------------------------------    
+        // ---------------------------------------------------------------------------
         this.getDayTimeInSeconds = function() {
             var now = new Date();
             then = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
@@ -147,7 +201,7 @@ define(function(require) {
             
             return hours + minutes + seconds;
         };
-                        
+        
         // ---------------------------------------------------------------------------
         // Formatting
         // ---------------------------------------------------------------------------
@@ -197,14 +251,22 @@ define(function(require) {
           return sign + output + '*10^' + exp;
         };
         
-        this.formatRaw = function(value)
+        this.formatRounded = function(value)
         {
           return (Math.round(value * 1000) / 1000).toString();
         };
         
+        this.formatRaw = function(value) {
+            if(value === undefined) {
+                return "";
+            }
+            
+            return value.toString();
+        };
+        
         this.formatters = {
-                'off': undefined,
                 'raw': this.formatRaw,
+                'rounded': this.formatRaw,
                 'name': this.formatEveryThirdPower(['', ' million', ' billion', ' trillion', ' quadrillion',
                                                           ' quintillion', ' sextillion', ' septillion', ' octillion',
                                                           ' nonillion', ' decillion'

@@ -12,12 +12,7 @@
 }
 
 .body {
-	background-color: #FFFFFF;
 	margin: 0px;
-}
-
-.defaultFontColor {
-	color: #FFFFFF;
 }
 
 .contentProvider {
@@ -43,4 +38,9 @@
 
 .statisticsDivider {
 	margin: 2px;
+}
+
+.elementBorderDefault {
+    border-style: solid;
+    border-width: 2px;
 }

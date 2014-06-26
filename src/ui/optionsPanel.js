@@ -7,11 +7,11 @@ define(function(require) {
     var panel = require("ui/panel");
     var button = require("ui/button");
     
-	ControlPanel.prototype = panel.create();
-    ControlPanel.prototype.$super = parent;
-    ControlPanel.prototype.constructor = ControlPanel;
+	OptionsPanel.prototype = panel.create();
+	OptionsPanel.prototype.$super = parent;
+	OptionsPanel.prototype.constructor = OptionsPanel;
     
-    function ControlPanel(id) {
+    function OptionsPanel(id) {
         this.id = id;
         
         this.canClose = false;
@@ -72,7 +72,7 @@ define(function(require) {
             // Build the option control div
             var optionButton = button.create(id + "_button");
             optionButton.isToggle = true;
-            optionButton.templateName = "ControlPanelButton";
+            optionButton.templateName = "OptionsPanelButton";
             optionButton.onClick = function() { settings[stateSetting] = !settings[stateSetting]; };
             optionButton.init(this.contentTarget);
             optionButton.setIcon(buttonIcon);
@@ -83,7 +83,7 @@ define(function(require) {
     };
     
     return {
-        create: function(id) { return new ControlPanel(id); }
+        create: function(id) { return new OptionsPanel(id); }
     };
     
 });

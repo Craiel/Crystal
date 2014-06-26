@@ -1,5 +1,6 @@
 define(function(require) {
     var data = require("data");
+    var assert = require("assert");
     var element = require("ui/element");
     
     PluginBar.prototype = element.create();
@@ -11,16 +12,11 @@ define(function(require) {
         
         this.plugins = {};
         
-        this.pluginAlignment = {
-                left: 0,
-                center: 1,
-                right: 2,
-        };
-        
         // ---------------------------------------------------------------------------
         // overrides
         // ---------------------------------------------------------------------------
         this.elementInit = this.init;
+        this.elementUpdate = this.update;
         
         // ---------------------------------------------------------------------------
         // main functions
@@ -28,16 +24,33 @@ define(function(require) {
         this.init = function(parent) {
             this.elementInit(parent);
             
-            this.getMainElement().css('background-image', 'url(' + data.imageRoot + 'pluginBarBG.png)');
+            //this.getMainElement().css('background-image', 'url(' + data.imageRoot + 'pluginBarBG.png)');
+        };
+        
+        this.update = function(currentTime) {
+            if(this.elementUpdate(currentTime) === false) {
+                return;
+            }
+            
+            // Update the plug-ins
+            for(var definition in this.plugins) {
+                var plugin = this.plugins[definition];
+                
+                plugin.update(currentTime);
+            }
         };
         
         // ---------------------------------------------------------------------------
         // bar functions
         // ---------------------------------------------------------------------------
-        this.addPlugin = function(id, content, arguments) {
+        this.addPlugin = function(pluginDefinition, arguments) {
             assert.isDefined(this.getMainElement(), "addPlugin must be called after init");
-            assert.isDefined(content, "addPlugin called without content");
-            // Build the plug-in and add it
+            assert.isDefined(pluginDefinition, "addPlugin called without content");
+            
+            var plugin = pluginDefinition.create(this.id + pluginDefinition.name);
+            plugin.init(this);
+            
+            this.plugins[pluginDefinition] = plugin;
         };
     };
     

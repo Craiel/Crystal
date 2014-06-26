@@ -26,3 +26,36 @@
     display: -moz-inline-stack; /* for firefox 2 */
     *display: inline; /* for ie 6 and 7 */
 }
+
+.scrollHorizontal {
+	overflow-x: auto;
+}
+
+.scrollHorizontalForced {
+    overflow-x: scroll;
+}
+
+.scrollVertical {
+	overflow-y: auto;
+}
+
+.scrollVerticalForced {
+    overflow-y: scroll;
+}
+
+.scrollBoth {
+	overflow: auto;
+}
+
+.scrollBothForced {
+    overflow: scroll;
+}
+
+.overlay {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: calc(100% - 2px);
+	opacity: 0.4;
+}

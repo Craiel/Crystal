@@ -22,8 +22,11 @@ define(function(require) {
         this.fpsSinceUpdate = 0;
         this.fps = 0;
         
-        // Core game
-        save.register(this, 'credits').asNumber();
+        // saved game states
+        save.register(this, 'eterniumCrystals').asNumber().persistent(); // Prestige crystals
+        
+        save.register(this, 'coreLevel').asNumber(); // core level of the session
+        save.register(this, 'credits').asNumber(); // base currency for everything
     };
     
     return new State();

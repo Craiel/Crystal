@@ -12,7 +12,7 @@ define(function(require) {
     function SaveMapping(host, name) {
         this.host = host;
         this.name = name;
-        this.type = undefined;
+        this.type = type.dataType.string;
         this.defaultValue = undefined;
         this.isPersistent = false;
         this.saveCallback = false;

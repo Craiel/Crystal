@@ -13,6 +13,7 @@ define(function(require) {
         
         this.isToggle = false;
         this.isActive = false;
+        this.isUsingActiveIcon = false;
         
         this.icon = undefined;
         this.iconActive = undefined;
@@ -42,7 +43,7 @@ define(function(require) {
         	this.icon = icon;
         	this.iconActive = icon.replace(".png", "_active.png");
         	
-        	this.updateIcon();
+        	this.updateIcon(true);
         };
         
         this.setActive = function(value) {
@@ -50,13 +51,21 @@ define(function(require) {
         	this.updateIcon();
         };
         
-        this.updateIcon = function() {
-        	var element = this.getMainElement().find("#" + this.id + "_icon");
+        this.updateIcon = function(forceIcon) {
+        	var iconElement = this.getMainElement().find("#" + this.id + "_icon");
+        	var overlayElement = this.getMainElement().find("#" + this.id + "_overlay");
         	
         	if(this.isToggle && this.isActive) {
-        		element.attr("src", data.iconRoot + this.iconActive);
+        		overlayElement.addClass("colorAccentBackground");
+        		if(this.isUsingActiveIcon === true) {
+        			iconElement.attr("src", data.iconRoot + this.iconActive);
+        		}
         	} else {
-        		element.attr("src", data.iconRoot + this.icon);
+        		overlayElement.removeClass("colorAccentBackground");
+        		
+        		if(forceIcon === true || this.isUsingActiveIcon === true) {
+        			iconElement.attr("src", data.iconRoot + this.icon);
+        		}
         	}
         };
         

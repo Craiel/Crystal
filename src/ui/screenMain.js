@@ -4,8 +4,9 @@ define(function(require) {
     var element = require("ui/element");
     var panel = require("ui/panel");
     var pluginBar = require('ui/pluginBar');
+    var pluginTime = require('ui/pluginTime');
     var progressBar = require('ui/progressBar');
-    var controlPanel = require('ui/controlPanel');
+    var optionsPanel = require('ui/optionsPanel');
     var statisticsView = require("ui/statisticsView");
     
     ScreenMain.prototype = element.create();
@@ -20,7 +21,7 @@ define(function(require) {
         this.pluginBar = undefined;
         
         this.optionsContent = undefined;
-        this.controlPanel = undefined;
+        this.optionsPanel = undefined;
         
         this.statisticsFrame = undefined;
         this.statisticsView = undefined;
@@ -37,24 +38,29 @@ define(function(require) {
         this.init = function(parent) {
             this.elementInit(parent);
             
+            // Setup the plugin bar
             this.pluginBar = pluginBar.create("PluginBar");
             this.pluginBar.init(this);
             
+            this.pluginBar.addPlugin(pluginTime);
+            
+            // Setup the options side pane
             this.optionsContent = element.create("OptionsContent");
             this.optionsContent.init();
             
-            this.controlPanel = controlPanel.create("ControlPanel");
-            this.controlPanel.init();
-            this.controlPanel.addOption("CPOStatistics", "optionStatisticsActive");
-            this.controlPanel.addOption("CPOtest1", "test1");
-            this.controlPanel.addOption("CPOtest2", "test2");
+            // Setup the control panel on top of the options pane and add the options to it
+            this.optionsPanel = optionsPanel.create("OptionsPanel");
+            this.optionsPanel.init();
+            this.optionsPanel.addOption("CPOStatistics", "optionStatisticsActive");
+            this.optionsPanel.addOption("CPOtest1", "test1");
+            this.optionsPanel.addOption("CPOtest2", "test2");
             
             this.statisticsView = statisticsView.create('StatisticsView');
             this.statisticsView.init();
             
             var bla = progressBar.create("TestProgressBar");
             bla.init(this);
-            bla.setProgress(50);
+            bla.setProgress(5);
         };
         
         this.update = function(currentTime) {
@@ -63,7 +69,8 @@ define(function(require) {
             }
                         
             // Update the controls
-            this.controlPanel.update(currentTime);
+            this.pluginBar.update(currentTime);
+            this.optionsPanel.update(currentTime);
             
             this.updateStatistics();
         };
@@ -72,7 +79,6 @@ define(function(require) {
         	if (settings.optionStatisticsActive === true) {
         		if(this.statisticsFrame === undefined) {
         			var optionPanel = panel.create(this.statisticsView.id + "Panel");
-        			optionPanel.templateName = "OptionPanel";
         			optionPanel.init(this.optionsContent);
         			optionPanel.setContent(this.statisticsView);
         			optionPanel.onClose = function() { settings.optionStatisticsActive = !settings.optionStatisticsActive; };

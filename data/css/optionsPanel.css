@@ -1,4 +1,4 @@
-.controlPanelFrame {
+.optionsPanelFrame {
 	position: absolute;
 	top: 0px;
 	right: 0px;
@@ -6,16 +6,15 @@
 	height: 100%;
 }
 
-.controlPanel {
+.optionsPanel {
     position: absolute;
     top: 0px;
     height: 34px;
     width: 100%;
 }
 
-.controlPanelContentFrame {
+.optionsPanelContentFrame {
     border-style: solid;
-    border-color: #468278;
     border-width: 2px;
     position: absolute;
     top: 0px;
@@ -24,7 +23,7 @@
     width: calc(100% - 12px);
 }
 
-.controlPanelContent {
+.optionsPanelContent {
 	position: absolute;
 	top: 0px;
 	left: 0px;
@@ -32,25 +31,18 @@
     height: 100%;
 }
 
-.controlPanelButton {
+.optionsPanelButton {
+	position: relative;
 	margin: 1px;
 	width: 22px;
 	height: 22px;
 	float: left;
 }
 
-.controlPanelButtonIcon {
+.optionsPanelButtonIcon {
 	width: 90%;
 	height: 90%;
 	display: block;
     margin-left: auto;
     margin-right: auto;
-}
-
-.optionsContent {
-	position: absolute;
-	top: 35px;
-	left: 0px;
-	width: 100%;
-	height: calc(100% - 60px);
 }

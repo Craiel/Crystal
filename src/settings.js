@@ -1,6 +1,8 @@
 define(function(require) {
-    var statistics = require("system/statistics");
     var save = require("save");
+    var utils = require("utils");
+    var assert = require("assert");
+    var statistics = require("system/statistics");
     
     // ---------------------------------------------------------------------------
     // settings object
@@ -10,7 +12,9 @@ define(function(require) {
         
         this.stats = {
             autoSaveCount: 1,
-            gameLoadCount: 2
+            gameLoadCount: 2,
+            playTime: 3,
+            sessionCount: 4,
         };
         
         this.totalStats = statistics.create(this.id + '_t', true); // total stats are persistent
@@ -23,6 +27,8 @@ define(function(require) {
         
         save.register(this, 'savedVersion').asFloat().persistent();
         
+        save.register(this, 'numberFormatter').withDefault('raw').persistent();
+        
         // UI Settings
         save.register(this, 'optionStatisticsActive').asBool();
     
@@ -32,6 +38,21 @@ define(function(require) {
         this.addStat = function(key, value) {
             this.totalStats.add(key, value);
             this.sessionStats.add(key, value);
+        };
+        
+        this.getSessionStat = function(key) {
+            return this.sessionStats[key];
+        };
+        
+        this.getTotalStat = function(key) {
+            return this.totalStats[key];
+        };
+        
+        this.getNumberFormatter = function() {
+            assert.isDefined(this.numberFormatter);
+            assert.isDefined(utils.formatters[this.numberFormatter]);
+            
+            return utils.formatters[this.numberFormatter];
         };
     };
     
