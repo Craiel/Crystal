@@ -1,15 +1,18 @@
 define(function(require) {
     var math = require("math");
     var settings = require("settings");
-    var element = require("ui/element");
-    var panel = require("ui/panel");
+    var screen = require("ui/controls/screen");
+    var element = require("ui/controls/element");
+    var panel = require("ui/controls/panel");
     var pluginBar = require('ui/pluginBar');
     var pluginTime = require('ui/pluginTime');
-    var progressBar = require('ui/progressBar');
+    var progressBar = require('ui/controls/progressBar');
     var optionsPanel = require('ui/optionsPanel');
-    var statisticsView = require("ui/statisticsView");
+    var viewEquipment = require('ui/viewEquipment');
+    var viewInventory = require('ui/viewInventory');
+    var viewStatistics = require("ui/viewStatistics");
     
-    ScreenMain.prototype = element.create();
+    ScreenMain.prototype = screen.create();
     ScreenMain.prototype.$super = parent;
     ScreenMain.prototype.constructor = ScreenMain;
     
@@ -26,19 +29,27 @@ define(function(require) {
         this.statisticsFrame = undefined;
         this.statisticsView = undefined;
         
+        this.equipmentFrame = undefined;
+        this.equipmentView = undefined;
+        
+        this.inventoryFrame = undefined;
+        this.inventoryView = undefined;
+        
         // ---------------------------------------------------------------------------
         // overrides
         // ---------------------------------------------------------------------------
-        this.elementInit = this.init;
-        this.elementUpdate = this.update;
+        this.screenInit = this.init;
+        this.screenUpdate = this.update;
+        this.screenHide = this.hide;
+        this.screenShow = this.show;
         
         // ---------------------------------------------------------------------------
         // main functions
         // ---------------------------------------------------------------------------
         this.init = function(parent) {
-            this.elementInit(parent);
+            this.screenInit(parent);
             
-            // Setup the plugin bar
+            // Setup the plug-in bar
             this.pluginBar = pluginBar.create("PluginBar");
             this.pluginBar.init(this);
             
@@ -46,17 +57,23 @@ define(function(require) {
             
             // Setup the options side pane
             this.optionsContent = element.create("OptionsContent");
-            this.optionsContent.init();
+            this.optionsContent.init(this);
             
             // Setup the control panel on top of the options pane and add the options to it
             this.optionsPanel = optionsPanel.create("OptionsPanel");
-            this.optionsPanel.init();
+            this.optionsPanel.init(this);
             this.optionsPanel.addOption("CPOStatistics", "optionStatisticsActive");
-            this.optionsPanel.addOption("CPOtest1", "test1");
-            this.optionsPanel.addOption("CPOtest2", "test2");
+            this.optionsPanel.addOption("CPOEquipment", "optionEquipmentActive");
+            this.optionsPanel.addOption("CPOInventory", "optionInventoryActive");
             
-            this.statisticsView = statisticsView.create('StatisticsView');
+            this.statisticsView = viewStatistics.create('ViewStatistics');
             this.statisticsView.init();
+            
+            this.equipmentView = viewEquipment.create('ViewEquipment');
+            this.equipmentView.init();
+            
+            this.inventoryView = viewInventory.create('ViewInventory');
+            this.inventoryView.init();
             
             var bla = progressBar.create("TestProgressBar");
             bla.init(this);
@@ -64,7 +81,7 @@ define(function(require) {
         };
         
         this.update = function(currentTime) {
-            if(this.elementUpdate(currentTime) === false) {
+            if(this.screenUpdate(currentTime) === false) {
                 return;
             }
                         
@@ -73,8 +90,22 @@ define(function(require) {
             this.optionsPanel.update(currentTime);
             
             this.updateStatistics();
+            this.updateEquipment();
+            this.updateInventory();
         };
         
+        this.hide = function() {
+            // For now just simply hide, but we want to do more animating here
+            this.screenHide();
+        };
+        
+        this.show = function() {
+            this.screenShow();
+        };
+        
+        // ---------------------------------------------------------------------------
+        // screen functions
+        // ---------------------------------------------------------------------------
         this.updateStatistics = function() {
         	if (settings.optionStatisticsActive === true) {
         		if(this.statisticsFrame === undefined) {
@@ -92,6 +123,44 @@ define(function(require) {
         			this.statisticsFrame = undefined;
         		}
         	}
+        };
+        
+        this.updateEquipment = function() {
+            if (settings.optionEquipmentActive === true) {
+                if(this.equipmentFrame === undefined) {
+                    var optionPanel = panel.create(this.equipmentView.id + "Panel");
+                    optionPanel.init(this.optionsContent);
+                    optionPanel.setContent(this.equipmentView);
+                    optionPanel.onClose = function() { settings.optionEquipmentActive = !settings.optionEquipmentActive; };
+                    this.equipmentFrame = optionPanel;
+                }
+                
+                this.equipmentView.update(currentTime);
+            } else {
+                if(this.equipmentFrame !== undefined) {
+                    this.equipmentFrame.remove();
+                    this.equipmentFrame = undefined;
+                }
+            }
+        };
+        
+        this.updateInventory = function() {
+            if (settings.optionInventoryActive === true) {
+                if(this.inventoryFrame === undefined) {
+                    var optionPanel = panel.create(this.inventoryView.id + "Panel");
+                    optionPanel.init(this.optionsContent);
+                    optionPanel.setContent(this.inventoryView);
+                    optionPanel.onClose = function() { settings.optionInventoryActive = !settings.optionInventoryActive; };
+                    this.inventoryFrame = optionPanel;
+                }
+                
+                this.inventoryView.update(currentTime);
+            } else {
+                if(this.inventoryFrame !== undefined) {
+                    this.inventoryFrame.remove();
+                    this.inventoryFrame = undefined;
+                }
+            }
         };
     };
     

@@ -31,6 +31,8 @@ define(function(require) {
         
         // UI Settings
         save.register(this, 'optionStatisticsActive').asBool();
+        save.register(this, 'optionEquipmentActive').asBool();
+        save.register(this, 'optionInventoryActive').asBool();
     
         // ---------------------------------------------------------------------------
         // stats

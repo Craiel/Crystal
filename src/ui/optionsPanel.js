@@ -3,9 +3,9 @@ define(function(require) {
 	var assert = require("assert");	
 	var data = require("data");
 	var settings = require("settings");
-	var element = require("ui/element");
-    var panel = require("ui/panel");
-    var button = require("ui/button");
+	var element = require("ui/controls/element");
+    var panel = require("ui/controls/panel");
+    var button = require("ui/controls/button");
     
 	OptionsPanel.prototype = panel.create();
 	OptionsPanel.prototype.$super = parent;
@@ -36,7 +36,7 @@ define(function(require) {
             this.panelInit(parent, attributes);
             
             this.contentTarget = element.create(this.id + "Content");
-            this.contentTarget.init();
+            this.contentTarget.init(this);
         };
         
         this.update = function(currentTime) {
@@ -68,7 +68,7 @@ define(function(require) {
             		buttonIcon = data.iconPlaceholder;
             	}
             }
-            
+
             // Build the option control div
             var optionButton = button.create(id + "_button");
             optionButton.isToggle = true;

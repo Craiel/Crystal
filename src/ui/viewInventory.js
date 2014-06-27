@@ -1,16 +1,17 @@
 define(function(require) {
+    var $ = require('jquery');
+    var log = require("log");
     var utils = require("utils");
     var element = require("ui/controls/element");
-    var pluginBar = require("ui/pluginBar");
+    var settings = require("settings");
+    var templates = require("data/templates");
     
-    PluginTime.prototype = element.create();
-    PluginTime.prototype.$super = parent;
-    PluginTime.prototype.constructor = PluginTime;
+    ViewInventory.prototype = element.create();
+    ViewInventory.prototype.$super = parent;
+    ViewInventory.prototype.constructor = ViewInventory;
     
-    function PluginTime(id) {
+    function ViewInventory(id) {
         this.id = id;
-        
-        this.templateName = "PluginTime";
         
         // ---------------------------------------------------------------------------
         // overrides
@@ -23,8 +24,8 @@ define(function(require) {
         // ---------------------------------------------------------------------------
         this.init = function(parent) {
             this.elementInit(parent);
-            
-            // Todo or remove...
+
+            // Todo
         };
         
         this.update = function(currentTime) {
@@ -32,17 +33,19 @@ define(function(require) {
                 return;
             }
             
-            // Update the time
-            var host = this.getMainElement();
-            host.find('div').text(utils.getShortTimeDisplay(currentTime));
+            // Todo
+        };
+        
+        // ---------------------------------------------------------------------------
+        // statistics functions
+        // ---------------------------------------------------------------------------
+        this.getTitle = function() {
+            return "Inventory";
         };
     };
     
     return {
-        name: 'Time',
-        description: 'Shows the current time',
-        
-        create: function(id) { return new PluginTime(id); }
+        create: function(id) { return new ViewInventory(id); }
     };
     
 });

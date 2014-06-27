@@ -2,7 +2,7 @@ define(function(require) {
     var log = require("log");
     var assert = require("assert");
     var data = require("data");
-    var element = require("ui/element");
+    var element = require("ui/controls/element");
     
     ProgressBar.prototype = element.create();
     ProgressBar.prototype.$super = parent;

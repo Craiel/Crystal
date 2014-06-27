@@ -2,7 +2,7 @@ define(function(require) {
     var $ = require('jquery');
     var log = require("log");
     var utils = require("utils");
-    var element = require("ui/element");
+    var element = require("ui/controls/element");
     var settings = require("settings");
     var templates = require("data/templates");
     
@@ -26,11 +26,11 @@ define(function(require) {
         }
     };
     
-    StatisticsView.prototype = element.create();
-    StatisticsView.prototype.$super = parent;
-    StatisticsView.prototype.constructor = StatisticsView;
+    ViewStatistics.prototype = element.create();
+    ViewStatistics.prototype.$super = parent;
+    ViewStatistics.prototype.constructor = ViewStatistics;
     
-    function StatisticsView(id) {
+    function ViewStatistics(id) {
         this.id = id;
         
         this.entriesTotal = {};
@@ -96,7 +96,7 @@ define(function(require) {
     };
     
     return {
-        create: function(id) { return new StatisticsView(id); }
+        create: function(id) { return new ViewStatistics(id); }
     };
     
 });

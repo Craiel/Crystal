@@ -2,8 +2,8 @@ define(function(require) {
     var log = require("log");
     var assert = require("assert");
     var state = require("game/state");
-    var element = require("ui/element");
-    var button = require("ui/button");
+    var element = require("ui/controls/element");
+    var button = require("ui/controls/button");
     
     Panel.prototype = element.create();
     Panel.prototype.$super = parent;

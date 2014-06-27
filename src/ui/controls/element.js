@@ -56,10 +56,18 @@ define(function(require) {
             this.componentInit();
 
             // try to get our element target
-            this._mainDiv = $('#' + this.id);
+            if(parent !== undefined && parent !== null) {
+                this._mainDiv = parent.getMainElement().find('#' + this.id);
+            } else {
+                this._mainDiv = $('#' + this.id);
+            }
+            
+            if(this._mainDiv.length <= 0) {
+                this._mainDiv = undefined;
+            }
             
             // Check if we have a valid element target, if not create it
-            if(this._mainDiv === undefined || this._mainDiv.length === 0) {
+            if(this._mainDiv === undefined) {
                 this._mainDiv = createElementContent(this.id, parent, this.templateName, attributes);
                 
                 // undefined means no registration, null will put it into root

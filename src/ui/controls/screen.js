@@ -1,22 +1,25 @@
 define(function(require) {
-    var utils = require("utils");
+    var math = require("math");
+    var settings = require("settings");
     var element = require("ui/controls/element");
-    var pluginBar = require("ui/pluginBar");
     
-    PluginTime.prototype = element.create();
-    PluginTime.prototype.$super = parent;
-    PluginTime.prototype.constructor = PluginTime;
+    Screen.prototype = element.create();
+    Screen.prototype.$super = parent;
+    Screen.prototype.constructor = Screen;
     
-    function PluginTime(id) {
-        this.id = id;
+    function Screen() {
         
-        this.templateName = "PluginTime";
+        // Time it needs to transition from and to this screen
+        this.transitionTimeFrom = 1000;
+        this.transitionTimeTo = 1000;
         
         // ---------------------------------------------------------------------------
         // overrides
         // ---------------------------------------------------------------------------
         this.elementInit = this.init;
         this.elementUpdate = this.update;
+        this.elementHide = this.hide;
+        this.elementShow = this.show;
         
         // ---------------------------------------------------------------------------
         // main functions
@@ -24,25 +27,27 @@ define(function(require) {
         this.init = function(parent) {
             this.elementInit(parent);
             
-            // Todo or remove...
+            // Screens start off hidden by default
+            this.elementHide();
         };
         
         this.update = function(currentTime) {
             if(this.elementUpdate(currentTime) === false) {
                 return;
             }
-            
-            // Update the time
-            var host = this.getMainElement();
-            host.find('div').text(utils.getShortTimeDisplay(currentTime));
+        };
+        
+        this.show = function() {
+            this.getMainElement().fadeIn(this.transitionTimeTo);
+        };
+        
+        this.hide = function() {
+            this.getMainElement().fadeOut(this.transitionTimeFrom, function() { $(this).remove(); });
         };
     };
     
     return {
-        name: 'Time',
-        description: 'Shows the current time',
-        
-        create: function(id) { return new PluginTime(id); }
+        create: function() { return new Screen(); }
     };
     
 });
