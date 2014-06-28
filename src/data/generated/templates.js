@@ -9,7 +9,20 @@ define(function() { return {
 
 	ProgressBar: '<div id="{{id}}" class="noSelect progressBarMain colorDefaultBackground">    <div class="noSelect progressBarContent colorAccentBackground colorDefaultFont"></div></div>',
 
-	ScreenMain: '<div id="{{id}}" class="noSelect screen"><div id="{{id}}Content" class="noSelect screenContent"></div><div class="noSelect optionsPanelFrame"><div id="OptionsPanel" class="noSelect optionsPanel"><div class="noSelect panelBackground colorDefaultBackground"></div><div class="noSelect optionsPanelContentFrame colorAccentBorder"><div class="noSelect panelContentBackground colorDefaultBackground"></div><div id="OptionsPanelContent" class="noSelect optionsPanelContent"></div></div></div><div id="OptionsContent" class="noSelect screenMainOptionsContent"></div></div></div>',
+	ScreenLoading: '<div id="{{id}}" class="noSelect screen">\
+	    <div class="noSelect screenLoadingBackground colorInactiveBackground"></div>\
+	    <div id="{{id}}Content" class="noSelect screenLoadingContent"></div>\
+	    <div class="noSelect screenLoadingImage">\
+	    </div>\
+	    <div class="noSelect screenLoadingProgressFrame">\
+	        <div id="{{id}}Progress" class="noSelect screenLoadingProgressBar">\
+	            <div class="noSelect progressBarContent colorAccentBackground colorDefaultFont"></div>\
+	        </div>\
+	        <div id="{{id}}ProgressText" class="noSelect screenLoadingProgressText"></div>\
+	    </div>\
+	</div>',
+
+	ScreenMain: '<div id="{{id}}" class="noSelect screen"><div id="{{id}}Content" class="noSelect screenMainGameContent"></div><div class="noSelect screenMainOptionsPanel"><div id="OptionsPanel" class="noSelect optionsPanel"><div class="noSelect panelBackground colorDefaultBackground"></div><div class="noSelect optionsPanelContentFrame colorAccentBorder"><div class="noSelect panelContentBackground colorDefaultBackground"></div><div id="OptionsPanelContent" class="noSelect optionsPanelContent"></div></div></div><div id="OptionsContent" class="noSelect screenMainOptionsContent"></div></div></div>',
 
 	ViewStatistics: '<div id="{{id}}" class="noSelect contentProvider scrollVertical"><div class="noSelect statisticsSection"><div class="noSelect noIBar colorDefaultFont statisticsHeader">All time:</div><hr class="noSelect statisticsDivider"/><table id="{{id}}_totalContent"></table></div><div class="noSelect statisticsSection"><div class="noSelect noIBar colorDefaultFont statisticsHeader">This session:</div><hr class="noSelect statisticsDivider"/><table id="{{id}}_sessionContent"></table></div></div>',
 

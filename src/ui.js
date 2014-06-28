@@ -41,7 +41,7 @@ define(function(require) {
             this.screenLoading = screenLoading.create("ScreenLoading");
             this.screenLoading.init(undefined);
             
-            this.activateScreen(this.screenMain);
+            this.activateScreen(this.screenLoading);
         };
         
         this.update = function(currentTime) {
@@ -99,7 +99,15 @@ define(function(require) {
         
         this.activateScreen = function(screen) {
             assert.isDefined(screen);
-            assert.isFalse(this.inTransition, "Already in transition, can not activate screen");
+            
+            if(this.inTransition === true) 
+            {
+                assert.isDefined(this.transitionTo, "Already in transition to next screen, can not activate screen");
+                
+                // We are still in transition from the old screen so just swap the target
+                this.transitionTo = screen;
+                return;
+            }
             
             log.info("Transitioning to screen "+screen.id);
             this.inTransition = true;

@@ -3,6 +3,7 @@ define(function(require) {
     var settings = require("settings");
     var screen = require("ui/controls/screen");
     var panel = require("ui/controls/panel");
+    var element = require("ui/controls/element");
     var progressBar = require('ui/controls/progressBar');
     
     ScreenLoading.prototype = screen.create();
@@ -12,10 +13,8 @@ define(function(require) {
     function ScreenLoading(id) {
         this.id = id;
         
-        this.mainProgressBar = undefined;
-        this.subProgressBar = undefined;
-        
-        this.progressDetailText = undefined;
+        this.progressBar = undefined;
+        this.progressText = undefined;
         
         // ---------------------------------------------------------------------------
         // overrides
@@ -28,6 +27,13 @@ define(function(require) {
         // ---------------------------------------------------------------------------
         this.init = function(parent) {
             this.screenInit(parent);
+            
+            this.progressBar = progressBar.create(this.id + "Progress");
+            this.progressBar.init(this);
+            this.progressBar.setProgress(50);
+            
+            this.progressText = element.create(this.id + "ProgressText");
+            this.progressText.init(this);
         };
         
         this.update = function(currentTime) {
@@ -35,7 +41,7 @@ define(function(require) {
                 return;
             }
             
-            // load...
+            this.progressBar.update(currentTime);
         };
     };
     

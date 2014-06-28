@@ -9,9 +9,9 @@ define(function(require) {
         // misc utility functions
         // ---------------------------------------------------------------------------
         this.rgba = function(r, g, b, a) {
-              r = Math.floor(r) || 0;
-              g = Math.floor(g) || 0;
-              b = Math.floor(b) || 0;
+              r = ~~r || 0;
+              g = ~~g || 0;
+              b = ~~b || 0;
               a = a || 1;
               return ["rgba(", r, ",", g,",", b, ",", a,")"].join("");
         };
@@ -27,7 +27,7 @@ define(function(require) {
         };
         
         this.getRandomInt = function(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
+            return ~~(Math.random() * (max - min + 1)) + min;
         };
         
         this.getGlobal = function() {
@@ -141,18 +141,18 @@ define(function(require) {
             // returns array of [d, h, m, s, z]
             var result = [0, 0, 0, 0, 0];
             
-            var milliSeconds = Math.floor(seconds);
+            var milliSeconds = ~~seconds;
         
-            result[0] = Math.floor(milliSeconds / (24 * 60 * 60 * 1000));
+            result[0] = ~~(milliSeconds / (24 * 60 * 60 * 1000));
         
             milliSeconds %= (24 * 60 * 60 * 1000);
-            result[1] = Math.floor(milliSeconds / (60 * 60 * 1000));
+            result[1] = ~~(milliSeconds / (60 * 60 * 1000));
         
             milliSeconds %= (60 * 60 * 1000);
-            result[2] = Math.floor(milliSeconds / (60 * 1000));
+            result[2] = ~~(milliSeconds / (60 * 1000));
         
             milliSeconds %= (60 * 1000);
-            result[3] = Math.floor(milliSeconds / 1000);
+            result[3] = ~~(milliSeconds / 1000);
             result[4] = milliSeconds;
             
             return result;
@@ -239,7 +239,7 @@ define(function(require) {
           
           var sign = value > 0 ? '' : '-';
           value = Math.abs(value);
-          var exp = Math.floor(Math.log(value)/Math.LN10);
+          var exp = ~~(Math.log(value)/Math.LN10);
           var num = Math.round((value/Math.pow(10, exp)) * 100) / 100;
           var output = num.toString();
           if (num === Math.round(num)) {

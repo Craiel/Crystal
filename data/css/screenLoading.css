@@ -1,0 +1,30 @@
+.screenLoadingContent {
+	position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.screenLoadingBackground {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	opacity: 0.15;
+}
+
+.screenLoadingImage {
+	
+}
+
+.screenLoadingProgressFrame {
+	
+}
+
+.screenLoadingProgressBar {
+	
+}
+
+.screenLoadingProgressText {
+	
+}

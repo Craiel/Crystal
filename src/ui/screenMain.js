@@ -19,8 +19,6 @@ define(function(require) {
     function ScreenMain(id) {
         this.id = id;
         
-        this.testPanel = undefined;
-        
         this.pluginBar = undefined;
         
         this.optionsContent = undefined;
@@ -74,10 +72,6 @@ define(function(require) {
             
             this.inventoryView = viewInventory.create('ViewInventory');
             this.inventoryView.init();
-            
-            var bla = progressBar.create("TestProgressBar");
-            bla.init(this);
-            bla.setProgress(5);
         };
         
         this.update = function(currentTime) {

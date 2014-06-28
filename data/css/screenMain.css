@@ -1,7 +1,22 @@
+.screenMainOptionsPanel {
+	position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 250px;
+    height: calc(100% - 32px);
+}
+
 .screenMainOptionsContent {
     position: absolute;
     top: 35px;
     left: 0px;
     width: 100%;
-    height: calc(100% - 65px);
+    height: calc(100% - 35px);
+    overflow: auto;
+}
+
+.screenMainGameContent {
+	position: relative;
+    width: 100%;
+    height: calc(100% - 32px);
 }
