@@ -1,4 +1,5 @@
 define(function(require) {
+	var log = require("log");
     var math = require("math");
     var settings = require("settings");
     var element = require("ui/controls/element");
@@ -43,6 +44,19 @@ define(function(require) {
         
         this.hide = function() {
             this.getMainElement().fadeOut(this.transitionTimeFrom, function() { $(this).remove(); });
+        };
+        
+        this.getLoadingActions = function() {
+        	return {
+        		'General Loading': this.load
+        	};
+        };
+        
+        this.load = function(loadAction) {
+        	var self = loadAction.actionHost;
+        	
+        	loadAction.setSubProgressText("File 1");
+        	log.debug("No loading in screen " + self.id);
         };
     };
     

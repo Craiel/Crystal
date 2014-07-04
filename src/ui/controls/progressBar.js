@@ -55,7 +55,7 @@ define(function(require) {
             var progressValue = (this.value / this.maxValue);
             var progressWidth = progressValue * host.width();
             progressValue *= 100;
-            host.find('div').animate({ width: progressWidth, }, 500).html(progressValue + "%&nbsp;");
+            host.find('div').animate({ width: progressWidth }, 500).html(~~progressValue + "%&nbsp;");
         };
     };
     

@@ -1,9 +1,3 @@
-.screenLoadingContent {
-	position: relative;
-    width: 100%;
-    height: 100%;
-}
-
 .screenLoadingBackground {
 	position: absolute;
 	left: 0px;
@@ -14,17 +8,33 @@
 }
 
 .screenLoadingImage {
-	
+	position: absolute;
+	left: 10%;
+	top: 10%;
+	width: 80%;
+	height: 80%;
 }
 
 .screenLoadingProgressFrame {
-	
+	position: absolute;
+	left: 20%;
+	top: 60%;
+	width: 60%;
+	height: 20%;
 }
 
 .screenLoadingProgressBar {
-	
+	position: absolute;
+	top: 5%;
+	left: 5%;
+	width: 90%;
+	height: 24px;
 }
 
 .screenLoadingProgressText {
-	
+	position: absolute;
+	top: calc(6% + 24px);
+	left: 5%;
+	width: 90%;
+	height: 24px;
 }

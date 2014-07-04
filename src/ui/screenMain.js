@@ -65,13 +65,17 @@ define(function(require) {
             this.optionsPanel.addOption("CPOInventory", "optionInventoryActive");
             
             this.statisticsView = viewStatistics.create('ViewStatistics');
-            this.statisticsView.init();
+            this.statisticsView.init(null);
             
             this.equipmentView = viewEquipment.create('ViewEquipment');
-            this.equipmentView.init();
+            this.equipmentView.init(null);
             
             this.inventoryView = viewInventory.create('ViewInventory');
-            this.inventoryView.init();
+            this.inventoryView.init(null);
+            
+            var bla = progressBar.create("ProgressBar");
+            bla.init(this);
+            bla.setProgress(25);
         };
         
         this.update = function(currentTime) {

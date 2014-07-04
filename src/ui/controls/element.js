@@ -1,10 +1,13 @@
 define(function(require) {
+	var $ = require("jquery");
     var log = require("log");
     var utils = require("utils");
     var assert = require("assert");
     var templates = require("data/templates");
     var component = require("component");
     
+    var RootParentKey = "__ROOT__";
+        
     var createElementContent = function(id, parent, templateName, attributes) {
         // Check if we are using a custom template, if not we will look-up by id
         if(templateName === undefined) {
@@ -52,35 +55,53 @@ define(function(require) {
         // main functions
         // ---------------------------------------------------------------------------
         this.init = function(parent, attributes) {
-            this.parent = parent;
-            this.componentInit();
+        	this.componentInit();
+        	
+        	log.debug(" ELEMENT: " + this.id)
+        	assert.isDefined(parent, "Parent must be defined");
+        	if(parent !== null) {
+        		if(parent === RootParentKey) {
+        			log.warning("  --> Appending to ROOT!");
+        			this.parent = $(document.body);
+        		} else {
+        			log.debug("  --> Appending to " + parent.id);
+        			this.parent = parent;
+        		}
+        	} else {
+        		log.debug("  --> skipping parent");
+        	}
 
+        	// Store the target for this element
+        	var elementTarget = undefined;
+        	
             // try to get our element target
-            if(parent !== undefined && parent !== null) {
-                this._mainDiv = parent.getMainElement().find('#' + this.id);
+            if(this.parent !== undefined) {
+            	if(this.parent.getMainElement !== undefined) {
+            		elementTarget = this.parent.getMainElement();
+            	} else {
+            		elementTarget = this.parent;            		
+            	}   
+            	
+            	this._mainDiv = elementTarget.find('#' + this.id);
             } else {
                 this._mainDiv = $('#' + this.id);
             }
             
             if(this._mainDiv.length <= 0) {
                 this._mainDiv = undefined;
+                log.debug("  --> from template");
+            } else {
+            	log.debug("  --> from content");
             }
             
             // Check if we have a valid element target, if not create it
             if(this._mainDiv === undefined) {
-                this._mainDiv = createElementContent(this.id, parent, this.templateName, attributes);
-                
-                // undefined means no registration, null will put it into root
-                if(parent !== undefined) {
-                    // either append to body or a given parent
-                    if(parent === null) {
-                        log.warning("Creating ui element in Root: " + this.id);
-                        $(document.body).append(this._mainDiv);
-                    } else {
-                        assert.isDefined(parent.getMainElement(), "Parent needs to be of UIElement type and initialized");
-                        log.debug("Appending child " + this.id + " to " + parent.id);
-                        parent.getMainElement().append(this._mainDiv);
-                    }
+                this._mainDiv = createElementContent(this.id, this.parent, this.templateName, attributes);
+                                
+                // null means no registration
+                if(elementTarget !== undefined) {
+                	assert.isDefined(elementTarget, "Parent needs to be of UIElement type and initialized");
+                	elementTarget.append(this._mainDiv);
                 }
             }
         };
@@ -178,6 +199,8 @@ define(function(require) {
     };
     
     return {
+    	rootParent: RootParentKey,
+    	
         create: function(id) { return new UIElement(id); }
     };
 });

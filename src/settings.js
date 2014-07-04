@@ -17,7 +17,9 @@ define(function(require) {
             sessionCount: 4,
         };
         
-        this.totalStats = statistics.create(this.id + '_t', true); // total stats are persistent
+        // total stats are persistent
+        this.totalStats = statistics.create(this.id + '_t', true);
+        
         this.sessionStats = statistics.create(this.id + '_s');
     
         save.register(this, 'isNewGame').asBool(true);

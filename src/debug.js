@@ -16,6 +16,7 @@ define(function(require) {
             runtime.loadDynamic([data.cssRoot + "pluginTime.css"], 0);
             runtime.loadDynamic([data.cssRoot + "progressBar.css"], 0);
             runtime.loadDynamic([data.cssRoot + "screenLoading.css"], 0);
+            runtime.loadDynamic([data.cssRoot + "screenStart.css"], 0);
             runtime.loadDynamic([data.cssRoot + "screenMain.css"], 0);
             runtime.loadDynamic([data.cssRoot + "ui.css"], 0);
         }

@@ -1,8 +1,10 @@
 define(function(require) {
     var log = require("log");
     var assert = require("assert");
+    var element = require("ui/controls/element");
     var state = require("game/state");
     var component = require("component");
+    var screenStart = require('ui/screenStart');
     var screenMain = require('ui/screenMain');
     var screenLoading = require('ui/screenLoading');
     
@@ -19,9 +21,11 @@ define(function(require) {
         this.transitionTo = undefined;
         
         this.screenMain = undefined;
+        this.screenStart = undefined;
         this.screenLoading = undefined;
         
         this.activeScreen = undefined;
+        this.loadTarget = undefined;
         
         // ---------------------------------------------------------------------------
         // overrides
@@ -35,13 +39,17 @@ define(function(require) {
         this.init = function() {
             this.componentInit();
             
+            this.screenStart = screenStart.create("ScreenStart");
+            this.screenStart.init(null);
+            
             this.screenMain = screenMain.create("ScreenMain");
-            this.screenMain.init(undefined);
+            this.screenMain.init(null);
             
             this.screenLoading = screenLoading.create("ScreenLoading");
-            this.screenLoading.init(undefined);
+            this.screenLoading.init(null);
             
-            this.activateScreen(this.screenLoading);
+            // Load the starting screen
+            this.loadAndActivate(this.screenStart);
         };
         
         this.update = function(currentTime) {
@@ -55,6 +63,13 @@ define(function(require) {
             if(this.inTransition === true) {
                 this.updateTransition();
                 return;
+            }
+            
+            // Check if we where loading and switch over to the target
+            if(this.loadTarget !== undefined && this.activeScreen === this.screenLoading && this.screenLoading.isFinished === true) 
+            {
+            	this.activateScreen(this.loadTarget);
+            	this.loadTarget = undefined;
             }
             
             // Update the active screen if present
@@ -123,6 +138,21 @@ define(function(require) {
                 this.transitionTo.show();
                 this.activeScreen = this.transitionTo;
             }
+        };
+        
+        this.loadAndActivate = function(screen) {
+        	assert.isFalse(this.activeScreen === screen, "Screen is already active: " + screen.id);
+        	assert.isFalse(screen === this.screenLoading, "Can not load and activate loading screen" + screen.id);
+
+        	var actionData = screen.getLoadingActions();
+        	for(var key in actionData) {
+        		var action = screenLoading.createAction(screen, actionData[key]);
+            	action.text = key;
+            	this.screenLoading.queueAction(action);	
+        	}
+        	
+        	this.loadTarget = screen;
+        	this.activateScreen(this.screenLoading);
         };
     }
     
