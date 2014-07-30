@@ -49,7 +49,7 @@ define(function(require) {
             this.screenLoading.init(null);
             
             // Load the starting screen
-            this.loadAndActivate(this.screenStart);
+            this.loadAndActivate(this.screenMain);
         };
         
         this.update = function(currentTime) {

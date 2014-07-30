@@ -4,7 +4,9 @@ define(function(require) {
     var utils = require("utils");
     var state = require("game/state");
     var log = require("log");
+    var data = require("data");
     var component = require("component");
+    var moduleSynthesize = require("game/modules/moduleSynthesize");
     
     if(Crystal.isDebug) {
         var debug = require("debug");
@@ -16,6 +18,8 @@ define(function(require) {
     
     function Game() {
         this.id = 'game';
+        
+        this.moduleSynthesize = undefined;
         
         // ---------------------------------------------------------------------------
         // overrides
@@ -33,6 +37,9 @@ define(function(require) {
                 debug.init();
             }
             
+            // Modules need to be loaded before the save load
+            this.loadModules();
+            
             save.load();
             
             this.checkVersion();
@@ -46,6 +53,9 @@ define(function(require) {
             if(!this.componentUpdate(currentTime)) {
                 return;
             }
+            
+            // Update the modules
+            this.moduleSynthesize.update(currentTime);
             
             // process auto-saving
             this.updateAutoSave(currentTime);
@@ -68,6 +78,11 @@ define(function(require) {
             }
             
             settings.savedVersion = state.version;
+        };
+        
+        this.loadModules = function() {
+        	this.moduleSynthesize = moduleSynthesize.create();
+        	this.moduleSynthesize.init();
         };
         
         this.updateAutoSave = function(currentTime) {

@@ -125,6 +125,11 @@ define(function(require) {
                 return;
             }
             
+            if(this.host.onSave === undefined) {
+            	log.error("Host declared callback but did not define onSave: " + this.host.id);
+            	return;
+            }
+            
             this.host.onSave();
         };
         
@@ -133,12 +138,22 @@ define(function(require) {
                 return;
             }
             
+            if(this.host.onLoad === undefined) {
+            	log.error("Host declared callback but did not define onLoad: " + this.host.id);
+            	return;
+            }
+            
             this.host.onLoad();
         };
         
         this.callbackReset = function() {
             if(this.resetCallback === false) {
                 return;
+            }
+            
+            if(this.host.onReset === undefined) {
+            	log.error("Host declared callback but did not define onReset: " + this.host.id);
+            	return;
             }
             
             this.host.onReset();

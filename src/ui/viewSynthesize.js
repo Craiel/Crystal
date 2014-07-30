@@ -1,17 +1,13 @@
 define(function(require) {
 	var log = require("log");
-    var utils = require("utils");
     var element = require("ui/controls/element");
-    var pluginBar = require("ui/pluginBar");
-    
-    PluginTime.prototype = element.create();
-    PluginTime.prototype.$super = parent;
-    PluginTime.prototype.constructor = PluginTime;
-    
-    function PluginTime(id) {
-        this.id = id;
         
-        this.templateName = "PluginTime";
+    ViewSynthesize.prototype = element.create();
+    ViewSynthesize.prototype.$super = parent;
+    ViewSynthesize.prototype.constructor = ViewSynthesize;
+    
+    function ViewSynthesize(id) {
+        this.id = id;
         
         // ---------------------------------------------------------------------------
         // overrides
@@ -25,25 +21,26 @@ define(function(require) {
         this.init = function(parent) {
             this.elementInit(parent);
             
-            // Todo or remove...
+            log.error("ViewSynthesize is stub");
         };
         
         this.update = function(currentTime) {
             if(this.elementUpdate(currentTime) === false) {
                 return;
             }
-
-            // Update the time
-            var host = this.getMainElement();
-            host.find('div').text(utils.getShortTimeDisplay(currentTime));
+            
+        };
+        
+        // ---------------------------------------------------------------------------
+        // statistics functions
+        // ---------------------------------------------------------------------------
+        this.getTitle = function() {
+        	return "Synthesize";
         };
     };
     
     return {
-        name: 'Time',
-        description: 'Shows the current time',
-        
-        create: function(id) { return new PluginTime(id); }
+        create: function(id) { return new ViewSynthesize(id); }
     };
     
 });

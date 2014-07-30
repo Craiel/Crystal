@@ -19,7 +19,7 @@ requirejs.config({
 
 require(["core"], function(core) {
     // Load globals
-    require(["jquery", "log", "data", "game", "ui"], function($, log, data, game, ui) {
+    require(["jquery", "log", "data", "game", "ui", "game/state"], function($, log, data, game, ui, state) {
         
         log.info("Initializing Barebone");
             
@@ -28,7 +28,7 @@ require(["core"], function(core) {
         
         // Add hook for document ready
         $(document).ready(onDocumentReady);
-
+        console.log(state.timeZoneOffset);
         function onDocumentReady() {
             
             // Initialize components
@@ -48,15 +48,15 @@ require(["core"], function(core) {
         };
         
         function onUpdate() {
-            currentTime = Date.now();
-            
+            currentTime = Date.now() - state.timeZoneOffset;
+
             core.resetFrame();
             data.update(currentTime);
             game.update(currentTime);
         };
         
         function onUIUpdate() {
-            currentTime = Date.now();
+        	currentTime = Date.now() - state.timeZoneOffset;
             
             ui.update(currentTime);
             

@@ -137,24 +137,27 @@ define(function(require) {
             return now.getTime() - then.getTime();
         };
         
+        // Note: This has to use math.floor otherwise the value will be skewed for large time
         this.splitDateTime = function(seconds) {
             // returns array of [d, h, m, s, z]
             var result = [0, 0, 0, 0, 0];
+            var milliSeconds = Math.floor(seconds);
             
-            var milliSeconds = ~~seconds;
-        
-            result[0] = ~~(milliSeconds / (24 * 60 * 60 * 1000));
-        
+            result[0] = Math.floor(milliSeconds / (365 * 24 * 60 * 60 * 1000));
+            
+            milliSeconds %= (365 * 24 * 60 * 60 * 1000);
+            result[1] = Math.floor(milliSeconds / (24 * 60 * 60 * 1000));
+            
             milliSeconds %= (24 * 60 * 60 * 1000);
-            result[1] = ~~(milliSeconds / (60 * 60 * 1000));
+            result[2] = Math.floor(milliSeconds / (60 * 60 * 1000));
         
             milliSeconds %= (60 * 60 * 1000);
-            result[2] = ~~(milliSeconds / (60 * 1000));
+            result[3] = Math.floor(milliSeconds / (60 * 1000));
         
             milliSeconds %= (60 * 1000);
-            result[3] = ~~(milliSeconds / 1000);
-            result[4] = milliSeconds;
-            
+            result[4] = Math.floor(milliSeconds / 1000);
+            result[5] = milliSeconds;
+            //console.log(seconds + " - " + result);
             return result;
         };
         
@@ -166,20 +169,20 @@ define(function(require) {
             var timeSplit = this.splitDateTime(seconds);
             var days, hours, minutes, seconds;
         
-            days = timeSplit[0];
+            days = timeSplit[1];
             days = (days > 0) ? days + 'd ' : '';
         
-            hours = timeSplit[1];
+            hours = timeSplit[2];
             hours = (hours > 0) ? this.pad(hours, 2) + 'h ' : '';
         
-            minutes = timeSplit[2];
+            minutes = timeSplit[3];
             minutes = (minutes > 0) ? this.pad(minutes, 2) + 'm ' : '';
         
-            seconds = timeSplit[3];
+            seconds = timeSplit[4];
             seconds = (seconds > 0) ? this.pad(seconds, 2) + 's ' : '';
         
             if (highPrecision === true) {
-                milliSeconds = timeSplit[4];
+                milliSeconds = timeSplit[5];
                 milliSeconds = (milliSeconds > 0) ? this.pad(milliSeconds, 3) + 'ms' : '';
         
                 return (days + hours + minutes + seconds + milliSeconds).trim();
@@ -194,10 +197,9 @@ define(function(require) {
             }
             
             var timeSplit = this.splitDateTime(seconds);
-            
-            hours = this.pad(timeSplit[1], 2) + ':';
-            minutes = this.pad(timeSplit[2], 2) + ':';
-            seconds = this.pad(timeSplit[3], 2);
+            hours = this.pad(timeSplit[2], 2) + ':';
+            minutes = this.pad(timeSplit[3], 2) + ':';
+            seconds = this.pad(timeSplit[4], 2);
             
             return hours + minutes + seconds;
         };

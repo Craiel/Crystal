@@ -9,6 +9,8 @@ define(function(require) {
     function State() {
         this.id = "State";
         
+        this.timeZoneOffset = new Date().getTimezoneOffset() * 60 * 1000;
+        
         this.title = "Crystal";
         this.version = 0.1;
         this.versionForceReset = 0.1;
@@ -22,6 +24,8 @@ define(function(require) {
         this.fpsSinceUpdate = 0;
         this.fps = 0;
         
+        this.isPaused = false;
+        
         // saved game states
         save.register(this, 'gameActive').asBool();
         
@@ -30,6 +34,9 @@ define(function(require) {
         save.register(this, 'coreXP').asNumber();
         save.register(this, 'coreLevel').asNumber(); // core level of the session
         save.register(this, 'credits').asNumber(); // base currency for everything
+        
+        save.register(this, 'globalCoreXPMultiplier').asNumber();
+        save.register(this, 'globalCreditMultiplier').asNumber();
     };
     
     return new State();
