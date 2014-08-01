@@ -87,9 +87,9 @@ define(function(require) {
             this.pluginBar.update(currentTime);
             this.optionsPanel.update(currentTime);
             
-            this.updateStatistics();
-            this.updateEquipment();
-            this.updateInventory();
+            this.updateStatistics(currentTime);
+            this.updateEquipment(currentTime);
+            this.updateInventory(currentTime);
         };
         
         this.hide = function() {
@@ -104,7 +104,7 @@ define(function(require) {
         // ---------------------------------------------------------------------------
         // screen functions
         // ---------------------------------------------------------------------------
-        this.updateStatistics = function() {
+        this.updateStatistics = function(currentTime) {
         	if (settings.optionStatisticsActive === true) {
         		if(this.statisticsFrame === undefined) {
         			var optionPanel = panel.create(this.statisticsView.id + "Panel");
@@ -123,7 +123,7 @@ define(function(require) {
         	}
         };
         
-        this.updateEquipment = function() {
+        this.updateEquipment = function(currentTime) {
             if (settings.optionEquipmentActive === true) {
                 if(this.equipmentFrame === undefined) {
                     var optionPanel = panel.create(this.equipmentView.id + "Panel");
@@ -142,7 +142,7 @@ define(function(require) {
             }
         };
         
-        this.updateInventory = function() {
+        this.updateInventory = function(currentTime) {
             if (settings.optionInventoryActive === true) {
                 if(this.inventoryFrame === undefined) {
                     var optionPanel = panel.create(this.inventoryView.id + "Panel");

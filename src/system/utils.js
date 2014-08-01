@@ -130,17 +130,11 @@ define(function(require) {
         
         // ---------------------------------------------------------------------------
         // Time / Date functions
-        // ---------------------------------------------------------------------------
-        this.getDayTimeInSeconds = function() {
-            var now = new Date();
-            then = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
-            return now.getTime() - then.getTime();
-        };
-        
+        // ---------------------------------------------------------------------------        
         // Note: This has to use math.floor otherwise the value will be skewed for large time
         this.splitDateTime = function(seconds) {
-            // returns array of [d, h, m, s, z]
-            var result = [0, 0, 0, 0, 0];
+            // returns array of [y, d, h, m, s, z]
+            var result = [0, 0, 0, 0, 0, 0];
             var milliSeconds = Math.floor(seconds);
             
             result[0] = Math.floor(milliSeconds / (365 * 24 * 60 * 60 * 1000));
@@ -157,51 +151,43 @@ define(function(require) {
             milliSeconds %= (60 * 1000);
             result[4] = Math.floor(milliSeconds / 1000);
             result[5] = milliSeconds;
-            //console.log(seconds + " - " + result);
+            
             return result;
         };
         
-        this.getDurationDisplay = function(seconds, highPrecision) {
-            if (seconds === 0 || seconds === Number.POSITIVE_INFINITY) {
+        this.getDurationDisplay = function(seconds) {
+        	if (seconds === 0 || seconds === Number.POSITIVE_INFINITY) {
                 return '~~';
             }
             
             var timeSplit = this.splitDateTime(seconds);
-            var days, hours, minutes, seconds;
-        
-            days = timeSplit[1];
-            days = (days > 0) ? days + 'd ' : '';
-        
-            hours = timeSplit[2];
-            hours = (hours > 0) ? this.pad(hours, 2) + 'h ' : '';
-        
-            minutes = timeSplit[3];
-            minutes = (minutes > 0) ? this.pad(minutes, 2) + 'm ' : '';
-        
-            seconds = timeSplit[4];
-            seconds = (seconds > 0) ? this.pad(seconds, 2) + 's ' : '';
-        
-            if (highPrecision === true) {
-                milliSeconds = timeSplit[5];
-                milliSeconds = (milliSeconds > 0) ? this.pad(milliSeconds, 3) + 'ms' : '';
-        
-                return (days + hours + minutes + seconds + milliSeconds).trim();
-            }
-        
-            return (days + hours + minutes + seconds).trim();
+            years = timeSplit[0] > 0 ? timeSplit[0] + 'y ' : '';
+            days = timeSplit[1] > 0 ? timeSplit[1] + 'd ' : '';
+            time = this.getTimeDisplay(seconds);
+            
+            return years + days + time;
         };
         
-        this.getShortTimeDisplay = function(seconds) {
+        this.getTimeDisplay = function(seconds, use24hourTime) {
             if (seconds === 0 || seconds === Number.POSITIVE_INFINITY) {
                 return '~~';
             }
             
             var timeSplit = this.splitDateTime(seconds);
-            hours = this.pad(timeSplit[2], 2) + ':';
-            minutes = this.pad(timeSplit[3], 2) + ':';
-            seconds = this.pad(timeSplit[4], 2);
+            var suffix = '';
+            if (use24hourTime === false) {
+            	if (timeSplit[2] > 12) {
+            		timeSplit[2] -= 12;
+            		suffix = ' pm';
+            	} else {
+            		suffix = ' am';
+            	}
+            }
             
-            return hours + minutes + seconds;
+            var hours = this.pad(timeSplit[2], 2) + ':';
+            var minutes = this.pad(timeSplit[3], 2) + ':';
+            var seconds = this.pad(timeSplit[4], 2);
+            return hours + minutes + seconds + suffix;
         };
         
         // ---------------------------------------------------------------------------
@@ -276,6 +262,68 @@ define(function(require) {
                 'shortName': this.formatEveryThirdPower(['', ' M', ' B', ' T', ' Qa', ' Qi', ' Sx',' Sp', ' Oc', ' No', ' De' ]),
                 'shortName2': this.formatEveryThirdPower(['', ' M', ' G', ' T', ' P', ' E', ' Z', ' Y']),
                 'scientific': this.formatScientificNotation,
+        };
+        
+        // ---------------------------------------------------------------------------
+        // LZW Compression
+        // ---------------------------------------------------------------------------
+        this.lzwEncode = function(source) {
+        	var dict = {};
+            var data = (source + "").split("");
+            var out = [];
+            var currChar;
+            var phrase = data[0];
+            var code = 256;
+            for (var i=1; i<data.length; i++) {
+                currChar=data[i];
+                if (dict[phrase + currChar] != null) {
+                    phrase += currChar;
+                }
+                else {
+                    out.push(phrase.length > 1 ? dict[phrase] : phrase.charCodeAt(0));
+                    dict[phrase + currChar] = code;
+                    code++;
+                    phrase=currChar;
+                }
+            }
+            out.push(phrase.length > 1 ? dict[phrase] : phrase.charCodeAt(0));
+            for (var i=0; i<out.length; i++) {
+                out[i] = String.fromCharCode(out[i]);
+            }
+            return out.join("");
+        };
+
+        this.lzwDecode = function(source) {
+        	var dict = {};
+            var data = (source + "").split("");
+            var currChar = data[0];
+            var oldPhrase = currChar;
+            var out = [currChar];
+            var code = 256;
+            var phrase;
+            for (var i=1; i<data.length; i++) {
+                var currCode = data[i].charCodeAt(0);
+                if (currCode < 256) {
+                    phrase = data[i];
+                }
+                else {
+                   phrase = dict[currCode] ? dict[currCode] : (oldPhrase + currChar);
+                }
+                out.push(phrase);
+                currChar = phrase.charAt(0);
+                dict[code] = oldPhrase + currChar;
+                code++;
+                oldPhrase = phrase;
+            }
+            return out.join("");
+        };
+        
+        this.utf8Encode = function(s) {
+          return unescape(encodeURIComponent(s));
+        };
+         
+        this.utf8Decode = function(s) {
+          return decodeURIComponent(escape(s));
         };
     };
         

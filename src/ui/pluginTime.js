@@ -1,6 +1,7 @@
 define(function(require) {
 	var log = require("log");
     var utils = require("utils");
+    var settings = require("settings");
     var element = require("ui/controls/element");
     var pluginBar = require("ui/pluginBar");
     
@@ -35,7 +36,9 @@ define(function(require) {
 
             // Update the time
             var host = this.getMainElement();
-            host.find('div').text(utils.getShortTimeDisplay(currentTime));
+            var localTime = currentTime.getTime(true);
+            var timeString = utils.getTimeDisplay(localTime, settings.use24hourTime);
+            host.find('div').text(timeString);
         };
     };
     

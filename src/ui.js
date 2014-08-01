@@ -57,11 +57,11 @@ define(function(require) {
                 return;
             }
             
-            this.updateFPS();
+            this.updateFPS(currentTime);
             
             // Check if we are in transition
             if(this.inTransition === true) {
-                this.updateTransition();
+                this.updateTransition(currentTime);
                 return;
             }
             
@@ -81,17 +81,17 @@ define(function(require) {
         // ---------------------------------------------------------------------------
         // ui functions
         // ---------------------------------------------------------------------------
-        this.updateFPS = function () {
+        this.updateFPS = function (currentTime) {
             state.fpsSinceUpdate++;
-            if(currentTime > state.fpsUpdateTime + 1000) {
+            if(currentTime.getTime() > state.fpsUpdateTime + 1000) {
                 state.fps = state.fpsSinceUpdate;
-                state.fpsUpdateTime = currentTime;
+                state.fpsUpdateTime = currentTime.getTime();
                 state.fpsSinceUpdate = 0;
             };
         };
         
-        this.updateTransition = function() {
-            if(currentTime < this.transitionTime) {
+        this.updateTransition = function(currentTime) {
+            if(currentTime.getTime() < this.transitionTime) {
                 // We are still waiting for the transition to complete, bail out
                 return;
             }

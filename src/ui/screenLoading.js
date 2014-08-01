@@ -38,7 +38,7 @@ define(function(require) {
         
         this.currentOperation = -1;
         this.currentOperations = undefined;
-        this.timeSinceProgressUpdate = Date.now();
+        this.timeSinceProgressUpdate = undefined;
         
         this.pendingOperations = [];
         this.isFinished = true;
@@ -87,7 +87,7 @@ define(function(require) {
             }
             
             // Check if we are in time to perform the next loading operations
-            if(currentTime - this.timeSinceProgressUpdate > 500) {
+            if(this.timeSinceProgressUpdate === undefined || currentTime.getTime() - this.timeSinceProgressUpdate > 500) {
             	this.currentOperation++;
             	if(this.currentOperation >= this.currentOperations.length) {
             		this.currentOperations = undefined;
@@ -100,7 +100,7 @@ define(function(require) {
             	this.progressBar.setProgress(this.currentOperation + 1, this.currentOperations.length);
             	this.progressText.setText(operation.text);
             	
-            	this.timeSinceProgressUpdate = currentTime;
+            	this.timeSinceProgressUpdate = currentTime.getTime();
             	
             	operation.execute(this);
             }

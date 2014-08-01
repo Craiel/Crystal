@@ -34,7 +34,7 @@ define(["enums", "utils"], function(enums, utils) {
     };
     
     var logFormat = function(time, level, message) {
-        var time = '[' + utils.getShortTimeDisplay(time || Date.now()) + ']: ';
+        var time = '[' + utils.getTimeDisplay(time || Date.now()) + ']: ';
         var fullMessage = time + getLevelDisplay(level) + ' ' + message;
     
         switch(level) {

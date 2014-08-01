@@ -20,7 +20,7 @@ define(function(require) {
         switch(key) {
             case settings.stats.autoSaveCount: return settings.getNumberFormatter();
             case settings.stats.gameLoadCount: return settings.getNumberFormatter();
-            case settings.stats.playTime: return function(n) { return utils.getShortTimeDisplay(n); };
+            case settings.stats.playTime: return function(n) { return utils.getDurationDisplay(n); };
             case settings.stats.sessionCount: return settings.getNumberFormatter();
             default: return utils.formatRaw;
         }

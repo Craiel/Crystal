@@ -1,5 +1,6 @@
 define(function(require) {
     var save = require('save');
+    var gameTime = require('gameTime');
     var component = require('component');
     
     State.prototype = component.create();
@@ -9,18 +10,18 @@ define(function(require) {
     function State() {
         this.id = "State";
         
-        this.timeZoneOffset = new Date().getTimezoneOffset() * 60 * 1000;
+        this.gameTime = gameTime.create();
         
         this.title = "Crystal";
         this.version = 0.1;
         this.versionForceReset = 0.1;
         
-        this.lastAutoSave = Date.now();
+        this.lastAutoSave = this.gameTime.getTime();
         
         this.lastPlayedVersion = 0;
         this.resetForced = false;
         
-        this.fpsUpdateTime = Date.now();
+        this.fpsUpdateTime = this.gameTime.getTime();
         this.fpsSinceUpdate = 0;
         this.fps = 0;
         

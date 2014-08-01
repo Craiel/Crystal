@@ -175,6 +175,9 @@ define(function(require) {
         
         this.mappings = [];
         
+        this.stateName = "undefined";
+        this.stateSlot = 1;
+        
         // ---------------------------------------------------------------------------
         // main functions
         // ---------------------------------------------------------------------------
@@ -192,19 +195,22 @@ define(function(require) {
                 // Call the callback if present
                 mapping.callbackSave();
             }
+                    	
+            // Transfer the save into the storage slot
+        	var compressedData = utils.lzwEncode(utils.utf8Encode(JSON.stringify(data)));
+        	var storageKey = this.getStorageKey();
+        	localStorage[storageKey] = compressedData;
             
-            // Transfer the save into the storage
-            for(var key in data) {
-                localStorage[key] = data[key];
-            }
-            
-            log.debug("Saved "+this.getLocalStorageSize()+" bytes");
+            log.debug("Saved " + compressedData.length + " bytes, now at " + this.getLocalStorageSize() + " bytes used");
         };
-    
+
         this.load = function() {
-            var data = {};
-            for(var key in localStorage) {
-                data[key] = localStorage[key];
+        	var data = {};
+            var storageKey = this.getStorageKey();
+            var compressedData = localStorage[storageKey];
+            if(compressedData !== undefined) {
+            	log.debug("Loaded " + compressedData.length + " bytes");
+            	data = JSON.parse(utils.utf8Decode(utils.lzwDecode(compressedData)));
             }
             
             for(var i = 0; i < this.mappings.length; i++) {
@@ -239,6 +245,10 @@ define(function(require) {
         // ---------------------------------------------------------------------------
         // utility functions
         // ---------------------------------------------------------------------------
+        this.getStorageKey = function() {
+        	return this.stateName + "_" + this.stateSlot.toString();
+        };
+        
         this.register = function(host, name) {
             assert.isDefined(host);
             assert.isDefined(host.id, "Host needs to have an id for saving state");

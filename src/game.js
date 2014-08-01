@@ -21,6 +21,8 @@ define(function(require) {
         
         this.moduleSynthesize = undefined;
         
+        this.lastGameUpdateTime = undefined;
+        
         // ---------------------------------------------------------------------------
         // overrides
         // ---------------------------------------------------------------------------
@@ -37,9 +39,10 @@ define(function(require) {
                 debug.init();
             }
             
-            // Modules need to be loaded before the save load
+            // Modules need to be loaded before the state load
             this.loadModules();
             
+            save.stateName = state.title;
             save.load();
             
             this.checkVersion();
@@ -48,8 +51,6 @@ define(function(require) {
         };
         
         this.update = function(currentTime) {
-            var elapsedTime = currentTime - this.updateTime;
-            
             if(!this.componentUpdate(currentTime)) {
                 return;
             }
@@ -61,7 +62,11 @@ define(function(require) {
             this.updateAutoSave(currentTime);
             
             // Register the elapsed time
-            settings.addStat(settings.stats.playTime, elapsedTime);
+            if (this.lastGameUpdateTime !== undefined) {
+            	settings.addStat(settings.stats.playTime, currentTime.getTime() - this.lastGameUpdateTime);            	
+            }
+            
+            this.lastGameUpdateTime = currentTime.getTime();
         };
         
         // ---------------------------------------------------------------------------
@@ -91,11 +96,11 @@ define(function(require) {
                 return;
             }
             
-            if(currentTime - state.lastAutoSave < settings.autoSaveInterval) {
+            if(currentTime.getTime() - state.lastAutoSave < settings.autoSaveInterval) {
                 return;
             }
             
-            state.lastAutoSave = currentTime;
+            state.lastAutoSave = currentTime.getTime();
             save.save();
             settings.addStat(settings.stats.autoSaveCount);
         };

@@ -3,16 +3,16 @@ requirejs.config({
 
     paths : {
         // Map the system files for easier access
+    	assert: 'system/assert',
         component: 'system/component',
-        assert: 'system/assert',
         event: 'system/event',
-        utils: 'system/utils',
-        save: 'system/save',
-        type: 'system/type',
+        gameTime: 'system/gameTime',
         log: 'system/log',
         math: 'system/math',
         runtime: 'system/runtime',
-        
+        save: 'system/save',
+        type: 'system/type',        
+        utils: 'system/utils',
         jquery : 'external/jquery-2.1.1',
     }
 });
@@ -20,15 +20,15 @@ requirejs.config({
 require(["core"], function(core) {
     // Load globals
     require(["jquery", "log", "data", "game", "ui", "game/state"], function($, log, data, game, ui, state) {
-        
+            	
         log.info("Initializing Barebone");
-            
+        
         // override our data root
         data.setRoot("../data/");
         
         // Add hook for document ready
         $(document).ready(onDocumentReady);
-        console.log(state.timeZoneOffset);
+        
         function onDocumentReady() {
             
             // Initialize components
@@ -48,17 +48,15 @@ require(["core"], function(core) {
         };
         
         function onUpdate() {
-            currentTime = Date.now() - state.timeZoneOffset;
+        	state.gameTime.update();
 
             core.resetFrame();
-            data.update(currentTime);
-            game.update(currentTime);
+            data.update(state.gameTime);
+            game.update(state.gameTime);
         };
         
-        function onUIUpdate() {
-        	currentTime = Date.now() - state.timeZoneOffset;
-            
-            ui.update(currentTime);
+        function onUIUpdate() {        	
+            ui.update(state.gameTime);
             
             requestAnimationFrame(onUIUpdate);
         };

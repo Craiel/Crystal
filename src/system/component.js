@@ -7,7 +7,7 @@ define(function(require) {
     
     function Component() {
         this.initDone = false;
-        this.updateTime = Date.now();
+        this.updateTime = undefined;
         this.updateInterval = 0;
         
         this.enabled = true;
@@ -43,14 +43,14 @@ define(function(require) {
             }
             
             // If we don't need an update and we are updating in intervals and our interval is not yet up, bail out
-            if(this.invalidated === false && this.updateInterval > 0 && currentTime - this.updateTime < this.updateInterval) {
+            if(this.invalidated === false && this.updateInterval > 0 && currentTime.getElapsed() < this.updateInterval) {
                 return false;
             }
             
             Crystal.componentUpdateList.push(this.id);
             Crystal.componentUpdateCount++;
             
-            this.updateTime = currentTime;
+            this.updateTime = currentTime.getTime();
             this.invalidated = false;
             return true;
         };

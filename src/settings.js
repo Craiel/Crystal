@@ -31,6 +31,8 @@ define(function(require) {
         
         save.register(this, 'numberFormatter').withDefault('raw').persistent();
         
+        save.register(this, 'use24hourTime').asBool(true).persistent();
+        
         // UI Settings
         save.register(this, 'optionStatisticsActive').asBool();
         save.register(this, 'optionEquipmentActive').asBool();
@@ -55,7 +57,6 @@ define(function(require) {
         this.getNumberFormatter = function() {
             assert.isDefined(this.numberFormatter);
             assert.isDefined(utils.formatters[this.numberFormatter]);
-            
             return utils.formatters[this.numberFormatter];
         };
     };
