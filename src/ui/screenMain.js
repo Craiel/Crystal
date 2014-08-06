@@ -5,6 +5,7 @@ define(function(require) {
     var element = require("ui/controls/element");
     var panel = require("ui/controls/panel");
     var pluginBar = require('ui/pluginBar');
+    var pluginMenu = require('ui/pluginMenu');
     var pluginTime = require('ui/pluginTime');
     var progressBar = require('ui/controls/progressBar');
     var optionsPanel = require('ui/optionsPanel');
@@ -51,6 +52,7 @@ define(function(require) {
             this.pluginBar = pluginBar.create("PluginBar");
             this.pluginBar.init(this);
             
+            this.pluginBar.addPlugin(pluginMenu);
             this.pluginBar.addPlugin(pluginTime);
             
             // Setup the options side pane
@@ -72,10 +74,6 @@ define(function(require) {
             
             this.inventoryView = viewInventory.create('ViewInventory');
             this.inventoryView.init(null);
-            
-            var bla = progressBar.create("ProgressBar");
-            bla.init(this);
-            bla.setProgress(25);
         };
         
         this.update = function(currentTime) {

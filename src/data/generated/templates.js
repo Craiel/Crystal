@@ -3,7 +3,7 @@ define(function() { return {
 
 	Panel: '<div id="{{id}}" class="noSelect optionPanel inline"><div id="{{id}}_bg" class="noSelect panelBackground colorInactiveBackground"></div>    <div class="noSelect panelContentFrame elementBorderDefault colorAccentBorder">    <div class="noSelect panelContentBackground colorDefaultBackground"></div>        <div id="{{id}}_content" class="noSelect panelContent"></div>    </div>    <div id="{{id}}_btClose" class="noSelect clickable panelButton colorAccent colorAccentBorder panelButtonClose panelButtonText">x</div>    <div id="{{id}}_btInfo" class="noSelect clickable panelButton colorAccent colorAccentBorder panelButtonInfo panelButtonText">i</div>    <div id="{{id}}_title" class="noSelect noIBar colorDefaultFont panelTitle"></div></div>',
 
-	PluginBar: '<div class="noSelect pluginBar colorAccentBorder"></div>',
+	PluginBar: '<div class="noSelect pluginBar colorAccentBorder colorDefaultBackground"></div>',
 
 	PluginTime: '<div class="noSelect pluginTimeFrame colorAccentBorder"><div class="noSelect noIBar pluginTimeContent colorDefaultFont"></div></div>',
 

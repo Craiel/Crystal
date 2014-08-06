@@ -28,7 +28,10 @@ define(function(require) {
         
         return $(template);
     };
-    
+        
+    // ---------------------------------------------------------------------------
+    // class definition
+    // ---------------------------------------------------------------------------
     UIElement.prototype = component.create();
     UIElement.prototype.$super = parent;
     UIElement.prototype.constructor = UIElement;
@@ -104,6 +107,11 @@ define(function(require) {
                 	elementTarget.append(this._mainDiv);
                 }
             }
+            
+            // Wire up some default events
+            this._mainDiv.mouseenter({self: this}, this.onMouseEnter);
+            this._mainDiv.mouseleave({self: this}, this.onMouseLeave);
+            this._mainDiv.mousemove({self: this}, this.onMouseMove);
         };
         
         this.update = function(currentTime) {
@@ -195,6 +203,27 @@ define(function(require) {
         
         this.setText = function(text) {
             this._mainDiv.text(text);
+        };
+        
+        this.onMouseMove = function(event) {
+        	var self = event.data.self;
+        	var position = [event.pageX, event.pageY];
+        	
+        	// Todo
+        };
+                
+        this.onMouseEnter = function(event) {
+        	var self = event.data.self;
+        	
+        	//log.debug("MouseEnter: "+self.id);
+        	// Todo
+        };
+        
+        this.onMouseLeave = function(event) {
+        	var self = event.data.self;
+        	
+        	//log.debug("MouseExit: "+self.id);        	
+        	// Todo
         };
     };
     
