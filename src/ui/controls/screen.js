@@ -47,8 +47,9 @@ define(function(require) {
         };
         
         this.getLoadingActions = function() {
+        	var generalId = StrLoc('General Loading');
         	return {
-        		'General Loading': this.load
+        		generalId: this.load
         	};
         };
         
@@ -56,7 +57,7 @@ define(function(require) {
         	var self = loadAction.actionHost;
         	
         	loadAction.setSubProgressText("File 1");
-        	log.debug("No loading in screen " + self.id);
+        	log.debug(StrLoc("No loading in screen {0}").format(self.id));
         };
     };
     

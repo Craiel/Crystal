@@ -2,26 +2,17 @@ define(function(require) {
     var $ = require('jquery');
     var log = require("log");
     var utils = require("utils");
+    var data = require("data");
     var element = require("ui/controls/element");
     var settings = require("settings");
     var templates = require("data/templates");
-    
-    var getStatDisplayName = function(key) {
-        switch(key) {
-            case settings.stats.autoSaveCount: return 'Auto save count';
-            case settings.stats.gameLoadCount: return 'Game load count';
-            case settings.stats.playTime: return 'Played time';
-            case settings.stats.sessionCount: return 'Sessions';
-            default: return 'ERR_' + key;
-        }
-    };
-    
+        
     var getStatDisplayFormatter = function(key) {
         switch(key) {
-            case settings.stats.autoSaveCount: return settings.getNumberFormatter();
-            case settings.stats.gameLoadCount: return settings.getNumberFormatter();
-            case settings.stats.playTime: return function(n) { return utils.getDurationDisplay(n); };
-            case settings.stats.sessionCount: return settings.getNumberFormatter();
+            case data.EnumAutoSaveCount: return settings.getNumberFormatter();
+            case data.EnumStatGameLoadCount: return settings.getNumberFormatter();
+            case data.EnumStatPlayTime: return function(n) { return utils.getDurationDisplay(n); };
+            case data.EnumStatSessionCount: return settings.getNumberFormatter();
             default: return utils.formatRaw;
         }
     };
@@ -51,13 +42,13 @@ define(function(require) {
             var totalContent = this.getMainElement().find('#'+this.id+'_totalContent');
             var sessionContent = this.getMainElement().find('#'+this.id+'_sessionContent');
             
-            for(var statKey in settings.stats) {
-                var key = settings.stats[statKey];
-                var template = templates.GetTemplate(this.id+'Entry', {id: this.id + '_T' + key, name: getStatDisplayName(key)});
+            for(var key in data.stats) {
+            	var stat = data.stats[key];
+                var template = templates.GetTemplate(this.id+'Entry', {id: this.id + '_T' + key, name: stat.name});
                 this.entriesTotal[key] = $(template);
                 totalContent.append(this.entriesTotal[key]);
                 
-                template = templates.GetTemplate(this.id+'Entry', {id: this.id + '_S' + key, name: getStatDisplayName(key)});
+                template = templates.GetTemplate(this.id+'Entry', {id: this.id + '_S' + key, name: stat.name});
                 this.entriesSession[key] = $(template);
                 sessionContent.append(this.entriesSession[key]);
             }
@@ -68,10 +59,10 @@ define(function(require) {
                 return;
             }
             
-            for(var statKey in settings.stats) {
-                var key = settings.stats[statKey];
+            for(var key in data.stats) {
+            	var stat = data.stats[key];;
                 var value = settings.totalStats.get(key);
-                var formatter = getStatDisplayFormatter(key);
+                var formatter = getStatDisplayFormatter(parseInt(key));
                 var formattedValue = formatter(value);
                 
                 if(value === undefined || value === 0) {
@@ -91,7 +82,7 @@ define(function(require) {
         // statistics functions
         // ---------------------------------------------------------------------------
         this.getTitle = function() {
-        	return "Statistics";
+        	return StrLoc("Statistics");
         };
     };
     

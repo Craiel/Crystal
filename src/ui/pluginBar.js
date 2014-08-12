@@ -44,8 +44,8 @@ define(function(require) {
         // bar functions
         // ---------------------------------------------------------------------------
         this.addPlugin = function(pluginDefinition, arguments) {
-            assert.isDefined(this.getMainElement(), "addPlugin must be called after init");
-            assert.isDefined(pluginDefinition, "addPlugin called without content");
+            assert.isDefined(this.getMainElement(), StrLoc("addPlugin must be called after init"));
+            assert.isDefined(pluginDefinition, StrLoc("addPlugin called without content"));
             
             var plugin = pluginDefinition.create(this.id + pluginDefinition.name);
             plugin.init(this);

@@ -30,7 +30,7 @@ define(["enums", "utils"], function(enums, utils) {
             };
         };
         
-        throw new Error("Unknown Error Level: " + targetLevel);
+        throw new Error(StrLoc("Unknown Error Level: {0}").format(targetLevel));
     };
     
     var logFormat = function(time, level, message) {

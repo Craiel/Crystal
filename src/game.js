@@ -1,6 +1,8 @@
 define(function(require) {
+	var assert = require("assert");
     var settings = require("settings");
     var save = require("save");
+    var data = require("data");
     var utils = require("utils");
     var state = require("game/state");
     var log = require("log");
@@ -19,7 +21,7 @@ define(function(require) {
     function Game() {
         this.id = 'game';
         
-        this.moduleSynthesize = undefined;
+        this.gameModules = {};
         
         this.lastGameUpdateTime = undefined;
         
@@ -47,7 +49,7 @@ define(function(require) {
             
             this.checkVersion();
             
-            settings.addStat(settings.stats.gameLoadCount);
+            settings.addStat(data.EnumStatGameLoadCount);
         };
         
         this.update = function(currentTime) {
@@ -56,14 +58,17 @@ define(function(require) {
             }
             
             // Update the modules
-            this.moduleSynthesize.update(currentTime);
+            for(var moduleType in this.gameModules) {
+            	var module = this.gameModules[moduleType];
+            	module.update(currentTime);
+            }
             
             // process auto-saving
             this.updateAutoSave(currentTime);
             
             // Register the elapsed time
             if (this.lastGameUpdateTime !== undefined) {
-            	settings.addStat(settings.stats.playTime, currentTime.getTime() - this.lastGameUpdateTime);            	
+            	settings.addStat(data.EnumStatPlayTime, currentTime.getTime() - this.lastGameUpdateTime);            	
             }
             
             this.lastGameUpdateTime = currentTime.getTime();
@@ -72,22 +77,49 @@ define(function(require) {
         // ---------------------------------------------------------------------------
         // game functions
         // ---------------------------------------------------------------------------
-        this.checkVersion = function() {
-            state.lastPlayedVersion = settings.savedVersion;
-            
+        this.checkVersion = function() {            
             // If the saved version is below the force threshold we reset automatically
+            var updateSaveVersion = false;
             if(settings.savedVersion < state.versionForceReset) {
-                log.warning("Saved version is too old (" + settings.savedVersion + "), forcing reset!");
+                log.warning(StrLoc("Saved version is too old ({0}), forcing reset to {1}!").format(settings.savedVersion, state.version));
                 save.reset();
+                
+                // Reset the state to default before the load
+                this.resetToDefaultState();
+                
                 state.resetForced = true;
+                updateSaveVersion = true;
+            } else if (settings.savedVersion < state.versionRecommendReset) {
+            	log.warning(StrLoc("Saved version is out of date ({0}), recommending reset to {1}!").format(settings.savedVersion, state.version));
+            	state.resetRecommended = true;
+            } else {
+            	updateSaveVersion = true;
             }
             
-            settings.savedVersion = state.version;
+            if(updateSaveVersion === true) {
+            	settings.savedVersion = state.version;            	
+            }
+        };
+        
+        this.resetToDefaultState = function() {
+        	// Lock and deactivate all modules
+        	for(var key in data.modules) {
+        		this.lockModule(key);
+        	}
+        	
+        	// Unlock default modules
+        	this.unlockModule(data.EnumModuleSynthesize);
+        	
+        	// Activate synthesize by default
+        	this.activateModule(data.EnumModuleSynthesize);
         };
         
         this.loadModules = function() {
-        	this.moduleSynthesize = moduleSynthesize.create();
-        	this.moduleSynthesize.init();
+        	
+        	// Initialize all the modules and register them, this is a bit manual right now...
+        	var module = moduleSynthesize.create();
+        	module.init();
+        	this.gameModules[data.EnumModuleSynthesize] = module;
         };
         
         this.updateAutoSave = function(currentTime) {
@@ -102,7 +134,65 @@ define(function(require) {
             
             state.lastAutoSave = currentTime.getTime();
             save.save();
-            settings.addStat(settings.stats.autoSaveCount);
+            settings.addStat(data.EnumAutoSaveCount);
+        };
+        
+        this.getActiveModuleType = function() {
+        	return settings.activeModule;
+        };
+        
+        this.getModule = function(moduleType) {
+        	if(this.gameModules[moduleType] === undefined) {
+        		log.warning(StrLoc("Module not loaded: {0}").format(moduleType));
+        		return;
+        	}
+        	
+        	return this.gameModules[moduleType];
+        };
+        
+        this.lockModule = function(moduleType) {
+        	if(this.gameModules[moduleType] === undefined) {
+        		log.warning(StrLoc("Module not loaded: {0}").format(moduleType));
+        		return;
+        	}
+        	
+        	var module = this.gameModules[moduleType];
+        	module.isUnlocked = true;
+        };
+        
+        this.unlockModule = function(moduleType) {
+        	if(this.gameModules[moduleType] === undefined) {
+        		log.warning(StrLoc("Module not loaded: {0}").format(moduleType));
+        		return;
+        	}
+        	
+        	var module = this.gameModules[moduleType];
+        	module.isUnlocked = true;
+        };
+        
+        this.activateModule = function(moduleType) {
+        	if(this.gameModules[moduleType] === undefined) {
+        		log.warning(StrLoc("Module not loaded: {0}").format(moduleType));
+        		return;
+        	}
+        	        	
+        	var module = this.gameModules[moduleType];
+        	module.isActive = true;
+        	
+        	settings.activeModule = moduleType;
+        };
+        
+        this.deactivateModule = function() {
+        	if(settings.activeModule === data.EnumModuleSynthesize) {
+        		log.warning(StrLoc("Can not deactivate Synthesize module!"));
+        		return;
+        	}
+        	
+        	var module = this.gameModules[settings.activeModule];
+        	module.isActive = false;
+        	
+        	// Deactivating any module will default to synthesize since it's always enabled
+        	this.activateModule(data.EnumModuleSynthesize);
         };
     }
     

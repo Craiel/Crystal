@@ -18,10 +18,10 @@ define(function(require) {
         // main functions
         // ---------------------------------------------------------------------------
         this.init = function() {
-            assert.isDefined(this.id, "Component needs valid Id");
+            assert.isDefined(this.id, StrLoc("Component needs valid Id"));
             
             if(Crystal.isDebug === true) {
-                assert.isUndefined(idCheck[this.id], "Duplicate ID: " + this.id);
+                assert.isUndefined(idCheck[this.id], StrLoc("Duplicate ID: {0}").format(this.id));
                 idCheck[this.id] = true;
             }
             
@@ -31,7 +31,7 @@ define(function(require) {
         };
         
         this.update = function(currentTime) {
-            assert.isTrue(this.initDone, "Init must be called before update!");
+            assert.isTrue(this.initDone, StrLoc("Init must be called before update!"));
             
             if(this.enabled === false) {
                 return false;

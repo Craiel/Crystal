@@ -8,7 +8,7 @@ define(function(require) {
     function Statistics(id, persistent) {
         this.id = id;
         
-        var mapping = save.register(this, 'stats').asJson();
+        var mapping = save.register(this, StrSha('stats')).asJson();
         if(persistent) {
             mapping.persistent();
         }

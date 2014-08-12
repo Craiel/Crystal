@@ -41,7 +41,7 @@ define(function(require) {
     
     return {
         name: 'Menu',
-        description: 'Menu',
+        description: StrLoc('Menu'),
         
         create: function(id) { return new PluginMenu(id); }
     };

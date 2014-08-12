@@ -40,7 +40,7 @@ define(function(require) {
         // statistics functions
         // ---------------------------------------------------------------------------
         this.getTitle = function() {
-            return "Equipment";
+            return StrLoc("Equipment");
         };
     };
     

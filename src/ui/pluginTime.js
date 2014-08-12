@@ -44,7 +44,7 @@ define(function(require) {
     
     return {
         name: 'Time',
-        description: 'Shows the current time',
+        description: StrLoc('Shows the current time'),
         
         create: function(id) { return new PluginTime(id); }
     };

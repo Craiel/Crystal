@@ -12,7 +12,7 @@ define(function(require) {
     function SaveMapping(host, name) {
         this.host = host;
         this.name = name;
-        this.type = type.dataType.string;
+        this.type = type.EnumDataTypeString;
         this.defaultValue = undefined;
         this.isPersistent = false;
         this.saveCallback = false;
@@ -23,7 +23,7 @@ define(function(require) {
         // setting functions
         // ---------------------------------------------------------------------------
         this.asNumber = function(defaultValue) {
-            this.type = type.dataType.number;
+            this.type = type.EnumDataTypeNumber;
             if(defaultValue !== undefined) {
                 return this.withDefault(defaultValue);
             }
@@ -33,7 +33,7 @@ define(function(require) {
         };
         
         this.asFloat = function(defaultValue) {
-            this.type = type.dataType.float;
+            this.type = type.EnumDataTypeFloat;
             if(defaultValue !== undefined) {
                 return this.withDefault(defaultValue);
             }
@@ -43,7 +43,7 @@ define(function(require) {
         };
         
         this.asBool = function(defaultValue) {
-            this.type = type.dataType.bool;
+            this.type = type.EnumDataTypeBool;
             if(defaultValue !== undefined) {
                 return this.withDefault(defaultValue);
             }
@@ -53,7 +53,7 @@ define(function(require) {
         };
         
         this.asJson = function(defaultValue) {
-            this.type = type.dataType.json;
+            this.type = type.EnumDataTypeJson;
             if(defaultValue !== undefined) {
                 return this.withDefault(defaultValue);
             }
@@ -63,7 +63,7 @@ define(function(require) {
         };
         
         this.asJsonArray = function(defaultValue) {
-            this.type = type.dataType.jsonArray;
+            this.type = type.EnumDataTypeJsonArray;
             if(defaultValue !== undefined) {
                 return this.withDefault(defaultValue);
             }
@@ -73,16 +73,18 @@ define(function(require) {
         };
         
         this.withDefault = function(value) {
-            assert.isTrue(type.isValueOfType(value, this.type), "Default value did not match the selected mapping type");
+        	assert.isDefined(value);
+        	var formattedValue = type.getReadValueByType(value, this.type);
+        	assert.isDefined(formattedValue, StrLoc("Default value {0} did not match the selected mapping type {1}").format(value, this.type));
             
-            this.defaultValue = value;
+            this.defaultValue = type.getReadValueByType(value, this.type);
             this.host[this.name] = value;
             return this;
         };
         
         this.persistent = function(value) {
             if(value !== undefined && value !== true && value !== false) {
-                throw new Error("Invalid argument for persistent: " + value);
+                throw new Error(StrLoc("Invalid argument for persistent: {0}").format(value));
             }
             
             this.isPersistent = value || true;
@@ -107,9 +109,11 @@ define(function(require) {
         };
         
         this.setValue = function(value) {
-            assert.isTrue(type.isValueOfType(value, this.type), "Default value did not match the selected mapping type");
+        	assert.isDefined(value);
+        	var formattedValue = type.getReadValueByType(value, this.type);
+        	assert.isDefined(formattedValue, StrLoc("Value {0} did not match the selected mapping type {1}").format(value, this.type));
             
-            this.host[this.name] = value;
+            this.host[this.name] = formattedValue;
         };
         
         this.resetToDefault = function(ignorePersistent) {
@@ -126,7 +130,7 @@ define(function(require) {
             }
             
             if(this.host.onSave === undefined) {
-            	log.error("Host declared callback but did not define onSave: " + this.host.id);
+            	log.error(StrLoc("Host declared callback but did not define onSave: {0}").format(this.host.id));
             	return;
             }
             
@@ -139,7 +143,7 @@ define(function(require) {
             }
             
             if(this.host.onLoad === undefined) {
-            	log.error("Host declared callback but did not define onLoad: " + this.host.id);
+            	log.error(StrLoc("Host declared callback but did not define onLoad: {0}").format(this.host.id));
             	return;
             }
             
@@ -152,7 +156,7 @@ define(function(require) {
             }
             
             if(this.host.onReset === undefined) {
-            	log.error("Host declared callback but did not define onReset: " + this.host.id);
+            	log.error(StrLoc("Host declared callback but did not define onReset: {0}").format(this.host.id));
             	return;
             }
             
@@ -187,9 +191,18 @@ define(function(require) {
             for(var i = 0; i < this.mappings.length; i++) {
                 var mapping = this.mappings[i];
                 var key = mapping.getKey();
-                            
-                var value = type.getWriteValueByType(mapping.getValue(), mapping.type);
-                log.debug("SaveMapping: "+key+" -> "+value);
+                
+                var value = undefined;
+                try
+                {
+                	value = type.getWriteValueByType(mapping.getValue(), mapping.type);                	
+                } catch(e) {
+                	log.error(StrLoc("Could not get write value for {0}").format(key));
+                	console.log(mapping.getValue());
+                	throw e;
+                }
+                
+                log.debug(StrLoc("SaveMapping: {0} -> {1}").format(key, value));
                 data[key] = value;
                 
                 // Call the callback if present
@@ -201,7 +214,7 @@ define(function(require) {
         	var storageKey = this.getStorageKey();
         	localStorage[storageKey] = compressedData;
             
-            log.debug("Saved " + compressedData.length + " bytes, now at " + this.getLocalStorageSize() + " bytes used");
+            log.debug(StrLoc("Saved {0}  bytes, now at {1} bytes used").format(compressedData.length, this.getLocalStorageSize()));
         };
 
         this.load = function() {
@@ -209,7 +222,7 @@ define(function(require) {
             var storageKey = this.getStorageKey();
             var compressedData = localStorage[storageKey];
             if(compressedData !== undefined) {
-            	log.debug("Loaded " + compressedData.length + " bytes");
+            	log.debug(StrLoc("Loaded {0} bytes").format(compressedData.length));
             	data = JSON.parse(utils.utf8Decode(utils.lzwDecode(compressedData)));
             }
             
@@ -217,18 +230,18 @@ define(function(require) {
                 var mapping = this.mappings[i];
                 var key = mapping.getKey();
                 
-                log.debug("LoadMapping: "+key+" -> "+data[key]);
+                log.debug(StrLoc("LoadMapping: {0} -> {1}").format(key, data[key]));
                 if(data[key] === undefined) {
                     continue;
                 }
                 
-                var value = type.getReadValueByType(data[key], mapping.type);
+                var value = type.getReadValueByType(data[key], mapping.type);                
                 mapping.setValue(value);
                 
                 mapping.callbackLoad();
             }
             
-            log.debug("Loaded "+this.getLocalStorageSize()+" bytes");
+            log.debug(StrLoc("Loaded {0} bytes").format(this.getLocalStorageSize()));
         };
     
         this.reset = function(fullReset) {
@@ -239,7 +252,7 @@ define(function(require) {
                 mapping.callbackReset();
             }
             
-            log.debug("Reset done, full="+fullReset);
+            log.debug(StrLoc("Reset done, full={0}").format(fullReset));
         };
         
         // ---------------------------------------------------------------------------
@@ -251,7 +264,7 @@ define(function(require) {
         
         this.register = function(host, name) {
             assert.isDefined(host);
-            assert.isDefined(host.id, "Host needs to have an id for saving state");
+            assert.isDefined(host.id, StrLoc("Host needs to have an id for saving state"));
             assert.isDefined(name);
             
             // Clear out the hosts value on register

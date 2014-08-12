@@ -59,7 +59,7 @@ define(function(require) {
         // control panel functions
         // ---------------------------------------------------------------------------
         this.addOption = function(id, stateSetting, arguments) {
-            assert.isDefined(this.getMainElement(), "addOption must be called after init");
+            assert.isDefined(this.getMainElement(), StrLoc("addOption must be called after init"));
             assert.isDefined(stateSetting);
             
             var buttonIcon = data.iconPlaceholder;

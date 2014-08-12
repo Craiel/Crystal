@@ -1,5 +1,7 @@
 define(function(require) {
 	var log = require("log");
+	var game = require("game");
+	var data = require("data");
     var element = require("ui/controls/element");
         
     ViewSynthesize.prototype = element.create();
@@ -29,13 +31,17 @@ define(function(require) {
                 return;
             }
             
+            var module = game.getModule(data.EnumModuleSynthesize);
+            if(module.isActive === false || module.isUnlocked === false) {
+            	return;
+            }
         };
         
         // ---------------------------------------------------------------------------
         // statistics functions
         // ---------------------------------------------------------------------------
         this.getTitle = function() {
-        	return "Synthesize";
+        	return StrLoc("Synthesize");
         };
     };
     

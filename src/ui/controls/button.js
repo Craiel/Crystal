@@ -31,7 +31,7 @@ define(function(require) {
         this.init = function(parent, attributes) {
             this.elementInit(parent, attributes);
             
-            assert.isDefined(this.onClick, "No click event defined for button");
+            assert.isDefined(this.onClick, StrLoc("No click event defined for button"));
             
             this.getMainElement().click({self: this}, this.onButtonClick);
         };

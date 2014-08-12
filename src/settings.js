@@ -9,34 +9,29 @@ define(function(require) {
     // ---------------------------------------------------------------------------
     function Settings() {
         this.id = "settings";
-        
-        this.stats = {
-            autoSaveCount: 1,
-            gameLoadCount: 2,
-            playTime: 3,
-            sessionCount: 4,
-        };
-        
+               
         // total stats are persistent
         this.totalStats = statistics.create(this.id + '_t', true);
         
         this.sessionStats = statistics.create(this.id + '_s');
     
-        save.register(this, 'isNewGame').asBool(true);
+        save.register(this, StrSha('isNewGame')).asBool(true);
         
-        save.register(this, 'autoSaveEnabled').asBool(true).persistent();
-        save.register(this, 'autoSaveInterval').asNumber(60 * 1000).persistent();
+        save.register(this, StrSha('autoSaveEnabled')).asBool(true).persistent();
+        save.register(this, StrSha('autoSaveInterval')).asNumber(60 * 1000).persistent();
         
-        save.register(this, 'savedVersion').asFloat().persistent();
+        save.register(this, StrSha('savedVersion')).asFloat().persistent();
         
-        save.register(this, 'numberFormatter').withDefault('raw').persistent();
+        save.register(this, StrSha('numberFormatter')).withDefault('raw').persistent();
         
-        save.register(this, 'use24hourTime').asBool(true).persistent();
+        save.register(this, StrSha('use24hourTime')).asBool(true).persistent();
+        
+        save.register(this, StrSha('activeModule')).asNumber();
         
         // UI Settings
-        save.register(this, 'optionStatisticsActive').asBool();
-        save.register(this, 'optionEquipmentActive').asBool();
-        save.register(this, 'optionInventoryActive').asBool();
+        save.register(this, StrSha('optionStatisticsActive')).asBool();
+        save.register(this, StrSha('optionEquipmentActive')).asBool();
+        save.register(this, StrSha('optionInventoryActive')).asBool();
     
         // ---------------------------------------------------------------------------
         // stats

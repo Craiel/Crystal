@@ -40,7 +40,7 @@ define(function(require) {
         // statistics functions
         // ---------------------------------------------------------------------------
         this.getTitle = function() {
-            return "Inventory";
+            return StrLoc("Inventory");
         };
     };
     

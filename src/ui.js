@@ -1,5 +1,7 @@
 define(function(require) {
+	var $ = require("jquery");
     var log = require("log");
+    var save = require("save");
     var assert = require("assert");
     var element = require("ui/controls/element");
     var state = require("game/state");
@@ -50,6 +52,9 @@ define(function(require) {
             
             // Load the starting screen
             this.loadAndActivate(this.screenMain);
+            
+            // To make sure settings are saved when reloading / navigating away
+            $(window).on('beforeunload', function(){ save.save(); });
         };
         
         this.update = function(currentTime) {
@@ -98,7 +103,7 @@ define(function(require) {
             
             if(this.transitionFrom !== undefined) {
                 // We transitioned away from the previous one, initiate transition to target
-                log.debug("Transition proceeding to "+this.transitionTo.id);
+                log.debug(StrLoc("Transition proceeding to {0}").format(this.transitionTo.id));
                 this.transitionFrom.getMainElement().remove();
                 this.transitionFrom = undefined;
                 this.transitionTime = this.updateTime + this.transitionTo.transitionTimeTo;
@@ -106,7 +111,7 @@ define(function(require) {
                 this.transitionTo.show();
                 this.activeScreen = this.transitionTo;
             } else {
-                log.debug("Transition completed");
+                log.debug(StrLoc("Transition completed"));
                 this.transitionTo = undefined;
                 this.inTransition = false;
             }
@@ -117,14 +122,14 @@ define(function(require) {
             
             if(this.inTransition === true) 
             {
-                assert.isDefined(this.transitionTo, "Already in transition to next screen, can not activate screen");
+                assert.isDefined(this.transitionTo, StrLoc("Already in transition to next screen, can not activate screen"));
                 
                 // We are still in transition from the old screen so just swap the target
                 this.transitionTo = screen;
                 return;
             }
             
-            log.info("Transitioning to screen "+screen.id);
+            log.info(StrLoc("Transitioning to screen {0}").format(screen.id));
             this.inTransition = true;
             this.transitionFrom = this.activeScreen;
             this.transitionTo = screen;
@@ -141,8 +146,8 @@ define(function(require) {
         };
         
         this.loadAndActivate = function(screen) {
-        	assert.isFalse(this.activeScreen === screen, "Screen is already active: " + screen.id);
-        	assert.isFalse(screen === this.screenLoading, "Can not load and activate loading screen" + screen.id);
+        	assert.isFalse(this.activeScreen === screen, StrLoc("Screen is already active: {0}").format(screen.id));
+        	assert.isFalse(screen === this.screenLoading, StrLoc("Can not load and activate loading screen {0}").format(screen.id));
 
         	var actionData = screen.getLoadingActions();
         	for(var key in actionData) {

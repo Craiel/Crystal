@@ -21,7 +21,7 @@ define(function(require) {
         	this.currentLocale = this.current - timeZoneOffset;
         	this.elapsed = this.current - this.start;
         	
-        	assert.isTrue(this.current >= this.start, "GameTime may not be initialized properly!");
+        	assert.isTrue(this.current >= this.start, StrLoc("GameTime may not be initialized properly!"));
         };
         
         this.reset = function() {

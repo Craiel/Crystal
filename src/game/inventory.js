@@ -48,7 +48,7 @@ define(function(require) {
     this.updateFreeSlot = function(self) {
         var found = false;
         while(found === false) {
-            assert.isFalse(self.nextFreeSlot >= self.allocationLimit, "Slot count reached allocation limit: " + self.nextFreeSlot + " >= " + self.allocationLimit);
+            assert.isFalse(self.nextFreeSlot >= self.allocationLimit, StrLoc("Slot count reached allocation limit: {0} >= {1}").format(self.nextFreeSlot, self.allocationLimit));
             
             if(self.itemSlots.length <= self.nextFreeSlot) {
                 // Allocate a new set of slots, we reached the end
@@ -94,7 +94,7 @@ define(function(require) {
         this.allocationLimit = 1000; // Hard-limit the inventory to 1k slots for now
         
         // Items are stored in a slot like system as a 2 dim array with [id, count]
-        save.register(this, 'itemSlots').asJsonArray().withCallback(false, true, true);
+        save.register(this, StrSha('itemSlots')).asJsonArray().withCallback(false, true, true);
         this.itemSlotMap = {};
         this.nextFreeSlot = 0;
         
@@ -163,7 +163,7 @@ define(function(require) {
             
             // This is a costly assert so we should get rid of it eventually
             //  but right now i want to make sure all code that adds things is aware of calling canAdd
-            assert.isTrue(this.canAdd(id), "Item can not be added, call canAdd(<id>) before calling add(<id>)");
+            assert.isTrue(this.canAdd(id), StrLoc("Item can not be added, call canAdd(<id>) before calling add(<id>)"));
             
             // Calling add(<id>) will add exactly 1
             if(value === undefined) {
@@ -174,7 +174,7 @@ define(function(require) {
             var slotIndex = getSlotIndex(this, id);
             if(slotIndex === undefined) {
                 slotIndex = assignSlot(this, id);
-                assert.isDefined(slotIndex, "assignSlot failed!");
+                assert.isDefined(slotIndex, StrLoc("assignSlot failed!"));
                 this.itemSlotMap[id] = slotIndex;
             }
             
@@ -188,7 +188,7 @@ define(function(require) {
             assert.isDefined(id);
             
             // Todo: Remove later when the code is more hardened
-            assert.isTrue(this.hasItem(id), "remove(<id>) called with non-existing item, call hasItem(<id>) first!");
+            assert.isTrue(this.hasItem(id), StrLoc("remove(<id>) called with non-existing item, call hasItem(<id>) first!"));
             
             // Calling remove(<id>) will remove exactly 1
             if(value === undefined) {
@@ -239,7 +239,7 @@ define(function(require) {
         
         this.setMetadata = function(id, metadata) {
             var slotIndex = getSlotIndex(this, id);
-            assert.isDefined(slotIndex, "setMetadata() called on invalid item: " + id);
+            assert.isDefined(slotIndex, StrLoc("setMetadata() called on invalid item: {0}").format(id));
             
             var slot = this.getSlotAt(slotIndex);
             slot.setMetadata(metadata);
@@ -247,7 +247,7 @@ define(function(require) {
         
         this.getMetadata = function(id) {
             var slotIndex = getSlotIndex(this, id);
-            assert.isDefined(slotIndex, "getMetadata() called on invalid item: " + id);
+            assert.isDefined(slotIndex, StrLoc("getMetadata() called on invalid item: {0}").format(id));
             
             var slot = this.getSlotAt(slotIndex);
             return slot.getMetadata();

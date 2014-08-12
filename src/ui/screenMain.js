@@ -1,5 +1,7 @@
 define(function(require) {
     var math = require("math");
+    var data = require("data");
+    var game = require("game");
     var settings = require("settings");
     var screen = require("ui/controls/screen");
     var element = require("ui/controls/element");
@@ -12,6 +14,7 @@ define(function(require) {
     var viewEquipment = require('ui/viewEquipment');
     var viewInventory = require('ui/viewInventory');
     var viewStatistics = require("ui/viewStatistics");
+    var viewSynthesize = require("ui/viewSynthesize");
     
     ScreenMain.prototype = screen.create();
     ScreenMain.prototype.$super = parent;
@@ -21,6 +24,8 @@ define(function(require) {
         this.id = id;
         
         this.pluginBar = undefined;
+        
+        this.mainContentFrame = undefined;
         
         this.optionsContent = undefined;
         this.optionsPanel = undefined;
@@ -33,6 +38,9 @@ define(function(require) {
         
         this.inventoryFrame = undefined;
         this.inventoryView = undefined;
+        
+        this.moduleViewType = undefined;
+        this.moduleView = undefined;
         
         // ---------------------------------------------------------------------------
         // overrides
@@ -47,6 +55,10 @@ define(function(require) {
         // ---------------------------------------------------------------------------
         this.init = function(parent) {
             this.screenInit(parent);
+            
+            // Setup the main content area
+            this.mainContentFrame = element.create("ScreenMainContent");
+            this.mainContentFrame.init(this);
             
             // Setup the plug-in bar
             this.pluginBar = pluginBar.create("PluginBar");
@@ -88,6 +100,7 @@ define(function(require) {
             this.updateStatistics(currentTime);
             this.updateEquipment(currentTime);
             this.updateInventory(currentTime);
+            this.updateModuleViews(currentTime);
         };
         
         this.hide = function() {
@@ -101,7 +114,7 @@ define(function(require) {
         
         // ---------------------------------------------------------------------------
         // screen functions
-        // ---------------------------------------------------------------------------
+        // ---------------------------------------------------------------------------        
         this.updateStatistics = function(currentTime) {
         	if (settings.optionStatisticsActive === true) {
         		if(this.statisticsFrame === undefined) {
@@ -157,6 +170,35 @@ define(function(require) {
                     this.inventoryFrame = undefined;
                 }
             }
+        };
+        
+        this.updateModuleViews = function(currentTime) {
+        	var activeModuleType = game.getActiveModuleType();
+        	
+        	// Check if we are transitioning the module view
+        	if(this.moduleViewType === undefined || activeModuleType !== this.moduleViewType) {
+        		if(this.moduleView !== undefined) {
+        			// Todo: Transition properly
+        			this.moduleView.remove();
+        			this.moduleView = undefined;
+        			this.moduleViewType = undefined;
+        		}
+
+        		switch(activeModuleType) {
+        			case data.EnumModuleSynthesize: {
+        				this.moduleView = viewSynthesize.create("ViewSynthesize");
+        				break;
+        			}
+        			default: throw StrLoc("Module view not implemented for {0}").format(activeModuleType);
+        		}
+        		
+        		this.moduleViewType = activeModuleType;
+        		this.moduleView.init(this.mainContentFrame);
+        	}
+        	
+        	if(this.moduleView !== undefined) {
+        		this.moduleView.update(currentTime);	
+        	}
         };
     };
     

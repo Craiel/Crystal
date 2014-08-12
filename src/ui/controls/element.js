@@ -60,18 +60,18 @@ define(function(require) {
         this.init = function(parent, attributes) {
         	this.componentInit();
         	
-        	log.debug(" ELEMENT: " + this.id)
-        	assert.isDefined(parent, "Parent must be defined");
+        	log.debug(StrLoc(" ELEMENT: {0}").format(this.id));
+        	assert.isDefined(parent, StrLoc("Parent must be defined"));
         	if(parent !== null) {
         		if(parent === RootParentKey) {
-        			log.warning("  --> Appending to ROOT!");
+        			log.warning(StrLoc("  --> Appending to ROOT!"));
         			this.parent = $(document.body);
         		} else {
-        			log.debug("  --> Appending to " + parent.id);
+        			log.debug(StrLoc("  --> Appending to {0}").format(parent.id));
         			this.parent = parent;
         		}
         	} else {
-        		log.debug("  --> skipping parent");
+        		log.debug(StrLoc("  --> skipping parent"));
         	}
 
         	// Store the target for this element
@@ -92,9 +92,9 @@ define(function(require) {
             
             if(this._mainDiv.length <= 0) {
                 this._mainDiv = undefined;
-                log.debug("  --> from template");
+                log.debug(StrLoc("  --> from template"));
             } else {
-            	log.debug("  --> from content");
+            	log.debug(StrLoc("  --> from content"));
             }
             
             // Check if we have a valid element target, if not create it
@@ -103,7 +103,7 @@ define(function(require) {
                                 
                 // null means no registration
                 if(elementTarget !== undefined) {
-                	assert.isDefined(elementTarget, "Parent needs to be of UIElement type and initialized");
+                	assert.isDefined(elementTarget, StrLoc("Parent needs to be of UIElement type and initialized"));
                 	elementTarget.append(this._mainDiv);
                 }
             }
@@ -157,7 +157,7 @@ define(function(require) {
                 return;
             }
             
-            log.warning("ClassVerifyError: "+className+" on "+this.id);
+            log.warning(StrLoc("ClassVerifyError: {0} on {1}").format(className, this.id));
         };
         
         this.addClass = function(className) {
@@ -183,13 +183,13 @@ define(function(require) {
         };
         
         this.setPosition = function(point) {
-            assert.isTrue(point.isValid(), "Point needs to be a valid structure");
+            assert.isTrue(point.isValid(), StrLoc("Point needs to be a valid structure"));
             
             this._mainDiv.offset({ left: point.x, top: point.y});
         };
         
         this.setSize = function(size) {
-            assert.isTrue(size.isValid(), "Size needs to be a valid structure");
+            assert.isTrue(size.isValid(), StrLoc("Size needs to be a valid structure"));
             
             this._mainDiv.width(size.x);
             this._mainDiv.height(size.y);

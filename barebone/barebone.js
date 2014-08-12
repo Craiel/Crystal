@@ -17,6 +17,14 @@ requirejs.config({
     }
 });
 
+// Implement these since we don't process the scripts
+var StrLoc = function(str) {
+	return str;
+};
+var StrSha = function(str) {
+	return str;
+};
+
 require(["core"], function(core) {
     // Load globals
     require(["jquery", "log", "data", "game", "ui", "game/state"], function($, log, data, game, ui, state) {

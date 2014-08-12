@@ -18,7 +18,7 @@ define(function(require) {
             var script = scripts[nextId];
             var loaded = $.inArray(script, loadedScripts);
             if (loaded >= 0) {
-                log.warning("Script is already loaded: " + nextId, false);
+                log.warning(StrLoc("Script is already loaded: {0}").format(nextId), false);
                 this.loadDynamic(scripts, nextId + 1, finish);
                 return;
             }
@@ -43,7 +43,7 @@ define(function(require) {
                     
                     this.loadDynamic(scripts, nextId + 1, finish);
                 } else {
-                    log.error("Unhandled script type!");
+                    log.error(StrLoc("Unhandled script type!"));
                 }
             } catch (e) {
                 log.error(e +": "+ e.stack);

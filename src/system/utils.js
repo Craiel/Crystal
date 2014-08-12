@@ -88,7 +88,7 @@ define(function(require) {
                 var classes = styleSheet.rules || styleSheet.cssRules;
                 for(var n = 0; n < classes.length; n++) {
                     if($.inArray( classes[n], definedClasses ) >= 0) {
-                        console.assert(false, "Potential duplicate CSS: " + classes[n]);
+                        console.assert(false, StrLoc("Potential duplicate CSS: {0}").format(classes[n]));
                         continue;
                     }
                     
@@ -178,9 +178,9 @@ define(function(require) {
             if (use24hourTime === false) {
             	if (timeSplit[2] > 12) {
             		timeSplit[2] -= 12;
-            		suffix = ' pm';
+            		suffix = ' ' + StrLoc('pm');
             	} else {
-            		suffix = ' am';
+            		suffix = ' ' + StrLoc('am');
             	}
             }
             
@@ -208,7 +208,7 @@ define(function(require) {
               }
               
               if (base > notations.length) {
-                return 'Infinity';
+                return StrLoc('Infinity');
               } else {
                 notationValue = notations[base];
               }
@@ -255,12 +255,12 @@ define(function(require) {
         this.formatters = {
                 'raw': this.formatRaw,
                 'rounded': this.formatRaw,
-                'name': this.formatEveryThirdPower(['', ' million', ' billion', ' trillion', ' quadrillion',
-                                                          ' quintillion', ' sextillion', ' septillion', ' octillion',
-                                                          ' nonillion', ' decillion'
+                'name': this.formatEveryThirdPower(['', StrLoc(' million'), StrLoc(' billion'), StrLoc(' trillion'), StrLoc(' quadrillion'),
+                                                    StrLoc(' quintillion'), StrLoc(' sextillion'), StrLoc(' septillion'), StrLoc(' octillion'),
+                                                    StrLoc(' nonillion'), StrLoc(' decillion')
                                                         ]),
-                'shortName': this.formatEveryThirdPower(['', ' M', ' B', ' T', ' Qa', ' Qi', ' Sx',' Sp', ' Oc', ' No', ' De' ]),
-                'shortName2': this.formatEveryThirdPower(['', ' M', ' G', ' T', ' P', ' E', ' Z', ' Y']),
+                'shortName': this.formatEveryThirdPower(['', StrLoc(' M'), StrLoc(' B'), StrLoc(' T'), StrLoc(' Qa'), StrLoc(' Qi'), StrLoc(' Sx'),StrLoc(' Sp'), StrLoc(' Oc'), StrLoc(' No'), StrLoc(' De') ]),
+                'shortName2': this.formatEveryThirdPower(['', StrLoc(' M'), StrLoc(' G'), StrLoc(' T'), StrLoc(' P'), StrLoc(' E'), StrLoc(' Z'), StrLoc(' Y')]),
                 'scientific': this.formatScientificNotation,
         };
         
