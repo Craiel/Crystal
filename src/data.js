@@ -53,6 +53,20 @@ define(function(require) {
         this.EnumStatSynthManual = 6;
         this.EnumStatSynthManualGain = 7;
         
+        this.valueGainTypes = {
+        	0: { id: 'undefined', name: 'Undefined' },
+        	1: { id: 'manual', name: 'Manual' },
+        	2: { id: 'manualCrit', name: 'Manual crit' },
+        	3: { id: 'auto', name: 'Auto' },
+        	4: { id: 'autoCrit', name: 'Auto crit' },
+        };
+        
+        this.EnumValueGainUndefined = 0;
+        this.EnumValueGainManual = 1;
+        this.EnumValueGainManualCrit = 2;
+        this.EnumValueGainAuto = 3;
+        this.EnumValueGainAutoCrit = 4;
+        
         // ---------------------------------------------------------------------------
         // data functions
         // ---------------------------------------------------------------------------

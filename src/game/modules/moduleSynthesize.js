@@ -14,13 +14,18 @@ define(function(require) {
     	this.id = "ModuleSynthesize";
     	
     	this.minAutoInterval = 250;
-    	this.currentSynthesizeResult = 0;
+    	this.currentSynthesizeResults = [];
+    	
+    	this.manualCount = 0;
+        this.manualInterval = 250;
+        this.manualTime = undefined;
     	
     	save.register(this, StrSha('lastAutoSynthesize')).asNumber(0);
     	
     	save.register(this, StrSha('autoInterval')).asNumber(60000);
     	save.register(this, StrSha('basePerAuto')).asNumber(0);
     	save.register(this, StrSha('basePerManual')).asNumber(1);
+    	save.register(this, StrSha('manualLimit')).asNumber(15);
     	save.register(this, StrSha('currency')).asNumber(0);
     	
     	save.register(this, StrSha('upgradesBought')).asJsonArray().withCallback(false, true, true);
@@ -53,6 +58,11 @@ define(function(require) {
         		this.lastAutoSynthesize = currentTime.getTime();
         		this.autoSynthesize();
         	}
+        	
+        	if(this.manualTime === undefined || this.manualTime + this.manualInterval < currentTime.getTime()) {
+            	this.manualTime = currentTime.getTime();
+            	this.manualCount = 0;
+            }
         };
         
         this.remove = function() {
@@ -65,36 +75,45 @@ define(function(require) {
         this.autoSynthesize = function() {
         	var value = this.basePerAuto * this.multiplier;
         	
-        	// Todo: apply bonus etc
-        	
+        	// Todo: apply bonus etc        	
         	
         	settings.addStat(data.EnumStatSynthAutoGain, value);
         	settings.addStat(data.EnumStatSynthAuto);
-        	this.addSynthesizeResult(value);
+        	this.addSynthesizeResult(value, data.EnumValueGainAuto);
         };
         
         this.manualSynthesize = function() {
+        	if(this.manualCount >= this.manualLimit) {
+        		return;
+        	}
+        	
         	var value = this.basePerManual * this.multiplier;
         	
         	settings.addStat(data.EnumStatSynthManualGain, value);
         	settings.addStat(data.EnumStatSynthManual);
-        	this.addSynthesizeResult(value);
+        	this.addSynthesizeResult(value, data.EnumValueGainManual);
+        	
+        	this.manualCount++;
         };
         
-        // Return the current synth result count and reset
-        this.getCurrentSynthesizeResult = function() {
-        	var result = this.currentSynthesizeResult;
-        	this.currentSynthesizeResult = 0;
+        // Return the current synth results and reset
+        this.getCurrentSynthesizeResults = function() {
+        	var result = this.currentSynthesizeResults;
+        	this.currentSynthesizeResults = [];
         	return result;
         };
         
-        this.addSynthesizeResult = function(value) {
+        this.addSynthesizeResult = function(value, valueGainType) {
         	if(value === undefined || value <= 0) {
         		return;
         	}
-        	        	
+        	
+        	if(valueGainType === undefined) {
+        		valueGainType = data.EnumValueGainUndefined;
+        	}
+        	
         	this.currency += value;
-        	this.currentSynthesizeResult += value;
+        	this.currentSynthesizeResults.push({value: value, gainType: valueGainType});
         };
     }
     

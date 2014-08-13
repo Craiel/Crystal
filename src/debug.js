@@ -19,6 +19,7 @@ define(function(require) {
             runtime.loadDynamic([data.cssRoot + "screenStart.css"], 0);
             runtime.loadDynamic([data.cssRoot + "screenMain.css"], 0);
             runtime.loadDynamic([data.cssRoot + "ui.css"], 0);
+            runtime.loadDynamic([data.cssRoot + "viewSynthesize.css"], 0);
         }
     };
     

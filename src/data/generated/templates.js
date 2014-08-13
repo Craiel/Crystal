@@ -19,5 +19,7 @@ define(function() { return {
 
 	ViewStatisticsEntry: '<tr><td><div class="noSelect noIBar colorDefaultFont statisticsContent">{{name}}:&nbsp;</div></td><td id="{{id}}_value" class="noSelect noIBar colorDefaultFont statisticsContent"></td></tr>',
 
+	ViewSynthesize: '<div id="{{id}}" class="noSelect screenMainModuleContent"><div class="noSelect synthesizeLeftSide colorDefaultBorder"><div class="noSelect synthesizeAutomations"></div><div class="noSelect synthesizeUpgrades"></div></div><div class="noSelect synthesizeRightSide"></div><div class="noSelect synthesizeCenter"><div id="{{id}}HitAnimationArea" class="noSelect synthesizeHitAnimationArea"><div id="{{id}}HitTarget" class="noSelect synthesizeHitTarget colorAccentBackground"></div></div></div></div>',
+
 
 }; });
