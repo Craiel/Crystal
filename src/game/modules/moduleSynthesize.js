@@ -2,6 +2,7 @@ define(function(require) {
     var log = require("log");
     var save = require("save");
     var data = require("data");
+    var math = require("math");
     var assert = require("assert");
     var settings = require("settings");
     var gameModule = require("game/gameModule");
@@ -27,9 +28,10 @@ define(function(require) {
     	save.register(this, StrSha('basePerManual')).asNumber(1);
     	save.register(this, StrSha('manualLimit')).asNumber(15);
     	save.register(this, StrSha('currency')).asNumber(0);
+    	save.register(this, StrSha('power')).asNumber(10);
     	
-    	save.register(this, StrSha('upgradesBought')).asJsonArray().withCallback(false, true, true);
-    	save.register(this, StrSha('techResearched')).asJsonArray().withCallback(false, true, true);
+    	save.register(this, StrSha('upgradeState')).asJsonArray().withCallback(false, true, true);
+    	save.register(this, StrSha('buildingCount')).asJsonArray().withCallback(false, true, true);
     	
     	// ---------------------------------------------------------------------------
         // overrides
@@ -112,7 +114,7 @@ define(function(require) {
         		valueGainType = data.EnumValueGainUndefined;
         	}
         	
-        	this.currency += value;
+        	this.currency = math.safeAdd(this.currency, value);
         	this.currentSynthesizeResults.push({value: value, gainType: valueGainType});
         };
     }
