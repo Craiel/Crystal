@@ -1,10 +1,10 @@
-define(function(require) {
-    var $ = require("jquery");
-    var enums = require("enums");
-    var log = require("log");
-    var assert = require("assert");
-    var utils = require("utils");
-    var type = require("type");
+declare("Save", function(require) {
+    include("$");
+    include("Enums");
+    include("Log");
+    include("Assert");
+    include("Utils");
+    include("Type");
     
     // ---------------------------------------------------------------------------
     // save mapping entry, internal use only

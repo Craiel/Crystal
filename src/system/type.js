@@ -1,8 +1,8 @@
-define(function(require) {
-    var $ = require("jquery");
-    var log = require("log");
-    var assert = require("assert");
-    var utils = require("utils");
+declare("Type", function() {
+	include("$");
+	include("Log");
+	include("Assert");
+	include("Utils");
     
     var objectConstructor = {}.constructor;    
     

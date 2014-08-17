@@ -1,20 +1,19 @@
-define(function(require) {
-    var math = require("math");
-    var data = require("data");
-    var game = require("game");
-    var settings = require("settings");
-    var screen = require("ui/controls/screen");
-    var element = require("ui/controls/element");
-    var panel = require("ui/controls/panel");
-    var pluginBar = require('ui/pluginBar');
-    var pluginMenu = require('ui/pluginMenu');
-    var pluginTime = require('ui/pluginTime');
-    var progressBar = require('ui/controls/progressBar');
-    var optionsPanel = require('ui/optionsPanel');
-    var viewEquipment = require('ui/viewEquipment');
-    var viewInventory = require('ui/viewInventory');
-    var viewStatistics = require("ui/viewStatistics");
-    var viewSynthesize = require("ui/viewSynthesize");
+declare("ScreenMain", function() {
+	include("Data");
+	include("Game");
+	include("Settings");
+	include("Screen");
+	include("Element");
+	include("Panel");
+	include('PluginBar');
+	include('PluginMenu');
+	include('PluginTime');
+	include('ProgressBar');
+	include('OptionsPanel');
+	include('ViewEquipment');
+	include('ViewInventory');
+	include("ViewStatistics");
+	include("ViewSynthesize");
     
     ScreenMain.prototype = screen.create();
     ScreenMain.prototype.$super = parent;

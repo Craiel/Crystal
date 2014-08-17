@@ -1,10 +1,9 @@
-define(function(require) {
-    var $ = require('jquery');
-    var log = require("log");
-    var utils = require("utils");
-    var element = require("ui/controls/element");
-    var settings = require("settings");
-    var templates = require("data/templates");
+declare("ViewEquipment", function() {
+	include("$");
+	include("Log");
+	include("Utils");
+	include("Element");
+	include("Settings");
     
     ViewEquipment.prototype = element.create();
     ViewEquipment.prototype.$super = parent;

@@ -1,9 +1,9 @@
-define(function(require) {
-    var log = require("log");
-    var assert = require("assert");
-    var data = require("data");
-    var button = require("ui/controls/button");
-    var element = require("ui/controls/element");
+declare("MenuBar", function() {
+	include("Log");
+	include("Assert");
+	include("Data");
+	include("Button");
+	include("Element");
     
     MenuBar.prototype = element.create();
     MenuBar.prototype.$super = parent;

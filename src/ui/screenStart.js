@@ -1,9 +1,8 @@
-define(function(require) {
-    var math = require("math");
-    var settings = require("settings");
-    var screen = require("ui/controls/screen");
-    var element = require("ui/controls/element");
-    var menuBar = require("ui/controls/menuBar");
+declare("ScreenStart", function() {
+	include("Settings");
+	include("Screen");
+	include("Element");
+	include("MenuBar");
     
     ScreenStart.prototype = screen.create();
     ScreenStart.prototype.$super = parent;

@@ -1,11 +1,11 @@
-define(function(require) {
-	var log = require("log");
-	var assert = require("assert");	
-	var data = require("data");
-	var settings = require("settings");
-	var element = require("ui/controls/element");
-    var panel = require("ui/controls/panel");
-    var button = require("ui/controls/button");
+declare("OptionsPanel", function() {
+	include("Log");
+	include("Assert");	
+	include("Data");
+	include("Settings");
+	include("Element");
+	include("Panel");
+	include("Button");
     
 	OptionsPanel.prototype = panel.create();
 	OptionsPanel.prototype.$super = parent;

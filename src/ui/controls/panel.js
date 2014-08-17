@@ -1,9 +1,9 @@
-define(function(require) {
-    var log = require("log");
-    var assert = require("assert");
-    var state = require("game/state");
-    var element = require("ui/controls/element");
-    var button = require("ui/controls/button");
+declare("Panel", function() {
+	include("Log");
+	include("Assert");
+	include("GameState");
+	include("Element");
+	include("Button");
     
     Panel.prototype = element.create();
     Panel.prototype.$super = parent;

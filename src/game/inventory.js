@@ -1,7 +1,7 @@
-define(function(require) {
-    var save = require('save');
-    var assert = require('assert');
-    var component = require('component');
+declare("Inventory", function() {
+	include('Save');
+	include('Assert');
+	include('Component');
     
     // ---------------------------------------------------------------------------
     // internal functions

@@ -1,11 +1,11 @@
-define(function(require) {
-    var log = require("log");
-    var save = require("save");
-    var data = require("data");
-    var math = require("math");
-    var assert = require("assert");
-    var settings = require("settings");
-    var gameModule = require("game/gameModule");
+declare("GameModuleSynthesize", function() {
+	include("Log");
+	include("Save");
+	include("Data");
+	include("MathExtension");
+	include("Assert");
+	include("Settings");
+	include("GameModule");
     
     ModuleSynthesize.prototype = gameModule.create();
     ModuleSynthesize.prototype.$super = parent;
@@ -114,7 +114,7 @@ define(function(require) {
         		valueGainType = data.EnumValueGainUndefined;
         	}
         	
-        	this.currency = math.safeAdd(this.currency, value);
+        	this.currency = mathExtension.safeAdd(this.currency, value);
         	this.currentSynthesizeResults.push({value: value, gainType: valueGainType});
         };
     }

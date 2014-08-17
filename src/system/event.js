@@ -1,5 +1,6 @@
-define(function() {
-    
+declare("Event", function() {
+    include("$");
+	
     function EventAggregate() {
         
         this.subscribers = {};
@@ -12,7 +13,7 @@ define(function() {
                 this.subscribers[event] = [];
             }
             
-            if(jQuery.inArray(this.subscribers[event], callback) != -1) {
+            if($.inArray(this.subscribers[event], callback) != -1) {
                 this.subscribers[event].push(callback);
             }
         };

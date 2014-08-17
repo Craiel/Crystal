@@ -1,7 +1,7 @@
-define(function(require) {
-    var data = require("data");
-    var assert = require("assert");
-    var element = require("ui/controls/element");
+declare("PluginBar", function() {
+	include("Data");
+	include("Assert");
+	include("Element");
     
     PluginBar.prototype = element.create();
     PluginBar.prototype.$super = parent;

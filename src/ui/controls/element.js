@@ -1,10 +1,10 @@
-define(function(require) {
-	var $ = require("jquery");
-    var log = require("log");
-    var utils = require("utils");
-    var assert = require("assert");
-    var templates = require("data/templates");
-    var component = require("component");
+declare("Element", function() {
+	include("$");
+	include("Log");
+	include("Utils");
+	include("Assert");
+	include("TemplateProvider");
+	include("Component");
     
     var RootParentKey = "__ROOT__";
         
@@ -24,9 +24,8 @@ define(function(require) {
         }
         
         // fetch the template to use, either custom or go by the id
-        var template = templates.GetTemplate(templateName, attributes);
-        
-        return $(template);
+        var content = templateProvider.GetTemplate(templateName, attributes);        
+        return $(content);
     };
         
     // ---------------------------------------------------------------------------

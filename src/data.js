@@ -1,7 +1,7 @@
-define(function(require) {
-	var assert = require("assert");
-    var component = require("component");
-    
+declare("Data", function() {
+	include("Assert");
+    include("Component");
+
     Data.prototype = component.create();
     Data.prototype.$super = parent;
     Data.prototype.constructor = Data;

@@ -1,4 +1,4 @@
-define(function() { return {
+declare("SynthesizeContent", function() { return {
 	
 	Buildings: {
 		0: {

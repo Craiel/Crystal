@@ -1,6 +1,6 @@
-define(function(require) {
-    var log = require("log");
-    var assert = require("assert");
+declare("MathExtension", function() {
+    include("Log");
+    include("Assert");
     
     function Point(x, y) {
         this.x = x;

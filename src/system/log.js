@@ -1,4 +1,6 @@
-define(["enums", "utils"], function(enums, utils) {
+declare("Log", function() {
+	include("Enums");
+	include("Utils");
         
     var level = {
             debug : 1,

@@ -1,11 +1,11 @@
-define(function(require) {
-    var $ = require('jquery');
-    var log = require("log");
-    var utils = require("utils");
-    var data = require("data");
-    var element = require("ui/controls/element");
-    var settings = require("settings");
-    var templates = require("data/templates");
+declare("ViewStatistics", function() {
+	include("$");
+	include("Log");
+	include("Utils");
+	include("Data");
+	include("Element");
+	include("Settings");
+	include("TemplateProvider");
         
     var getStatDisplayFormatter = function(key) {
         switch(key) {
@@ -44,11 +44,11 @@ define(function(require) {
             
             for(var key in data.stats) {
             	var stat = data.stats[key];
-                var template = templates.GetTemplate(this.id+'Entry', {id: this.id + '_T' + key, name: stat.name});
+                var template = templateProvider.GetTemplate(this.id+'Entry', {id: this.id + '_T' + key, name: stat.name});
                 this.entriesTotal[key] = $(template);
                 totalContent.append(this.entriesTotal[key]);
                 
-                template = templates.GetTemplate(this.id+'Entry', {id: this.id + '_S' + key, name: stat.name});
+                template = templateProvider.GetTemplate(this.id+'Entry', {id: this.id + '_S' + key, name: stat.name});
                 this.entriesSession[key] = $(template);
                 sessionContent.append(this.entriesSession[key]);
             }

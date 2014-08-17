@@ -1,7 +1,7 @@
-define(function(require) {
-    var $ = require("jquery");
-    var log = require("log");
-    var utils = require("utils");
+declare("Runtime", function() {
+    include("$");
+    include("Log");
+    include("Utils");
     
     var loadedScripts = [];
     

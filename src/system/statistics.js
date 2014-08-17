@@ -1,6 +1,6 @@
-define(function(require) {
-    var save = require("save");
-    var assert = require("assert");
+declare("Statistics", function() {
+	include("Save");
+    include("Assert");
     
     // ---------------------------------------------------------------------------
     // statistic object

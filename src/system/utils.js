@@ -1,5 +1,5 @@
-define(function(require) {
-    var $ = require('jquery');
+declare("Utils", function() {
+	include("$");
     
     // Get the global namespace and register the local namespace root
     var global = Function('return this')() || (42, eval)('this');

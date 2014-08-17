@@ -1,8 +1,8 @@
-define(function(require) {
-    var log = require("log");
-    var assert = require("assert");
-    var data = require("data");
-    var element = require("ui/controls/element");
+declare("ProgressBar", function() {
+	include("Log");
+	include("Assert");
+	include("Data");
+	include("Element");
     
     ProgressBar.prototype = element.create();
     ProgressBar.prototype.$super = parent;

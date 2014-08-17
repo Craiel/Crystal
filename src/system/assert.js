@@ -1,4 +1,4 @@
-define(function() {
+declare("Assert", function() {
 
     function Assert() {
         this.isDefined = function(arg, msg) {

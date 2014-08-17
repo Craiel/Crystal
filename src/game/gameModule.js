@@ -1,7 +1,7 @@
-define(function(require) {
-    var save = require("save");
-    var log = require("log");
-    var component = require("component");
+declare("GameModule", function() {
+	include("Save");
+	include("Log");
+	include("Component");
     
     GameModule.prototype = component.create();
     GameModule.prototype.$super = parent;

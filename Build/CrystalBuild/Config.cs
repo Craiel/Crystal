@@ -1,5 +1,6 @@
 ﻿namespace CrystalBuild
 {
+    using CarbonCore.Utils;
     using CarbonCore.Utils.IO;
     using CarbonCore.Utils.Json;
 
@@ -16,6 +17,10 @@
 
             // Set the project root
             this.Current.ProjectRoot = file.GetDirectory();
+            if (this.Current.ProjectRoot == null || this.Current.ProjectRoot.IsNull)
+            {
+                this.Current.ProjectRoot = RuntimeInfo.WorkingDirectory;
+            }
 
             return result;
         }
@@ -28,12 +33,16 @@
             return new BuildConfig
                        {
                            Name = Constants.DefaultProjectName,
-                           Templates = new[] { Constants.DataTemplateDirectory },
-                           Sources = new[] { Constants.SourceDirectory },
-                           Data = new[] { Constants.DataDirectory },
+                           Templates = new[] { new CarbonDirectoryFilter(Constants.DataTemplateDirectory, Constants.FilterTemplates) },
+                           Sources = new[] { new CarbonDirectoryFilter(Constants.SourceDirectory, Constants.FilterSource) },
+                           Data = new[] { new CarbonDirectoryFilter(Constants.DataDirectory, Constants.FilterData) },
+                           StyleSheets = new[] {new CarbonDirectoryFilter(Constants.DataCssDirectory, Constants.FilterStyleSheet) },
+                           Contents = new[] { new CarbonDirectoryFilter(Constants.ContentDirectory, Constants.FilterContent) },
                            SourceTarget = Constants.OutputDirectory.ToFile(Constants.DefaultProjectTarget),
                            TemplateTarget = Constants.SourceDataGeneratedDirectory.ToFile(Constants.DefaultTemplateTarget),
-                           DataTarget = Constants.SourceDataGeneratedDirectory.ToFile(Constants.DefaultDataTarget)
+                           DataTarget = Constants.SourceDataGeneratedDirectory.ToFile(Constants.DefaultDataTarget),
+                           StyleSheetTarget = Constants.OutputDirectory.ToFile(Constants.DefaultStyleSheetTarget),
+                           ContentTarget = Constants.OutputDirectory
                        };
         }
     }

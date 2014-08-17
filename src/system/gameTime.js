@@ -1,5 +1,5 @@
-define(function(require) {
-    var assert = require("assert");
+declare("GameTime", function() {
+    include("Assert");
     
     var timeZoneOffset = new Date().getTimezoneOffset() * 60 * 1000;
     

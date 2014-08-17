@@ -1,12 +1,11 @@
-define(function(require) {
-	var log = require("log");
-    var math = require("math");
-    var assert = require("assert");
-    var settings = require("settings");
-    var screen = require("ui/controls/screen");
-    var panel = require("ui/controls/panel");
-    var element = require("ui/controls/element");
-    var progressBar = require('ui/controls/progressBar');
+declare("ScreenLoading", function() {
+	include("Log");
+	include("Assert");
+	include("Settings");
+	include("Screen");
+	include("Panel");
+	include("Element");
+	include('ProgressBar');
     
     ScreenLoading.prototype = screen.create();
     ScreenLoading.prototype.$super = parent;

@@ -1,9 +1,9 @@
-define(function(require) {
-	var log = require("log");
-    var utils = require("utils");
-    var settings = require("settings");
-    var element = require("ui/controls/element");
-    var pluginBar = require("ui/pluginBar");
+declare("PluginMenu", function() {
+	include("Log");
+	include("Utils");
+	include("Settings");
+	include("Element");
+	include("PluginBar");
     
     PluginMenu.prototype = element.create();
     PluginMenu.prototype.$super = parent;

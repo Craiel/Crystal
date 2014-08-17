@@ -6,8 +6,10 @@
 
     public interface IBuildLogic
     {
-        void Build(IList<CarbonFile> sources, CarbonFile target);
-        void BuildTemplates(IList<CarbonFile> sources, CarbonFile target);
-        void BuildData(IList<CarbonFile> sources, CarbonFile target);
+        void Build(IList<CarbonFileResult> sources, CarbonFile target);
+        void BuildTemplates(IList<CarbonFileResult> sources, CarbonFile target);
+        void BuildData(IList<CarbonFileResult> sources, CarbonFile target);
+        void BuildStyleSheets(IList<CarbonFileResult> sources, CarbonFile target);
+        void CopyContents(IList<CarbonFileResult> sources, CarbonDirectory target);
     }
 }

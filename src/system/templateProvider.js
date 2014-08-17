@@ -1,8 +1,9 @@
-define(function(require) {
-    var log = require("log");
-    var data = require("data/generated/templates");
-    var assert = require("assert");
+declare("TemplateProvider", function() {
+	include("Log");
+    include("Assert");
     
+	var data = undefined;
+	
     var applyTemplateAttributes = function(template, attributes) {
         assert.isDefined(template);
         assert.isDefined(attributes);
@@ -14,8 +15,12 @@ define(function(require) {
         return result;
     };
     
-    function Templates() {
+    function TemplateProvider() {    	
         this.GetTemplate = function(templateName, attributes) {
+        	if(data === undefined) {
+        		data = {};
+        	}
+        	
             var template;
             if(data[templateName] !== undefined) {
                 template = data[templateName];
@@ -32,12 +37,20 @@ define(function(require) {
         };
         
         this.SetTemplate = function(templateName, data) {
+        	if(data === undefined) {
+        		data = {};
+        	}
+        	
         	assert.isUndefined(data[templateName]);
         	
         	data[templateName] = data;
         };
+        
+        this.SetData = function(newData) {
+        	data = newData;
+        };
     };
     
-    return new Templates();
+    return new TemplateProvider();
     
 });

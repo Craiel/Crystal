@@ -1,5 +1,5 @@
-define(function(require) {
-    var assert = require("assert");
+declare("Component", function() {
+    include("Assert");
     
     if(Crystal.isDebug === true) {
         idCheck = {};

@@ -1,20 +1,20 @@
-define(function(require) {
-	var $ = require("jquery");
-    var log = require("log");
-    var save = require("save");
-    var assert = require("assert");
-    var element = require("ui/controls/element");
-    var state = require("game/state");
-    var component = require("component");
-    var screenStart = require('ui/screenStart');
-    var screenMain = require('ui/screenMain');
-    var screenLoading = require('ui/screenLoading');
+declare("UserInterface", function() {
+	include("$");
+	include("Log");
+	include("Save");
+	include("Assert");
+	include("Element");
+	include("GameState");
+	include("Component");
+	include('ScreenStart');
+	include('ScreenMain');
+	include('ScreenLoading');
     
-    UI.prototype = component.create();
-    UI.prototype.$super = parent;
-    UI.prototype.constructor = UI;
+	UserInterface.prototype = component.create();
+	UserInterface.prototype.$super = parent;
+	UserInterface.prototype.constructor = UserInterface;
     
-    function UI() {
+    function UserInterface() {
         this.id = 'ui';
         
         this.inTransition = false;
@@ -87,11 +87,11 @@ define(function(require) {
         // ui functions
         // ---------------------------------------------------------------------------
         this.updateFPS = function (currentTime) {
-            state.fpsSinceUpdate++;
-            if(currentTime.getTime() > state.fpsUpdateTime + 1000) {
-                state.fps = state.fpsSinceUpdate;
-                state.fpsUpdateTime = currentTime.getTime();
-                state.fpsSinceUpdate = 0;
+            gameState.fpsSinceUpdate++;
+            if(currentTime.getTime() > gameState.fpsUpdateTime + 1000) {
+            	gameState.fps = gameState.fpsSinceUpdate;
+            	gameState.fpsUpdateTime = currentTime.getTime();
+            	gameState.fpsSinceUpdate = 0;
             };
         };
         
@@ -161,6 +161,6 @@ define(function(require) {
         };
     }
     
-    return new UI();
+    return new UserInterface();
     
 });

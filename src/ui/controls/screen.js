@@ -1,8 +1,7 @@
-define(function(require) {
-	var log = require("log");
-    var math = require("math");
-    var settings = require("settings");
-    var element = require("ui/controls/element");
+declare("Screen", function() {
+	include("Log");
+	include("Settings");
+	include("Element");
     
     Screen.prototype = element.create();
     Screen.prototype.$super = parent;

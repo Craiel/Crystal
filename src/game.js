@@ -1,19 +1,14 @@
-define(function(require) {
-	var assert = require("assert");
-    var settings = require("settings");
-    var save = require("save");
-    var data = require("data");
-    var utils = require("utils");
-    var state = require("game/state");
-    var log = require("log");
-    var data = require("data");
-    var component = require("component");
-    var moduleSynthesize = require("game/modules/moduleSynthesize");
-    
-    if(Crystal.isDebug) {
-        var debug = require("debug");
-    }
-    
+declare("Game", function() {
+	include("Assert");
+	include("Settings");
+	include("Save");
+	include("Data");
+	include("Utils");
+	include("GameState");
+	include("Log");
+	include("Component");
+	include("GameModuleSynthesize");
+        
     Game.prototype = component.create();
     Game.prototype.$super = parent;
     Game.prototype.constructor = Game;
@@ -36,15 +31,11 @@ define(function(require) {
         // ---------------------------------------------------------------------------
         this.init = function() {
             this.componentInit();
-            
-            if(Crystal.isDebug) {
-                debug.init();
-            }
-            
+                        
             // Modules need to be loaded before the state load
             this.loadModules();
             
-            save.stateName = state.title;
+            save.stateName = gameState.title;
             save.load();
             
             this.checkVersion();
@@ -80,24 +71,24 @@ define(function(require) {
         this.checkVersion = function() {            
             // If the saved version is below the force threshold we reset automatically
             var updateSaveVersion = false;
-            if(settings.savedVersion < state.versionForceReset) {
-                log.warning(StrLoc("Saved version is too old ({0}), forcing reset to {1}!").format(settings.savedVersion, state.version));
+            if(settings.savedVersion < gameState.versionForceReset) {
+                log.warning(StrLoc("Saved version is too old ({0}), forcing reset to {1}!").format(settings.savedVersion, gameState.version));
                 save.reset();
                 
                 // Reset the state to default before the load
                 this.resetToDefaultState();
                 
-                state.resetForced = true;
+                gameState.resetForced = true;
                 updateSaveVersion = true;
-            } else if (settings.savedVersion < state.versionRecommendReset) {
-            	log.warning(StrLoc("Saved version is out of date ({0}), recommending reset to {1}!").format(settings.savedVersion, state.version));
-            	state.resetRecommended = true;
+            } else if (settings.savedVersion < gameState.versionRecommendReset) {
+            	log.warning(StrLoc("Saved version is out of date ({0}), recommending reset to {1}!").format(settings.savedVersion, gameState.version));
+            	gameState.resetRecommended = true;
             } else {
             	updateSaveVersion = true;
             }
             
             if(updateSaveVersion === true) {
-            	settings.savedVersion = state.version;            	
+            	settings.savedVersion = gameState.version;            	
             }
         };
         
@@ -117,7 +108,7 @@ define(function(require) {
         this.loadModules = function() {
         	
         	// Initialize all the modules and register them, this is a bit manual right now...
-        	var module = moduleSynthesize.create();
+        	var module = gameModuleSynthesize.create();
         	module.init();
         	this.gameModules[data.EnumModuleSynthesize] = module;
         };
@@ -128,11 +119,11 @@ define(function(require) {
                 return;
             }
             
-            if(currentTime.getTime() - state.lastAutoSave < settings.autoSaveInterval) {
+            if(currentTime.getTime() - gameState.lastAutoSave < settings.autoSaveInterval) {
                 return;
             }
             
-            state.lastAutoSave = currentTime.getTime();
+            gameState.lastAutoSave = currentTime.getTime();
             save.save();
             settings.addStat(data.EnumAutoSaveCount);
         };

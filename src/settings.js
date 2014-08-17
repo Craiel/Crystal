@@ -1,8 +1,8 @@
-define(function(require) {
-    var save = require("save");
-    var utils = require("utils");
-    var assert = require("assert");
-    var statistics = require("system/statistics");
+declare("Settings", function() {
+    include("Save");
+    include("Utils");
+    include("Assert");
+    include("Statistics");
     
     // ---------------------------------------------------------------------------
     // settings object

@@ -1,7 +1,7 @@
-define(function(require) {
-    var save = require('save');
-    var gameTime = require('gameTime');
-    var component = require('component');
+declare("GameState", function() {
+	include('Save');
+	include('GameTime');
+	include('Component');
     
     State.prototype = component.create();
     State.prototype.$super = parent;

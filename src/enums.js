@@ -1,4 +1,4 @@
-define(function() {
+declare("Enums", function() {
     return {
         events: {
             notify: 1,

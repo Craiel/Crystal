@@ -1,8 +1,8 @@
-define(function(require) {
-	var log = require("log");
-	var game = require("game");
-	var data = require("data");
-    var element = require("ui/controls/element");
+declare("ViewSynthesize", function() {
+	include("Log");
+	include("Game");
+	include("Data");
+	include("Element");
         
     ViewSynthesize.prototype = element.create();
     ViewSynthesize.prototype.$super = parent;
