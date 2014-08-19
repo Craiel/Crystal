@@ -1,7 +1,8 @@
 ﻿namespace CrystalBuild
 {
+    using System;
     using System.Collections.Generic;
-    using System.IO;
+    using System.Diagnostics;
 
     using CarbonCore.Utils;
     using CarbonCore.Utils.Contracts.IoC;
@@ -17,6 +18,9 @@
         private readonly IBuildLogic logic;
 
         private CarbonFile configFileName;
+
+        private bool useDebug;
+        private bool useClosure;
 
         // -------------------------------------------------------------------
         // Constructor
@@ -87,7 +91,25 @@
                 IList<CarbonFileResult> files = CarbonDirectory.GetFiles(filters);
                 if (files.Count > 0)
                 {
-                    this.logic.Build(files, this.config.Current.ProjectRoot.ToFile(this.config.Current.SourceTarget));
+                    CarbonFile targetFile = this.config.Current.ProjectRoot.ToFile(this.config.Current.SourceTarget);
+                    CarbonFile targetFileClosure = targetFile;
+                    if (this.useClosure)
+                    {
+                        targetFile = targetFile.GetDirectory().ToFile(targetFile.FileNameWithoutExtension + "_raw.js");
+                    }
+
+                    this.logic.Build(files, targetFile, this.useDebug);
+
+                    if (this.useClosure)
+                    {
+                        var info = new ProcessStartInfo("java.exe", string.Format(Constants.ClosureCompilerCommand, RuntimeInfo.Assembly.GetDirectory().ToRelative<CarbonDirectory>(RuntimeInfo.WorkingDirectory), targetFile, targetFileClosure, RuntimeInfo.WorkingDirectory.ToFile("externs.js")))
+                                       {
+                                           UseShellExecute = false,
+                                           WorkingDirectory = RuntimeInfo.WorkingDirectory.ToString()
+                                       };
+                        var proc = Process.Start(info);
+                        proc.WaitForExit();
+                    }
                 }
                 else
                 {
@@ -129,6 +151,12 @@
             ICommandLineSwitchDefinition definition = this.arguments.Define("p", "projectFile", x => this.configFileName = new CarbonFile(x));
             definition.RequireArgument = true;
             definition.Description = "The project file to compile";
+
+            definition = this.arguments.Define("d", "debug", x => this.useDebug = true);
+            definition.Description = "Build with debug info enabled";
+
+            definition = this.arguments.Define("c", "closure", x => this.useClosure = true);
+            definition.Description = "Run closure on the target script file";
         }
     }
 }

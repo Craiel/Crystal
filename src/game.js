@@ -8,6 +8,7 @@ declare("Game", function() {
 	include("Log");
 	include("Component");
 	include("GameModuleSynthesize");
+	include("SaveKeys");
         
     Game.prototype = component.create();
     Game.prototype.$super = parent;
@@ -71,8 +72,8 @@ declare("Game", function() {
         this.checkVersion = function() {            
             // If the saved version is below the force threshold we reset automatically
             var updateSaveVersion = false;
-            if(settings.savedVersion < gameState.versionForceReset) {
-                log.warning(StrLoc("Saved version is too old ({0}), forcing reset to {1}!").format(settings.savedVersion, gameState.version));
+            if(settings[saveKeys.idnSavedVersion] < gameState.versionForceReset) {
+                log.warning(StrLoc("Saved version is too old ({0}), forcing reset to {1}!").format(settings[saveKeys.idnSavedVersion], gameState.version));
                 save.reset();
                 
                 // Reset the state to default before the load
@@ -80,15 +81,15 @@ declare("Game", function() {
                 
                 gameState.resetForced = true;
                 updateSaveVersion = true;
-            } else if (settings.savedVersion < gameState.versionRecommendReset) {
-            	log.warning(StrLoc("Saved version is out of date ({0}), recommending reset to {1}!").format(settings.savedVersion, gameState.version));
+            } else if (settings[saveKeys.idnSavedVersion] < gameState.versionRecommendReset) {
+            	log.warning(StrLoc("Saved version is out of date ({0}), recommending reset to {1}!").format(settings[saveKeys.idnSavedVersion], gameState.version));
             	gameState.resetRecommended = true;
             } else {
             	updateSaveVersion = true;
             }
             
             if(updateSaveVersion === true) {
-            	settings.savedVersion = gameState.version;            	
+            	settings[saveKeys.idnSavedVersion] = gameState.version;            	
             }
         };
         
@@ -115,11 +116,11 @@ declare("Game", function() {
         
         this.updateAutoSave = function(currentTime) {
             
-            if(!settings.autoSaveEnabled) {
+            if(settings[saveKeys.idnAutoSaveEnabled] === false) {
                 return;
             }
             
-            if(currentTime.getTime() - gameState.lastAutoSave < settings.autoSaveInterval) {
+            if(currentTime.getTime() - gameState.lastAutoSave < settings[saveKeys.idnAutoSaveInterval]) {
                 return;
             }
             
@@ -129,7 +130,7 @@ declare("Game", function() {
         };
         
         this.getActiveModuleType = function() {
-        	return settings.activeModule;
+        	return settings[saveKeys.idnActiveModule];
         };
         
         this.getModule = function(moduleType) {
@@ -170,16 +171,16 @@ declare("Game", function() {
         	var module = this.gameModules[moduleType];
         	module.isActive = true;
         	
-        	settings.activeModule = moduleType;
+        	settings[saveKeys.idnActiveModule] = moduleType;
         };
         
         this.deactivateModule = function() {
-        	if(settings.activeModule === data.EnumModuleSynthesize) {
+        	if(settings[saveKeys.idnActiveModule] === data.EnumModuleSynthesize) {
         		log.warning(StrLoc("Can not deactivate Synthesize module!"));
         		return;
         	}
         	
-        	var module = this.gameModules[settings.activeModule];
+        	var module = this.gameModules[settings[saveKeys.idnActiveModule]];
         	module.isActive = false;
         	
         	// Deactivating any module will default to synthesize since it's always enabled

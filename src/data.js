@@ -58,7 +58,7 @@ declare("Data", function() {
         	1: { id: 'manual', name: 'Manual' },
         	2: { id: 'manualCrit', name: 'Manual crit' },
         	3: { id: 'auto', name: 'Auto' },
-        	4: { id: 'autoCrit', name: 'Auto crit' },
+        	4: { id: 'autoCrit', name: 'Auto crit' }
         };
         
         this.EnumValueGainUndefined = 0;

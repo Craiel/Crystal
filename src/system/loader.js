@@ -2,6 +2,7 @@ var loader = new Loader();
 declare = function(name, content) { loader.declare(name, content); };
 include = function(name) { return loader.include(name); };
 
+/** @constructor */
 function Loader(nameSpace) {
 	
 	this.instances = {};
@@ -24,7 +25,6 @@ function Loader(nameSpace) {
 			if(name === '$') {
 				this.instances[name] = this.declarations[name](this.include);
 			} else {
-				console.log("Bringing up instance of " + name);
 				this.instances[name] = new this.declarations[name](this.include);				
 			}
 		}

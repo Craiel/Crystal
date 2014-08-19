@@ -58,12 +58,12 @@ declare("OptionsPanel", function() {
         // ---------------------------------------------------------------------------
         // control panel functions
         // ---------------------------------------------------------------------------
-        this.addOption = function(id, stateSetting, arguments) {
+        this.addOption = function(id, stateSetting, parameters) {
             assert.isDefined(this.getMainElement(), StrLoc("addOption must be called after init"));
             assert.isDefined(stateSetting);
             
             var buttonIcon = data.iconPlaceholder;
-            if(arguments !== undefined) {
+            if(parameters !== undefined) {
             	if(buttonIcon === undefined) {
             		buttonIcon = data.iconPlaceholder;
             	}

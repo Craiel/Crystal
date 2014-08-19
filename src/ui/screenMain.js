@@ -3,6 +3,7 @@ declare("ScreenMain", function() {
 	include("Game");
 	include("Settings");
 	include("Screen");
+	include("SaveKeys");
 	include("Element");
 	include("Panel");
 	include('PluginBar');
@@ -73,9 +74,9 @@ declare("ScreenMain", function() {
             // Setup the control panel on top of the options pane and add the options to it
             this.optionsPanel = optionsPanel.create("OptionsPanel");
             this.optionsPanel.init(this);
-            this.optionsPanel.addOption("CPOStatistics", "optionStatisticsActive");
-            this.optionsPanel.addOption("CPOEquipment", "optionEquipmentActive");
-            this.optionsPanel.addOption("CPOInventory", "optionInventoryActive");
+            this.optionsPanel.addOption("CPOStatistics", saveKeys.idnOptionStatisticsActive);
+            this.optionsPanel.addOption("CPOEquipment", saveKeys.idnOptionEquipmentActive);
+            this.optionsPanel.addOption("CPOInventory", saveKeys.idnOptionInventoryActive);
             
             this.statisticsView = viewStatistics.create('ViewStatistics');
             this.statisticsView.init(null);
@@ -115,12 +116,12 @@ declare("ScreenMain", function() {
         // screen functions
         // ---------------------------------------------------------------------------        
         this.updateStatistics = function(currentTime) {
-        	if (settings.optionStatisticsActive === true) {
+        	if (settings[saveKeys.idnOptionStatisticsActive] === true) {
         		if(this.statisticsFrame === undefined) {
         			var optionPanel = panel.create(this.statisticsView.id + "Panel");
         			optionPanel.init(this.optionsContent);
         			optionPanel.setContent(this.statisticsView);
-        			optionPanel.onClose = function() { settings.optionStatisticsActive = !settings.optionStatisticsActive; };
+        			optionPanel.onClose = function() { settings[saveKeys.idnOptionStatisticsActive] = !settings[saveKeys.idnOptionStatisticsActive]; };
         			this.statisticsFrame = optionPanel;
         		}
         		
@@ -134,12 +135,12 @@ declare("ScreenMain", function() {
         };
         
         this.updateEquipment = function(currentTime) {
-            if (settings.optionEquipmentActive === true) {
+            if (settings[saveKeys.idnOptionEquipmentActive] === true) {
                 if(this.equipmentFrame === undefined) {
                     var optionPanel = panel.create(this.equipmentView.id + "Panel");
                     optionPanel.init(this.optionsContent);
                     optionPanel.setContent(this.equipmentView);
-                    optionPanel.onClose = function() { settings.optionEquipmentActive = !settings.optionEquipmentActive; };
+                    optionPanel.onClose = function() { settings[saveKeys.idnOptionEquipmentActive] = !settings[saveKeys.idnOptionEquipmentActive]; };
                     this.equipmentFrame = optionPanel;
                 }
                 
@@ -153,12 +154,12 @@ declare("ScreenMain", function() {
         };
         
         this.updateInventory = function(currentTime) {
-            if (settings.optionInventoryActive === true) {
+            if (settings[saveKeys.idnOptionInventoryActive] === true) {
                 if(this.inventoryFrame === undefined) {
                     var optionPanel = panel.create(this.inventoryView.id + "Panel");
                     optionPanel.init(this.optionsContent);
                     optionPanel.setContent(this.inventoryView);
-                    optionPanel.onClose = function() { settings.optionInventoryActive = !settings.optionInventoryActive; };
+                    optionPanel.onClose = function() { settings[saveKeys.idnOptionInventoryActive] = !settings[saveKeys.idnOptionInventoryActive]; };
                     this.inventoryFrame = optionPanel;
                 }
                 

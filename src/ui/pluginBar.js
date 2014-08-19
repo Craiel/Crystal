@@ -43,7 +43,7 @@ declare("PluginBar", function() {
         // ---------------------------------------------------------------------------
         // bar functions
         // ---------------------------------------------------------------------------
-        this.addPlugin = function(pluginDefinition, arguments) {
+        this.addPlugin = function(pluginDefinition, parameters) {
             assert.isDefined(this.getMainElement(), StrLoc("addPlugin must be called after init"));
             assert.isDefined(pluginDefinition, StrLoc("addPlugin called without content"));
             

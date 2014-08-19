@@ -2,6 +2,7 @@ declare("GameModule", function() {
 	include("Save");
 	include("Log");
 	include("Component");
+	include("SaveKeys");
     
     GameModule.prototype = component.create();
     GameModule.prototype.$super = parent;
@@ -21,13 +22,13 @@ declare("GameModule", function() {
         // ---------------------------------------------------------------------------
         this.init = function(parent, attributes) {
         	this.componentInit();
+        	        	
+        	save.register(this, saveKeys.idnIsUnlocked).asBool();
+        	save.register(this, saveKeys.idnIsActive).asBool();
         	
-        	save.register(this, StrSha('isUnlocked')).asBool();
-        	save.register(this, StrSha('isActive')).asBool();
-        	
-        	save.register(this, StrSha('xp')).asNumber(0);
-        	save.register(this, StrSha('level')).asNumber(1);
-        	save.register(this, StrSha('multiplier')).asFloat(1.0);
+        	save.register(this, saveKeys.idnXp).asNumber(0);
+        	save.register(this, saveKeys.idnLevel).asNumber(1);
+        	save.register(this, saveKeys.idnMultiplier).asFloat(1.0);
         };
         
         this.update = function(currentTime) {
@@ -35,7 +36,7 @@ declare("GameModule", function() {
         		return false;
         	}
         	
-        	if(this.isUnlocked === false || this.isActive === false) {
+        	if(this[this.idnIsUnlocked] === false || this[saveKeys.idnIsActive] === false) {
         		return false;
         	}
         	

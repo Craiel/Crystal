@@ -270,6 +270,17 @@ declare("Save", function(require) {
             // Clear out the hosts value on register
             host[name] = undefined;
             
+            // Create a setter and getter method
+            var capitalName = utils.capitalizeString(name);
+            var getterName = 'get' + capitalName;
+            var setterName = 'set' + capitalName;
+            
+            assert.isUndefined(host[getterName]);
+            assert.isUndefined(host[setterName]);
+
+            host[getterName] = function(host, name) { return host[name]; }.bind(undefined, host, name);
+            host[setterName] = function(host, name, value) { host[name] = value; }.bind(undefined, host, name);
+            
             var mapping = new SaveMapping(host, name);
             this.mappings.push(mapping);
             return mapping;

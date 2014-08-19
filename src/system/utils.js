@@ -75,6 +75,10 @@ declare("Utils", function() {
             return new Error().stack;
         };
         
+        this.capitalizeString = function(value) {
+        	return value.charAt(0).toUpperCase() + value.slice(1);
+        };
+        
         // ---------------------------------------------------------------------------
         // element and jquery functions
         // ---------------------------------------------------------------------------
@@ -261,7 +265,7 @@ declare("Utils", function() {
                                                         ]),
                 'shortName': this.formatEveryThirdPower(['', StrLoc(' M'), StrLoc(' B'), StrLoc(' T'), StrLoc(' Qa'), StrLoc(' Qi'), StrLoc(' Sx'),StrLoc(' Sp'), StrLoc(' Oc'), StrLoc(' No'), StrLoc(' De') ]),
                 'shortName2': this.formatEveryThirdPower(['', StrLoc(' M'), StrLoc(' G'), StrLoc(' T'), StrLoc(' P'), StrLoc(' E'), StrLoc(' Z'), StrLoc(' Y')]),
-                'scientific': this.formatScientificNotation,
+                'scientific': this.formatScientificNotation
         };
         
         // ---------------------------------------------------------------------------

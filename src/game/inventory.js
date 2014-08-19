@@ -50,10 +50,10 @@ declare("Inventory", function() {
         while(found === false) {
             assert.isFalse(self.nextFreeSlot >= self.allocationLimit, StrLoc("Slot count reached allocation limit: {0} >= {1}").format(self.nextFreeSlot, self.allocationLimit));
             
-            if(self.itemSlots.length <= self.nextFreeSlot) {
+            if(self[this.idnItemSlots].length <= self.nextFreeSlot) {
                 // Allocate a new set of slots, we reached the end
                 for(var i = 0; i < self.allocationCount; i++) {
-                    self.itemSlots.push(this.newSlot());
+                    self[self.idnItemSlots].push(self.newSlot());
                 };
             }
             
@@ -68,8 +68,8 @@ declare("Inventory", function() {
     
     this.rebuildSlotMap = function(self) {
         self.itemSlotMap = {};
-        for(var i = 0; i < self.itemSlots.length; i++) {
-            var itemId = self.itemSlots[i].id;
+        for(var i = 0; i < self[self.idnItemSlots].length; i++) {
+            var itemId = self[self.idnItemSlots][i].id;
             if(itemId === undefined) {
                 continue;
             }
@@ -94,7 +94,8 @@ declare("Inventory", function() {
         this.allocationLimit = 1000; // Hard-limit the inventory to 1k slots for now
         
         // Items are stored in a slot like system as a 2 dim array with [id, count]
-        save.register(this, StrSha('itemSlots')).asJsonArray().withCallback(false, true, true);
+        this.idnItemSlots = StrSha('itemSlots');
+        save.register(this, this.idnItemSlots).asJsonArray().withCallback(false, true, true);
         this.itemSlotMap = {};
         this.nextFreeSlot = 0;
         
@@ -213,9 +214,9 @@ declare("Inventory", function() {
         };
         
         this.getSlotAt = function(index) {
-            assert.isTrue(index >= 0 && index < this.itemSlots.length);
+            assert.isTrue(index >= 0 && index < this[this.idnItemSlots].length);
             
-            return this.itemSlots[index];
+            return this[this.idnItemSlots][index];
         };
         
         this.hasItem = function(id)

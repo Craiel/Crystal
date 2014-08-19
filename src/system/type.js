@@ -57,7 +57,7 @@ declare("Type", function() {
         
         this.getDefaultValueByType = function(type) {
             switch(type) {
-                case this.EnumDataTypeString: undefined;
+                case this.EnumDataTypeString: return undefined;
                 case this.EnumDataTypeNumber: return 0;
                 case this.EnumDataTypeFloat: return 0.0;
                 case this.EnumDataTypeBool: return false;

@@ -20,18 +20,27 @@ declare("GameModuleSynthesize", function() {
     	this.manualCount = 0;
         this.manualInterval = 250;
         this.manualTime = undefined;
+        
+        this.idnLastAuthoSynthesize = StrSha('lastAutoSynthesize');
+        this.idnAutoInterval = StrSha('autoInterval');
+        this.idnBasePerAuto = StrSha('basePerAuto');
+        this.idnBasePerManual = StrSha('basePerManual');
+        this.idnManualLimit = StrSha('manualLimit');
+        this.idnCurrency = StrSha('currency');
+        this.idnPower = StrSha('power');        
+        this.idnUpgradeState = StrSha('upgradeState');
+        this.idnBuildingCount = StrSha('buildingCount');
     	
-    	save.register(this, StrSha('lastAutoSynthesize')).asNumber(0);
+    	save.register(this, this.idnLastAuthoSynthesize).asNumber(0);    	
+    	save.register(this, this.idnAutoInterval).asNumber(60000);
+    	save.register(this, this.idnBasePerAuto).asNumber(0);
+    	save.register(this, this.idnBasePerManual).asNumber(1);
+    	save.register(this, this.idnManualLimit).asNumber(15);
+    	save.register(this, this.idnCurrency).asNumber(0);
+    	save.register(this, this.idnPower).asNumber(10);
     	
-    	save.register(this, StrSha('autoInterval')).asNumber(60000);
-    	save.register(this, StrSha('basePerAuto')).asNumber(0);
-    	save.register(this, StrSha('basePerManual')).asNumber(1);
-    	save.register(this, StrSha('manualLimit')).asNumber(15);
-    	save.register(this, StrSha('currency')).asNumber(0);
-    	save.register(this, StrSha('power')).asNumber(10);
-    	
-    	save.register(this, StrSha('upgradeState')).asJsonArray().withCallback(false, true, true);
-    	save.register(this, StrSha('buildingCount')).asJsonArray().withCallback(false, true, true);
+    	save.register(this, this.idnUpgradeState).asJsonArray().withCallback(false, true, true);
+    	save.register(this, this.idnBuildingCount).asJsonArray().withCallback(false, true, true);
     	
     	// ---------------------------------------------------------------------------
         // overrides
@@ -56,8 +65,8 @@ declare("GameModuleSynthesize", function() {
         	}
         	
         	// Check and perform the auto synthesize
-        	if(this.lastAutoSynthesize === undefined || this.lastAutoSynthesize + this.autoInterval <= currentTime.getTime()) {
-        		this.lastAutoSynthesize = currentTime.getTime();
+        	if(this[this.idnLastAuthoSynthesize] === undefined || this[this.idnLastAuthoSynthesize] + this[this.idnAutoInterval] <= currentTime.getTime()) {
+        		this[this.idnLastAuthoSynthesize] = currentTime.getTime();
         		this.autoSynthesize();
         	}
         	
@@ -75,7 +84,7 @@ declare("GameModuleSynthesize", function() {
         // synth functions
         // ---------------------------------------------------------------------------
         this.autoSynthesize = function() {
-        	var value = this.basePerAuto * this.multiplier;
+        	var value = this[this.idnBasePerAuto] * this[this.idnMultiplier];
         	
         	// Todo: apply bonus etc        	
         	
@@ -85,11 +94,11 @@ declare("GameModuleSynthesize", function() {
         };
         
         this.manualSynthesize = function() {
-        	if(this.manualCount >= this.manualLimit) {
+        	if(this.manualCount >= this[this.idnManualLimit]) {
         		return;
         	}
         	
-        	var value = this.basePerManual * this.multiplier;
+        	var value = this[this.idnBasePerManual] * this[this.idnMultiplier];
         	
         	settings.addStat(data.EnumStatSynthManualGain, value);
         	settings.addStat(data.EnumStatSynthManual);
@@ -114,7 +123,7 @@ declare("GameModuleSynthesize", function() {
         		valueGainType = data.EnumValueGainUndefined;
         	}
         	
-        	this.currency = mathExtension.safeAdd(this.currency, value);
+        	this.currency = mathExtension.safeAdd(this[this.idnCurrency], value);
         	this.currentSynthesizeResults.push({value: value, gainType: valueGainType});
         };
     }

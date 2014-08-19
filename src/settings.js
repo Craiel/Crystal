@@ -3,6 +3,7 @@ declare("Settings", function() {
     include("Utils");
     include("Assert");
     include("Statistics");
+    include("SaveKeys");
     
     // ---------------------------------------------------------------------------
     // settings object
@@ -14,24 +15,24 @@ declare("Settings", function() {
         this.totalStats = statistics.create(this.id + '_t', true);
         
         this.sessionStats = statistics.create(this.id + '_s');
-    
-        save.register(this, StrSha('isNewGame')).asBool(true);
         
-        save.register(this, StrSha('autoSaveEnabled')).asBool(true).persistent();
-        save.register(this, StrSha('autoSaveInterval')).asNumber(60 * 1000).persistent();
+        save.register(this, saveKeys.idnIsNewGame).asBool(true);
         
-        save.register(this, StrSha('savedVersion')).asFloat().persistent();
+        save.register(this, saveKeys.idnAutoSaveEnabled).asBool(true).persistent();
+        save.register(this, saveKeys.idnAutoSaveInterval).asNumber(60 * 1000).persistent();
         
-        save.register(this, StrSha('numberFormatter')).withDefault('raw').persistent();
+        save.register(this, saveKeys.idnSavedVersion).asFloat().persistent();
         
-        save.register(this, StrSha('use24hourTime')).asBool(true).persistent();
+        save.register(this, saveKeys.idnNumberFormatter).withDefault('raw').persistent();
         
-        save.register(this, StrSha('activeModule')).asNumber();
+        save.register(this, saveKeys.idnUse24HourTime).asBool(true).persistent();
+        
+        save.register(this, saveKeys.idnActiveModule).asNumber();
         
         // UI Settings
-        save.register(this, StrSha('optionStatisticsActive')).asBool();
-        save.register(this, StrSha('optionEquipmentActive')).asBool();
-        save.register(this, StrSha('optionInventoryActive')).asBool();
+        save.register(this, saveKeys.idnOptionStatisticsActive).asBool();
+        save.register(this, saveKeys.idnOptionEquipmentActive).asBool();
+        save.register(this, saveKeys.idnOptionInventoryActive).asBool();
     
         // ---------------------------------------------------------------------------
         // stats
@@ -49,10 +50,10 @@ declare("Settings", function() {
             return this.totalStats[key];
         };
         
-        this.getNumberFormatter = function() {
-            assert.isDefined(this.numberFormatter);
-            assert.isDefined(utils.formatters[this.numberFormatter]);
-            return utils.formatters[this.numberFormatter];
+        this.getCurrentNumberFormatter = function() {
+            assert.isDefined(this[saveKeys.idnNumberFormatter]);
+            assert.isDefined(utils.formatters[this[saveKeys.idnNumberFormatter]]);
+            return utils.formatters[this[saveKeys.idnNumberFormatter]];
         };
     };
     

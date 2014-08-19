@@ -4,6 +4,7 @@ declare("PluginTime", function() {
 	include("Settings");
 	include("Element");
 	include("PluginBar");
+	include("SaveKeys");
     
     PluginTime.prototype = element.create();
     PluginTime.prototype.$super = parent;
@@ -37,7 +38,7 @@ declare("PluginTime", function() {
             // Update the time
             var host = this.getMainElement();
             var localTime = currentTime.getTime(true);
-            var timeString = utils.getTimeDisplay(localTime, settings.use24hourTime);
+            var timeString = utils.getTimeDisplay(localTime, settings[saveKeys.idnUse24HourTime]);
             host.find('div').text(timeString);
         };
     };

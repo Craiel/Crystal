@@ -1,6 +1,6 @@
 // set the main namespace
 Crystal = {
-		isDebug: true,
+		isDebug: false,
         componentUpdateList: [],
         componentUpdateCount: 0,
         componentInitCount: 0,
@@ -10,17 +10,16 @@ Crystal = {
         }
 };
 
-// Implement some handlers in debug mode
-if(Crystal.isDebug) {
-	var StrLoc = function(str) {
-		return str;
-	};
-	var StrSha = function(str) {
-		return str;
-	};
-	var require = function() {
-		
-	};
-}
+var StrLoc = function(str) {
+	return str;
+};
+
+// #IfDebug
+Crystal.isDebug = true;
+
+var StrSha = function(str) {
+	return str;
+};
+// #EndIf
 
 declare("$", jQuery);

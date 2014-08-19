@@ -8,8 +8,8 @@ declare("SynthesizeContent", function() { return {
 			costMultiplier: 0.2,
 			forManual: true,
 			effects: {
-				gainIncrease: 1,
-			},
+				gainIncrease: 1
+			}
 		},
 		1: {
 			id: 'basicReactor',
@@ -17,8 +17,8 @@ declare("SynthesizeContent", function() { return {
 			baseCost: 100,
 			costMultiplier: 0.5,
 			effects: {
-				powerIncrease: 50,
-			},
+				powerIncrease: 50
+			}
 		},
 		2: {
 			id: 'basicAssembler',
@@ -27,7 +27,7 @@ declare("SynthesizeContent", function() { return {
 			costMultiplier: 0.2,
 			effects: {
 				gainIncrease: 1,
-				powerDecrease: 5,
+				powerDecrease: 5
 			}
 		},
 		3: {
@@ -38,7 +38,7 @@ declare("SynthesizeContent", function() { return {
 			effects: {
 				intervalDecreasePercent: 5,
 				gainIncreasePercent: 1,
-				powerDecrease: 2,
+				powerDecrease: 2
 			}
 		}
 	},
@@ -54,14 +54,14 @@ declare("SynthesizeContent", function() { return {
 					id: 'implantAugmentationPower',
 					name: 'Power',
 					effects: {
-						gainIncrease: 1,
+						gainIncrease: 1
 					}
 				},
 				1: {
 					id: 'implantAugmentationConstruction',
 					name: 'Construction',
 					effects: {
-						costDecreasePercent: 10,
+						costDecreasePercent: 10
 					}
 				}
 			}
@@ -76,16 +76,16 @@ declare("SynthesizeContent", function() { return {
 					id: 'reactorAugmentationPower',
 					name: 'Power',
 					effects: {
-						powerIncrease: 1,
+						powerIncrease: 1
 					}
 				},
 				1: {
 					id: 'reactorAugmentationConstruction',
 					name: 'Construction',
 					effects: {
-						costDecreasePercent: 10,
+						costDecreasePercent: 10
 					}
-				},
+				}
 			}
 		},
 		2: {
@@ -98,25 +98,25 @@ declare("SynthesizeContent", function() { return {
 					id: 'assemblerAugmentationPower',
 					name: 'Power',
 					effects: {
-						gainIncrease: 1,
+						gainIncrease: 1
 					}
 				},
 				1: {
 					id: 'reactorAugmentationConstruction',
 					name: 'Construction',
 					effects: {
-						costDecreasePercent: 10,
+						costDecreasePercent: 10
 					}
 				},
 				2: {
 					id: 'reactorAugmentationEfficiency',
 					name: 'Efficiency',
 					effects: {
-						powerIncrease: 2,
+						powerIncrease: 2
 					}
-				},
+				}
 			}			
 		}
-	},
+	}
 	
 }; });

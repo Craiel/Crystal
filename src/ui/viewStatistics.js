@@ -5,14 +5,15 @@ declare("ViewStatistics", function() {
 	include("Data");
 	include("Element");
 	include("Settings");
+	include("SaveKeys");
 	include("TemplateProvider");
         
     var getStatDisplayFormatter = function(key) {
         switch(key) {
-            case data.EnumAutoSaveCount: return settings.getNumberFormatter();
-            case data.EnumStatGameLoadCount: return settings.getNumberFormatter();
+            case data.EnumAutoSaveCount: return settings[saveKeys.idnNumberFormatter];
+            case data.EnumStatGameLoadCount: return settings[saveKeys.idnNumberFormatter];
             case data.EnumStatPlayTime: return function(n) { return utils.getDurationDisplay(n); };
-            case data.EnumStatSessionCount: return settings.getNumberFormatter();
+            case data.EnumStatSessionCount: return settings[saveKeys.idnNumberFormatter];
             default: return utils.formatRaw;
         }
     };

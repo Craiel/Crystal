@@ -2,6 +2,7 @@ declare("GameState", function() {
 	include('Save');
 	include('GameTime');
 	include('Component');
+	include('SaveKeys');
     
     State.prototype = component.create();
     State.prototype.$super = parent;
@@ -13,9 +14,9 @@ declare("GameState", function() {
         this.gameTime = gameTime.create();
         
         this.title = StrLoc("Crystal");
-        this.version = 0.2;
-        this.versionForceReset = 0.2;
-        this.versionRecommendReset = 0.2;
+        this.version = 0.3;
+        this.versionForceReset = 0.3;
+        this.versionRecommendReset = 0.3;
         
         this.lastAutoSave = this.gameTime.getTime();
         
@@ -27,18 +28,17 @@ declare("GameState", function() {
         this.fps = 0;
         
         this.isPaused = false;
+                
+        save.register(this, saveKeys.idnGameActive).asBool();
         
-        // saved game states
-        save.register(this, StrSha('gameActive')).asBool();
+        save.register(this, saveKeys.idnEterniumCrystals).asNumber().persistent(); // Prestige crystals
         
-        save.register(this, StrSha('eterniumCrystals')).asNumber().persistent(); // Prestige crystals
+        save.register(this, saveKeys.idnCoreXP).asNumber();
+        save.register(this, saveKeys.idnCoreLevel).asNumber(); // core level of the session
+        save.register(this, saveKeys.idnCredits).asNumber(); // base currency for everything
         
-        save.register(this, StrSha('coreXP')).asNumber();
-        save.register(this, StrSha('coreLevel')).asNumber(); // core level of the session
-        save.register(this, StrSha('credits')).asNumber(); // base currency for everything
-        
-        save.register(this, StrSha('globalCoreXPMultiplier')).asNumber();
-        save.register(this, StrSha('globalCreditMultiplier')).asNumber();
+        save.register(this, saveKeys.idnGlobalCoreXPMultiplier).asNumber();
+        save.register(this, saveKeys.idnGlobalCreditMultiplier).asNumber();
     };
     
     return new State();

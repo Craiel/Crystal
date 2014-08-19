@@ -1,14 +1,15 @@
 declare("Statistics", function() {
 	include("Save");
     include("Assert");
+    include("SaveKeys");
     
     // ---------------------------------------------------------------------------
     // statistic object
     // ---------------------------------------------------------------------------
     function Statistics(id, persistent) {
         this.id = id;
-        
-        var mapping = save.register(this, StrSha('stats')).asJson();
+                
+        var mapping = save.register(this, saveKeys.idnStats).asJson();
         if(persistent) {
             mapping.persistent();
         }
@@ -25,15 +26,15 @@ declare("Statistics", function() {
                 assert.isNumber(count);
             }
             
-            if(this.stats[key] === undefined) {
-                this.stats[key] = 0;
+            if(this[saveKeys.idnStats][key] === undefined) {
+                this[saveKeys.idnStats][key] = 0;
             }
             
-            this.stats[key] += count;
+            this[saveKeys.idnStats][key] += count;
         };
         
         this.get = function(key) {
-            return this.stats[key];
+            return this[saveKeys.idnStats][key];
         };
     };
     

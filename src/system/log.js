@@ -6,7 +6,7 @@ declare("Log", function() {
             debug : 1,
             info : 2,
             error : 3,
-            warning: 4,
+            warning: 4
         };
     
     var getLevelDisplay = function(targetLevel) {
