@@ -1,6 +1,5 @@
 ﻿namespace CrystalBuild
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
 
@@ -67,7 +66,7 @@
                 }
                 else
                 {
-                    System.Diagnostics.Trace.TraceWarning("No data found to build!");
+                    Trace.TraceWarning("No data found to build!");
                 }
             }
 
@@ -81,7 +80,7 @@
                 }
                 else
                 {
-                    System.Diagnostics.Trace.TraceWarning("No templates found to build!");
+                    Trace.TraceWarning("No templates found to build!");
                 }
             }
 
@@ -113,7 +112,7 @@
                 }
                 else
                 {
-                    System.Diagnostics.Trace.TraceWarning("No source files found to build!");
+                    Trace.TraceWarning("No source files found to build!");
                 }
             }
 
@@ -127,7 +126,7 @@
                 }
                 else
                 {
-                    System.Diagnostics.Trace.TraceWarning("No templates found to build!");
+                    Trace.TraceWarning("No templates found to build!");
                 }
             }
 
@@ -141,7 +140,7 @@
                 }
                 else
                 {
-                    System.Diagnostics.Trace.TraceWarning("No content files found to copy!");
+                    Trace.TraceWarning("No content files found to copy!");
                 }
             }
         }

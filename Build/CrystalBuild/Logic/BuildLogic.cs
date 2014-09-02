@@ -39,7 +39,7 @@
             target.GetDirectory().Create();
             using (FileStream stream = target.OpenCreate())
             {
-                using (var writer = new StreamWriter(stream))
+                using (var writer = new StreamWriter(stream, Encoding.UTF8, 4096, true))
                 {
                     writer.Write(builder.ToString());
                 }
@@ -68,7 +68,7 @@
             target.GetDirectory().Create();
             using (FileStream stream = target.OpenCreate())
             {
-                using (var writer = new StreamWriter(stream))
+                using (var writer = new StreamWriter(stream, Encoding.UTF8, 4096, true))
                 {
                     writer.Write(builder.ToString());
                 }
@@ -97,7 +97,7 @@
             target.GetDirectory().Create();
             using (FileStream stream = target.OpenCreate())
             {
-                using (var writer = new StreamWriter(stream))
+                using (var writer = new StreamWriter(stream, Encoding.UTF8, 4096, true))
                 {
                     writer.Write(builder.ToString());
                 }
