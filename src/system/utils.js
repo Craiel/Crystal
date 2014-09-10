@@ -249,7 +249,7 @@ declare("Utils", function() {
         };
         
         this.formatRaw = function(value) {
-            if(value === undefined) {
+            if(value === undefined || value === null) {
                 return "";
             }
             

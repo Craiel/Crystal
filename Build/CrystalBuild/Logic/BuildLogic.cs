@@ -126,7 +126,7 @@
                 string trimmed = line.TrimStart();
                 if (trimmed.StartsWith(@"//"))
                 {
-                    if (trimmed.Equals("// #EndIf", StringComparison.OrdinalIgnoreCase))
+                    if (trimmed.StartsWith("// #EndIf", StringComparison.OrdinalIgnoreCase))
                     {
                         processingDirectiveStack.Pop();
                     } 

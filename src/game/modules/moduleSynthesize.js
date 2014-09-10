@@ -30,6 +30,7 @@ declare("GameModuleSynthesize", function() {
         this.idnPower = StrSha('power');        
         this.idnUpgradeState = StrSha('upgradeState');
         this.idnBuildingCount = StrSha('buildingCount');
+        this.idnMultiplier = StrSha('multiplier');
     	
     	save.register(this, this.idnLastAuthoSynthesize).asNumber(0);    	
     	save.register(this, this.idnAutoInterval).asNumber(60000);
@@ -38,6 +39,7 @@ declare("GameModuleSynthesize", function() {
     	save.register(this, this.idnManualLimit).asNumber(15);
     	save.register(this, this.idnCurrency).asNumber(0);
     	save.register(this, this.idnPower).asNumber(10);
+    	save.register(this, this.idnMultiplier).asFloat(1.0);
     	
     	save.register(this, this.idnUpgradeState).asJsonArray().withCallback(false, true, true);
     	save.register(this, this.idnBuildingCount).asJsonArray().withCallback(false, true, true);
@@ -115,7 +117,7 @@ declare("GameModuleSynthesize", function() {
         };
         
         this.addSynthesizeResult = function(value, valueGainType) {
-        	if(value === undefined || value <= 0) {
+        	if(value === undefined || value <= 0 || isNaN(value) === true) {
         		return;
         	}
         	

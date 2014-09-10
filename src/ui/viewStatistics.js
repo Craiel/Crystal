@@ -10,10 +10,10 @@ declare("ViewStatistics", function() {
         
     var getStatDisplayFormatter = function(key) {
         switch(key) {
-            case data.EnumAutoSaveCount: return settings[saveKeys.idnNumberFormatter];
-            case data.EnumStatGameLoadCount: return settings[saveKeys.idnNumberFormatter];
+            case data.EnumAutoSaveCount: return utils.formatters[settings[saveKeys.idnNumberFormatter]];
+            case data.EnumStatGameLoadCount: return utils.formatters[settings[saveKeys.idnNumberFormatter]];
             case data.EnumStatPlayTime: return function(n) { return utils.getDurationDisplay(n); };
-            case data.EnumStatSessionCount: return settings[saveKeys.idnNumberFormatter];
+            case data.EnumStatSessionCount: return utils.formatters[settings[saveKeys.idnNumberFormatter]];
             default: return utils.formatRaw;
         }
     };
