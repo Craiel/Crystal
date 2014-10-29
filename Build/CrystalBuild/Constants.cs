@@ -33,6 +33,7 @@
         public static readonly Regex IncludeRegex = new Regex(@"\s+(include\((['""]\w+['""])\);)", RegexOptions.IgnoreCase);
         public static readonly Regex ProcessingRegex = new Regex(@"// #If([\w]+)");
         public static readonly Regex StringHashRegex = new Regex(@"\s(StrSha\(['""](.*?)['""]\))");
+        public static readonly Regex StringLocRegex = new Regex(@"\s(StrLoc\(['""](.*?)['""]\))");
 
         public static readonly CarbonDirectory DataDirectory = new CarbonDirectory("data");
         public static readonly CarbonDirectory DataCssDirectory = DataDirectory.ToDirectory("css");

@@ -5,6 +5,7 @@
 
     using CarbonCore.Utils;
     using CarbonCore.Utils.Contracts.IoC;
+    using CarbonCore.Utils.I18N;
     using CarbonCore.Utils.IO;
     using CarbonCore.UtilsCommandLine.Contracts;
 
@@ -20,6 +21,8 @@
 
         private bool useDebug;
         private bool useClosure;
+
+        private string targetLanguage;
 
         // -------------------------------------------------------------------
         // Constructor
@@ -38,17 +41,24 @@
         // -------------------------------------------------------------------
         public void Build()
         {
-            if (!this.arguments.ParseCommandLineArguments())
+            // Set the default locale to english
+            Localization.CurrentCulture = LocaleConstants.LocaleEnglishUS;
+
+            if (!this.arguments.ParseCommandLineArguments() || this.configFileName == null)
             {
                 this.arguments.PrintArgumentUse();
                 return;
             }
 
-            if (this.configFileName != null)
+            if (!string.IsNullOrEmpty(this.targetLanguage))
             {
-                this.config.Load(this.configFileName);
-                this.DoBuildProject();
+                Localization.CurrentCulture = LocaleConstants.GetCulture(this.targetLanguage);
             }
+
+            this.config.Load(this.configFileName);
+            this.DoBuildProject();
+
+            Localization.SaveDictionaries();
         }
 
         // -------------------------------------------------------------------
@@ -107,6 +117,12 @@
                                            WorkingDirectory = RuntimeInfo.WorkingDirectory.ToString()
                                        };
                         var proc = Process.Start(info);
+                        if (proc == null)
+                        {
+                            Trace.TraceError("Failed to start process: {0} {1}", info.FileName, info.Arguments);
+                            return;
+                        }
+
                         proc.WaitForExit();
                     }
                 }
@@ -156,6 +172,10 @@
 
             definition = this.arguments.Define("c", "closure", x => this.useClosure = true);
             definition.Description = "Run closure on the target script file";
+
+            definition = this.arguments.Define("l", "language", x => this.targetLanguage = x);
+            definition.RequireArgument = true;
+            definition.Description = "Set the language to build (en, fr, de ...)";
         }
     }
 }

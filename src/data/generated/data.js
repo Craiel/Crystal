@@ -1,0 +1,42 @@
+﻿declare("Data", function() { return {
+    SynthesizeBuildings: {
+        0: {
+            id: "tier1Implant",
+            name: "Basic Implant",
+            description: "#TODO#",
+            icon: "icons/placeholder.png",
+            baseCost: 10,
+            costMultiplier: 0.2,
+            forManual: true,
+            gain: 1,
+        },
+        1: {
+            id: "tier1Reactor",
+            name: "Basic Reactor",
+            description: "#TODO#",
+            icon: "icons/placeholder.png",
+            baseCost: 100,
+            costMultiplier: 0.5,
+            powerGain: 50,
+        },
+        2: {
+            id: "tier1Assembler",
+            name: "Basic Assembler",
+            description: "#TODO#",
+            icon: "icons/placeholder.png",
+            baseCost: 20,
+            costMultiplier: 0.2,
+            gain: 1,
+            powerConsumption: 5,
+        },
+        3: {
+            id: "tier1Processor",
+            name: "Basic Processor",
+            description: "#TODO#",
+            icon: "icons/placeholder.png",
+            baseCost: 200,
+            costMultiplier: 0.6,
+            powerConsumption: 2,
+        },
+    },
+}; });

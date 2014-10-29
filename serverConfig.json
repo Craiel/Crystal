@@ -1,0 +1,48 @@
+{
+  "Name": "CrystalServer",
+  "Data": [
+    {
+      "Directory": "data\\content\\",
+      "FilterStrings": [
+        "*.xlsx"
+      ]
+    }
+  ],
+  "Templates": [
+  ],
+  "Sources": [
+  	{
+      "Directory": "src\\system\\",
+      "FilterStrings": [ "system.js", "loader.js" ]
+    },
+    {
+      "Directory": "src\\",
+      "FilterStrings": [ "initServer.js" ]
+    },
+    {
+      "Directory": "src\\common",
+      "FilterStrings": [
+        "*.js"
+      ],
+      "Option": 1
+    },
+    {
+      "Directory": "src\\server",
+      "FilterStrings": [
+        "*.js"
+      ],
+      "Option": 1
+    },
+    {
+      "Directory": "src\\",
+      "FilterStrings": [ "mainServer.js" ]
+    },
+  ],
+  "StyleSheets": [
+  ],
+  "Contents": [
+  ],
+  "SourceTarget": "bin\\server\\crystalServer.js",
+  "DataTarget": "src\\data\\generated\\data.js",
+  "ContentTarget": "bin\\server\\"
+}
