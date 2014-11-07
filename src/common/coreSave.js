@@ -1,9 +1,7 @@
-declare("Save", function(require) {
-    include("$");
-    include("Enums");
+declare("CoreSave", function(require) {
     include("Log");
     include("Assert");
-    include("Utils");
+    include("CoreUtils");
     include("Type");
     
     // ---------------------------------------------------------------------------
@@ -175,7 +173,7 @@ declare("Save", function(require) {
     // ---------------------------------------------------------------------------
     // main save object
     // ---------------------------------------------------------------------------
-    function Save() {
+    function CoreSave() {
         
         this.mappings = [];
         
@@ -208,22 +206,25 @@ declare("Save", function(require) {
                 // Call the callback if present
                 mapping.callbackSave();
             }
-                    	
-            // Transfer the save into the storage slot
-        	var compressedData = utils.lzwEncode(utils.utf8Encode(JSON.stringify(data)));
-        	var storageKey = this.getStorageKey();
-        	localStorage[storageKey] = compressedData;
             
-            log.debug(StrLoc("Saved {0}  bytes, now at {1} bytes used").format(compressedData.length, this.getLocalStorageSize()));
+            // compress the save
+            var compressedData = coreUtils.lzwEncode(coreUtils.utf8Encode(JSON.stringify(data)));
+            
+            // Transfer the save into the storage slot
+            if(this.doSave(compressedData) === true)
+            {
+				log.debug(StrLoc("Saved {0}  bytes, now at {1} bytes used").format(compressedData.length, this.doGetSize()));
+			} else {
+				log.debug(StrLoc("Saving failed!"));
+			}
         };
 
         this.load = function() {
         	var data = {};
-            var storageKey = this.getStorageKey();
-            var compressedData = localStorage[storageKey];
+            var compressedData = this.doLoad();
             if(compressedData !== undefined) {
             	log.debug(StrLoc("Loaded {0} bytes").format(compressedData.length));
-            	data = JSON.parse(utils.utf8Decode(utils.lzwDecode(compressedData)));
+            	data = JSON.parse(coreUtils.utf8Decode(coreUtils.lzwDecode(compressedData)));
             }
             
             for(var i = 0; i < this.mappings.length; i++) {
@@ -241,7 +242,7 @@ declare("Save", function(require) {
                 mapping.callbackLoad();
             }
             
-            log.debug(StrLoc("Loaded {0} bytes").format(this.getLocalStorageSize()));
+            log.debug(StrLoc("Loaded {0} bytes").format(this.doGetSize()));
         };
     
         this.reset = function(fullReset) {
@@ -258,6 +259,10 @@ declare("Save", function(require) {
         // ---------------------------------------------------------------------------
         // utility functions
         // ---------------------------------------------------------------------------
+        this.doLoad = function() { log.error("doLoad not implemented!"); return undefined; };
+        this.doSave = function(data) { log.error("doSave not implemented!"); return false; };
+        this.doGetSize = function() { log.error("doGetSize not implemented!"); return 0; };
+        
         this.getStorageKey = function() {
         	return this.stateName + "_" + this.stateSlot.toString();
         };
@@ -269,39 +274,15 @@ declare("Save", function(require) {
             
             // Clear out the hosts value on register
             host[name] = undefined;
-            
-            // Create a setter and getter method
-            var capitalName = utils.capitalizeString(name);
-            var getterName = 'get' + capitalName;
-            var setterName = 'set' + capitalName;
-            
-            assert.isUndefined(host[getterName]);
-            assert.isUndefined(host[setterName]);
-
-            host[getterName] = function(host, name) { return host[name]; }.bind(undefined, host, name);
-            host[setterName] = function(host, name, value) { host[name] = value; }.bind(undefined, host, name);
-            
+                        
             var mapping = new SaveMapping(host, name);
             this.mappings.push(mapping);
             return mapping;
         };
-        
-        this.getLocalStorageSize = function() {
-            var size = 3072; // General overhead for localstorage is around 3kb
-            for(var entry in localStorage) {
-                size += (entry.length + localStorage[entry].length) * 16;
-            }
-            
-            return size;
-        };
-        
-        this.debugLocalStorage = function() {
-            for(var entry in localStorage) {
-                log.debug(entry + ": " + localStorage[entry].length);
-            }
-        };
     }
     
-    return new Save();
+    return {
+		create: function() { return new CoreSave(); }
+	};
     
 });

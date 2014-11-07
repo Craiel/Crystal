@@ -1,5 +1,6 @@
 ﻿namespace CrystalBuild
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
 
@@ -10,7 +11,7 @@
     using CarbonCore.UtilsCommandLine.Contracts;
 
     using CrystalBuild.Contracts;
-
+    
     public class Main : IMain
     {
         private readonly ICommandLineArguments arguments;
@@ -98,6 +99,28 @@
             {
                 IList<CarbonDirectoryFilter> filters = this.config.Current.Sources;
                 IList<CarbonFileResult> files = CarbonDirectory.GetFiles(filters);
+                CarbonFileResult mainFile = null;
+
+                // Now we try to find the entry point file
+                foreach (var file in files)
+                {
+                    if (file.Absolute.GetPath().EndsWith(this.config.Current.SourceMain.ToString(), StringComparison.OrdinalIgnoreCase))
+                    {
+                        mainFile = file;
+                        break;
+                    }
+                }
+
+                if (mainFile == null)
+                {
+                    Trace.TraceError("Could not find entry point: {0} ({1} files)", this.config.Current.SourceMain, files.Count);
+                    return;
+                }
+
+                // re-add the main file so it ends up as last in the block
+                files.Remove(mainFile);
+                files.Add(mainFile);
+
                 if (files.Count > 0)
                 {
                     CarbonFile targetFile = this.config.Current.ProjectRoot.ToFile(this.config.Current.SourceTarget);

@@ -18,7 +18,7 @@
   ],
   "Sources": [
   	{
-      "Directory": "src\\system\\",
+      "Directory": "src\\common\\",
       "FilterStrings": [ "system.js", "loader.js" ]
     },
     {
@@ -26,21 +26,7 @@
       "FilterStrings": [ "init.js" ]
     },
     {
-      "Directory": "src\\system\\",
-      "FilterStrings": [
-        "*.js"
-      ],
-      "Option": 1
-    },
-    {
       "Directory": "src\\common\\",
-      "FilterStrings": [
-        "*.js"
-      ],
-      "Option": 1
-    },
-    {
-      "Directory": "src\\client\\",
       "FilterStrings": [
         "*.js"
       ],
@@ -55,8 +41,11 @@
     },
     {
       "Directory": "src\\client\\",
-      "FilterStrings": [ "main.js" ]
-    },
+      "FilterStrings": [
+        "*.js"
+      ],
+      "Option": 1
+    }
   ],
   "StyleSheets": [
     {
@@ -67,7 +56,7 @@
   ],
   "Contents": [
     {
-      "Directory": "www\\",
+      "Directory": "data\\www\\",
       "FilterStrings": [
         "*"
       ]
@@ -81,6 +70,7 @@
     }
   ],
   "SourceTarget": "bin\\client\\crystal.js",
+  "SourceMain": "src\\client\\main.js",
   "TemplateTarget": "src\\data\\generated\\templates.js",
   "DataTarget": "src\\data\\generated\\data.js",
   "StyleSheetTarget": "bin\\client\\crystal.css",

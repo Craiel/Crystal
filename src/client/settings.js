@@ -1,6 +1,6 @@
 declare("Settings", function() {
     include("Save");
-    include("Utils");
+    include("CoreUtils");
     include("Assert");
     include("Statistics");
     include("SaveKeys");
@@ -52,8 +52,8 @@ declare("Settings", function() {
         
         this.getCurrentNumberFormatter = function() {
             assert.isDefined(this[saveKeys.idnNumberFormatter]);
-            assert.isDefined(utils.formatters[this[saveKeys.idnNumberFormatter]]);
-            return utils.formatters[this[saveKeys.idnNumberFormatter]];
+            assert.isDefined(coreUtils.formatters[this[saveKeys.idnNumberFormatter]]);
+            return coreUtils.formatters[this[saveKeys.idnNumberFormatter]];
         };
     };
     

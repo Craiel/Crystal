@@ -9,6 +9,16 @@ declare("Static", function() {
     function Static() {
         this.id = 'Static';
         
+        this.mouseButtons = {
+                1: { name: StrLoc('Left button') },
+                2: { name: StrLoc('Middle button') },
+                3: { name: StrLoc('Right button') },
+        };
+        
+        this.EnumMouseButtonLeft = 1;
+        this.EnumMouseButtonMiddle = 2;
+        this.EnumMouseButtonRight = 3;
+        
         this.modules = {
         		0: { id: 'Synthesize', name: StrLoc('Synthesize') },
         		1: { id: 'Base', name: StrLoc('Base') },
@@ -91,7 +101,10 @@ declare("Static", function() {
         		4: { id: 'synthAuto', name: StrLoc('Auto synthesize') },
         		5: { id: 'synthAutoResult', name: StrLoc('Auto synthesize gain') },
         		6: { id: 'synthManual', name: StrLoc('Manual synthesize') },        		
-        		7: { id: 'synthManualResult', name: StrLoc('Manual synthesize gain') }
+        		7: { id: 'synthManualResult', name: StrLoc('Manual synthesize gain') },
+        		
+        		// Server stats
+        		100001: { id: 'serverSaveCount', name: StrLoc('Server save count') }
         };
         
         this.EnumAutoSaveCount = 0;
@@ -102,6 +115,7 @@ declare("Static", function() {
         this.EnumStatSynthAutoGain = 5;
         this.EnumStatSynthManual = 6;
         this.EnumStatSynthManualGain = 7;
+        this.EnumStatServerSaveCount = 100001;
         
         this.valueGainTypes = {
         	0: { id: 'undefined', name: StrLoc('Undefined') },

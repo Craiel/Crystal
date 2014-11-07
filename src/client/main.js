@@ -4,6 +4,7 @@ Crystal.main = function() {
 	include('UserInterface');
 	include('Game');
 	include('GameState');
+	include('NetworkClient');
 
 	log.info("Initializing");
 	
@@ -17,6 +18,7 @@ Crystal.main = function() {
 	static.init();
     game.init();
     userInterface.init();
+    networkClient.init();
 
     // Set the update interval for the non-ui components
     var interval = 1000 / 60;
@@ -34,6 +36,7 @@ Crystal.main = function() {
 	    Crystal.resetFrame();
 	    static.update(gameState.gameTime);
 	    game.update(gameState.gameTime);
+	    networkClient.update(gameState.gameTime);
 	};
 	
 	function onUIUpdate() {        	

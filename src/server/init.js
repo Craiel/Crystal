@@ -16,10 +16,8 @@ var StrLoc = function(str) {
 
 // #IfDebug
 Crystal.isDebug = true;
-
-var StrSha = function(str) {
-	return str;
-};
 // #EndIf
 
-declare("$", jQuery);
+// Define the parent base class
+var parent = function() {
+};

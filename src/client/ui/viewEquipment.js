@@ -1,7 +1,6 @@
 declare("ViewEquipment", function() {
 	include("$");
 	include("Log");
-	include("Utils");
 	include("Element");
 	include("Settings");
     

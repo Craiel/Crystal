@@ -3,7 +3,6 @@ declare("Game", function() {
 	include("Settings");
 	include("Save");
 	include("Static");
-	include("Utils");
 	include("GameState");
 	include("Log");
 	include("Component");

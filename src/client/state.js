@@ -18,6 +18,8 @@ declare("GameState", function() {
         this.versionForceReset = 0.3;
         this.versionRecommendReset = 0.3;
         
+        this.session = undefined;
+        
         this.lastAutoSave = this.gameTime.getTime();
         
         this.resetForced = false;
@@ -28,7 +30,7 @@ declare("GameState", function() {
         this.fps = 0;
         
         this.isPaused = false;
-                
+        
         save.register(this, saveKeys.idnGameActive).asBool();
         
         save.register(this, saveKeys.idnEterniumCrystals).asNumber().persistent(); // Prestige crystals

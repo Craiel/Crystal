@@ -1,8 +1,7 @@
 Crystal.main = function() {
 	include('Log');
 	include('Static');
-	include('UserInterface');
-	include('Game');
+	include('Server');
 	include('GameState');
 
 	log.info("Initializing");
@@ -10,39 +9,23 @@ Crystal.main = function() {
 	// override our data root if we have it stored somewhere else
 	static.setRoot("");
 	
-	// Set the template data
-	include('TemplateProvider').SetData(include('TemplateContent'));
-	
 	// Initialize components
 	static.init();
-    game.init();
-    userInterface.init();
-
-    // Set the update interval for the non-ui components
+    server.init();
+    
+    // Set the server interval
     var interval = 1000 / 60;
     setInterval(function() {
         onUpdate();
     }, interval);
-    
-    // Set the update for the ui, we use animation frame which usually is around 60 fps but is tied to refresh rate
-    //  this is generally nicer than using setInterval for animations and UI
-    requestAnimationFrame(onUIUpdate);
-	
-	function onUpdate() {
+
+    function onUpdate() {
 		gameState.gameTime.update();
 	
-	    Crystal.resetFrame();
-	    static.update(gameState.gameTime);
-	    game.update(gameState.gameTime);
-	};
-	
-	function onUIUpdate() {        	
-		userInterface.update(gameState.gameTime);
-	    
-	    requestAnimationFrame(onUIUpdate);
+		Crystal.resetFrame();
+		static.update(gameState.gameTime);
+		server.update(gameState.gameTime);
 	};
 };
 
-$(document).ready(function() {
-	Crystal.main();
-});
+Crystal.main();

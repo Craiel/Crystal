@@ -1,5 +1,4 @@
 declare("Event", function() {
-    include("$");
 	
     function EventAggregate() {
         

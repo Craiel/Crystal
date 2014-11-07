@@ -1,7 +1,7 @@
 declare("ViewStatistics", function() {
 	include("$");
 	include("Log");
-	include("Utils");
+	include("CoreUtils");
 	include("Static");
 	include("Element");
 	include("Settings");
@@ -10,11 +10,11 @@ declare("ViewStatistics", function() {
         
     var getStatDisplayFormatter = function(key) {
         switch(key) {
-            case static.EnumAutoSaveCount: return utils.formatters[settings[saveKeys.idnNumberFormatter]];
-            case static.EnumStatGameLoadCount: return utils.formatters[settings[saveKeys.idnNumberFormatter]];
-            case static.EnumStatPlayTime: return function(n) { return utils.getDurationDisplay(n); };
-            case static.EnumStatSessionCount: return utils.formatters[settings[saveKeys.idnNumberFormatter]];
-            default: return utils.formatRaw;
+            case static.EnumAutoSaveCount: return coreUtils.formatters[settings[saveKeys.idnNumberFormatter]];
+            case static.EnumStatGameLoadCount: return coreUtils.formatters[settings[saveKeys.idnNumberFormatter]];
+            case static.EnumStatPlayTime: return function(n) { return coreUtils.getDurationDisplay(n); };
+            case static.EnumStatSessionCount: return coreUtils.formatters[settings[saveKeys.idnNumberFormatter]];
+            default: return coreUtils.formatRaw;
         }
     };
     

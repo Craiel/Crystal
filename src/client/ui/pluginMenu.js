@@ -1,6 +1,5 @@
 declare("PluginMenu", function() {
 	include("Log");
-	include("Utils");
 	include("Settings");
 	include("Element");
 	include("PluginBar");

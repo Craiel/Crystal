@@ -1,7 +1,6 @@
 declare("ViewInventory", function() {
 	include("$");
 	include("Log");
-	include("Utils");
 	include("Element");
 	include("Settings");
     

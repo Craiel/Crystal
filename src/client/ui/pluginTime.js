@@ -1,6 +1,6 @@
 declare("PluginTime", function() {
 	include("Log");
-	include("Utils");
+	include("CoreUtils");
 	include("Settings");
 	include("Element");
 	include("PluginBar");
@@ -38,7 +38,7 @@ declare("PluginTime", function() {
             // Update the time
             var host = this.getMainElement();
             var localTime = currentTime.getTime(true);
-            var timeString = utils.getTimeDisplay(localTime, settings[saveKeys.idnUse24HourTime]);
+            var timeString = coreUtils.getTimeDisplay(localTime, settings[saveKeys.idnUse24HourTime]);
             host.find('div').text(timeString);
         };
     };

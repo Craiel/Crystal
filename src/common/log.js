@@ -1,6 +1,5 @@
 declare("Log", function() {
-	include("Enums");
-	include("Utils");
+	include("CoreUtils");
         
     var level = {
             debug : 1,
@@ -36,7 +35,7 @@ declare("Log", function() {
     };
     
     var logFormat = function(time, level, message) {
-        var time = '[' + utils.getTimeDisplay(time || Date.now()) + ']: ';
+        var time = '[' + coreUtils.getTimeDisplay(time || Date.now()) + ']: ';
         var fullMessage = time + getLevelDisplay(level) + ' ' + message;
     
         switch(level) {

@@ -1,7 +1,6 @@
 declare("Element", function() {
 	include("$");
 	include("Log");
-	include("Utils");
 	include("Assert");
 	include("TemplateProvider");
 	include("Component");

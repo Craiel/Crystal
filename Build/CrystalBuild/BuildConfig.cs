@@ -19,6 +19,7 @@
         public CarbonDirectoryFilter[] Contents { get; set; }
 
         public CarbonFile SourceTarget { get; set; }
+        public CarbonFile SourceMain { get; set; }
         public CarbonFile TemplateTarget { get; set; }
         public CarbonFile DataTarget { get; set; }
         public CarbonFile StyleSheetTarget { get; set; }

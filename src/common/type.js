@@ -100,7 +100,7 @@ declare("Type", function() {
                     try {
                     	result = JSON.parse(value);
                     } catch (e) {
-                        utils.logError(StrLoc("Failed to load JSON value: {0}\n{1}").format(value, e));
+                        log.error(StrLoc("Failed to load JSON value: {0}\n{1}").format(value, e));
                         value = undefined;
                     }
                     
@@ -111,7 +111,7 @@ declare("Type", function() {
                     try {
                     	result = JSON.parse(value);
                     } catch (e) {
-                        utils.logError(StrLoc("Failed to load JSON Array value: {0}\n{1}").format(value, e));
+                        log.error(StrLoc("Failed to load JSON Array value: {0}\n{1}").format(value, e));
                         result = undefined;
                     }
                     
