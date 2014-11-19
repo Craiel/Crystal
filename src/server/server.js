@@ -13,33 +13,8 @@ declare('Server', function() {
 				var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
 				return v.toString(16);
 			});
-	}
-	
-	var serverProcessMessage = function(socket, data) {
-		var packet = network.getPacket(data);
-		log.debug("Received packet: "+packet);
-		switch(packet.command) {
-			case network.EnumCommandIdent: {
-				socket.send(network.buildPacket(network.EnumCommandIdent, serverGenerateGuid()));
-				break;
-			}
-			
-			case network.EnumCommandPing: {
-				socket.send(network.buildPacket(network.EnumCommandPing));
-				break;
-			}
-			
-			default: {
-				log.error("Received unknown command: " + packet.command);
-			}
-		};
 	};
 	
-	var serverOnConnection = function(socket) {
-		console.log('New connection');
-	    socket.on('message', function(data) { serverProcessMessage(socket, data); });
-	};
-    
     Server.prototype = component.create();
     Server.prototype.$super = parent;
     Server.prototype.constructor = Server;
@@ -48,6 +23,8 @@ declare('Server', function() {
         this.id = 'server';
         
         this.socket = undefined;
+        
+        this.activeClients = {};
                         
         // ---------------------------------------------------------------------------
         // overrides
@@ -65,7 +42,8 @@ declare('Server', function() {
 			
             var WebSocketServer = require('ws').Server;
             this.socket = new WebSocketServer({port: network.port });
-            this.socket.on('connection', serverOnConnection);
+            this.socket.parent = this;
+            this.socket.on('connection', this.OnSocketConnection);
             
             console.log("Sever running on port " + network.port);
         };
@@ -81,7 +59,63 @@ declare('Server', function() {
         // ---------------------------------------------------------------------------
         // server functions
         // ---------------------------------------------------------------------------
-        
+        this.OnSocketConnection = function(socket) {
+    		console.log('New connection');
+    		socket.parent = this.parent;
+    	    socket.on('message', this.parent.OnSocketMessage);
+    	};
+    	
+    	this.OnSocketMessage = function(data) {
+    		this.parent.ProcessSocketMessage(this, data);
+    	};
+    	
+    	this.ProcessSocketMessage = function(socket, data) {
+    		var packet = network.getPacket(data);
+    		log.debug("Received packet: "+packet);
+
+    		switch(packet.command) {
+    			
+    			case network.EnumCommandPing: {
+    				socket.send(network.buildPacket(network.EnumCommandPing));
+    				break;
+    			}
+    			
+    			case network.EnumCommandIdent: {
+    				log.debug("Client sent Ident request");
+    				var guid = serverGenerateGuid();
+    				this.activeClients[guid] = {};
+    				socket.send(network.buildPacket(network.EnumCommandIdent, guid));
+    				break;
+    			}
+    			
+    			case network.EnumCommandConnect: {
+    				log.debug("Client sent connect");
+    				socket.send(network.buildPacket(network.EnumCommandAccept));
+    				break;
+    			}
+    			
+    			case network.EnumCommandDisconnect: {
+    				log.debug("Client sent disconnect");
+    				break;
+    			}
+    			
+    			case network.EnumCommandBlock: {
+    				log.debug("Received block with " + packet.payload.count + " messages");
+    				for(var i = 0; i < packet.payload.count; i++) {
+    					// Rebuild a packet from the block and process
+    					var message = packet.payload.messages[i];
+    					var subPacket = network.buildPacket(message[0], message[1]);
+    					this.ProcessSocketMessage(socket, subPacket);
+    				}
+    				
+    				break;
+    			}
+    			
+    			default: {
+    				log.error("Received unknown command: " + packet.command);
+    			}
+    		};
+    	};
     }
     
     return new Server();

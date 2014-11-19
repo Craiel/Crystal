@@ -51,7 +51,7 @@ declare("UserInterface", function() {
             this.screenLoading.init(null);
             
             // Load the starting screen
-            this.loadAndActivate(this.screenMain);
+            this.loadAndActivate(this.screenStart);
             
             // To make sure settings are saved when reloading / navigating away
             $(window).on('beforeunload', function(){ save.save(); });

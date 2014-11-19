@@ -12,8 +12,20 @@ declare('Network', function() {
         this.port = 9089;
         this.pingInterval = 60 * 1000;
         
-        this.EnumCommandPing = 0;
-        this.EnumCommandIdent = 1;
+        this.EnumCommandConnect = 0;
+        this.EnumCommandDisconnect = 1;
+        this.EnumCommandConnectReject = 2;
+        this.EnumCommandConnectAccept = 3;
+        this.EnumCommandIdent = 4;
+        this.EnumCommandPing = 5;
+        this.EnumCommandAuth = 6;
+        
+        this.EnumCommandBlock = 10;
+                
+        this.EnumStatusUnknown = 0;
+        this.EnumStatusConnecting = 1;
+        this.EnumStatusConnected = 2;
+        this.EnumStatusFaild = 4;
         
         // ---------------------------------------------------------------------------
         // network functions
