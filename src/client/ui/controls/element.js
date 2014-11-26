@@ -105,12 +105,6 @@ declare("Element", function() {
                 	elementTarget.append(this._mainDiv);
                 }
             }
-            
-            // Wire up some default events
-            /*this._mainDiv.mouseenter({self: this}, this.onMouseEnter);
-            this._mainDiv.mouseleave({self: this}, this.onMouseLeave);
-            this._mainDiv.mousemove({self: this}, this.onMouseMove);
-            this._mainDiv.click({self: this}, this.onMouseClick);*/
         };
         
         this.update = function(currentTime) {
