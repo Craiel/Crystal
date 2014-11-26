@@ -1,8 +1,12 @@
 declare("ScreenStart", function() {
+	include("Log");
 	include("Settings");
 	include("Screen");
 	include("Element");
 	include("MenuBar");
+	include("LoginControl");
+	include("Network");
+	include("NetworkClient");
     
     ScreenStart.prototype = screen.create();
     ScreenStart.prototype.$super = parent;
@@ -10,8 +14,10 @@ declare("ScreenStart", function() {
     
     function ScreenStart(id) {
         this.id = id;
-                
-        this.menuContent = undefined;
+        
+        this.loginControls = undefined;
+        
+        this.startImage = undefined;
         
         // ---------------------------------------------------------------------------
         // overrides
@@ -27,11 +33,16 @@ declare("ScreenStart", function() {
         this.init = function(parent) {
             this.screenInit(parent);
             
-            this.menuContent = element.create(this.id + "MenuContent");
-            this.menuContent.init(this);
+            this.startImage = element.create(this.id + "StartImage");
+            this.startImage.init(this);
+            this.startImage.setAttribute("src", "TitleScreen.png");
             
-            this.menuBar = menuBar.create(this.id + "_menu");
-            this.menuBar.init(this.menuContent);
+            this.controlsParent = element.create(this.id + "Controls");
+            this.controlsParent.init(this);
+            
+            this.loginControls = loginControl.create(this.id + "LoginControls");
+            this.loginControls.onLoginClick = this.onLoginClick;
+            this.loginControls.init(this.controlsParent);
         };
         
         this.update = function(currentTime) {
@@ -51,6 +62,17 @@ declare("ScreenStart", function() {
         // ---------------------------------------------------------------------------
         // screen functions
         // ---------------------------------------------------------------------------
+        this.onLoginClick = function(source) {
+        	var user = source.parent.getUser();
+        	var pass = source.parent.getPass();
+        	if(user.length <= 0 || pass.length <= 0) {
+        		log.error("User or pass was not supplied!");
+        		return;
+        	}
+        	
+        	log.debug("Login triggered: " + user + " | " + pass);
+        	networkClient.queueClientMessage(network.EnumCommandAuth, { user: user, pass: pass });
+        };
     };
     
     return {

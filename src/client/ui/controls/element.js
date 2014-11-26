@@ -107,9 +107,10 @@ declare("Element", function() {
             }
             
             // Wire up some default events
-            this._mainDiv.mouseenter({self: this}, this.onMouseEnter);
+            /*this._mainDiv.mouseenter({self: this}, this.onMouseEnter);
             this._mainDiv.mouseleave({self: this}, this.onMouseLeave);
             this._mainDiv.mousemove({self: this}, this.onMouseMove);
+            this._mainDiv.click({self: this}, this.onMouseClick);*/
         };
         
         this.update = function(currentTime) {
@@ -203,25 +204,16 @@ declare("Element", function() {
             this._mainDiv.text(text);
         };
         
-        this.onMouseMove = function(event) {
-        	var self = event.data.self;
-        	var position = [event.pageX, event.pageY];
-        	
-        	// Todo
+        this.getText = function() {
+        	return this._mainDiv.text();
         };
                 
-        this.onMouseEnter = function(event) {
-        	var self = event.data.self;
-        	
-        	//log.debug("MouseEnter: "+self.id);
-        	// Todo
+        this.setAttribute = function(name, content) {
+        	this._mainDiv.attr(name, content);
         };
         
-        this.onMouseLeave = function(event) {
-        	var self = event.data.self;
-        	
-        	//log.debug("MouseExit: "+self.id);        	
-        	// Todo
+        this.setOnClick = function(target) {
+        	this._mainDiv.click({self: this}, function(event, target) { target(event.data.self); });
         };
     };
     

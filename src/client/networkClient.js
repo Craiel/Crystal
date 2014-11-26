@@ -1,5 +1,6 @@
 declare('NetworkClient', function() {
 	include('Log');
+	include('GameState');
 	include('Assert');
 	include('Network');
 	include('Component');
@@ -27,11 +28,15 @@ declare('NetworkClient', function() {
         this.sendDelay = 10;
         this.sendBulkMax = 50;
         
-        this.connectionRetryDelay = 200;
-        this.connectionRetryTime = undefined;
+        this.connectionDelay = 200;
+        this.connectionTime = undefined;
         
-        this.statusCheckDelay = 1000;
-        this.statusCheckTime = undefined;
+        this.authenticateTimeout = 1000;
+        this.authenticateTimeoutTime = undefined;
+        
+        this.pingDelay = 10000;
+        this.pingTime = undefined;
+        this.pingLastResponse = undefined;
         
         // ---------------------------------------------------------------------------
         // overrides
@@ -55,7 +60,7 @@ declare('NetworkClient', function() {
             if(!this.componentUpdate(currentTime)) {
                 return;
             }
-            
+
             switch(this.status)
             {
             case network.EnumStatusUnknown:
@@ -67,27 +72,40 @@ declare('NetworkClient', function() {
             	break;
             	
             case network.EnumStatusConnected:
-            	this.checkNetworkStatus(currentTime);
-            	this.receiveMessages(currentTime);
-            	this.sendMessages(currentTime);
+            	this.authenticate(currentTime);
+            	break;
+            	
+            case network.EnumStatusAuthenticating:
+            	break;
+            	
+            case network.EnumStatusAuthenticated:
+            	this.ping(currentTime);
             	break;
             }
+            
+            this.receiveMessages(currentTime);
+        	this.sendMessages(currentTime);
         };
         
         // ---------------------------------------------------------------------------
         // client functions
         // --------------------------------------------------------------------------- 
-        this.checkNetworkStatus = function(currentTime) {
-        	if(this.statusCheckTime <= currentTime.getTime()) {
-				return true;
+        this.authenticate = function(currentTime) {
+        	log.debug("Authenticating network...");
+        	
+        	this.status = network.EnumStatusAuthenticating;
+        	
+        	this.queueMessage(network.EnumCommandIdent);
+        };
+        
+        this.ping = function(currentTime) {
+        	if (this.pingTime !== undefined && this.pingTime + this.pingDelay >= currentTime.getTime()) {
+				return;
 			}
         	
-        	this.statusCheckTime = currentTime.getTime() + this.statusCheckDelay;
-        	
-        	if(network.ident === undefined) {
-        		this.queueMessage(network.EnumCommandIdent);
-        	}
-        }
+        	this.pingTime = currentTime.getTime();
+    		this.queueMessage(network.EnumCommandPing);
+        };
         
         this.disconnect = function() {
         	if (this.socket === undefined) {
@@ -106,9 +124,9 @@ declare('NetworkClient', function() {
         };
         
         this.reconnect = function(currentTime) {
-        	if(this.connectionRetryTime <= currentTime.getTime()) {
-        		log.debug("Delaying reconnect!");
-				return true;
+        	if (this.connectionTime !== undefined && this.connectionTime + this.connectionDelay >= currentTime.getTime()) {
+				log.debug("Delaying send!");
+				return;
 			}
         	
         	log.debug("Reconnecting to server...");
@@ -124,6 +142,19 @@ declare('NetworkClient', function() {
 
         	// Queue the connect
         	this.queueMessage(network.EnumCommandConnect);
+        };
+        
+        this.isClientReady = function() {
+        	return this.status === network.EnumStatusAuthenticated;
+        };
+        
+        this.queueClientMessage = function(command, payload) {
+        	if(this.status !== network.EnumStatusAuthenticated) {
+        		log.error("Can not queue client message without authentication!");
+        		return;
+        	}
+        	
+        	this.queueMessage(command, payload);
         };
         
         this.queueMessage = function(command, payload) {
@@ -158,7 +189,7 @@ declare('NetworkClient', function() {
 		
 		this.sendMessage = function(currentTime, command, payload) {
 			try {
-				log.debug("Sending Message to server: " + command);
+				// log.debug("Sending Message to server: " + command);
 				this.socket.send(network.buildPacket(command, payload));
 				return true;
 			}
@@ -170,7 +201,7 @@ declare('NetworkClient', function() {
 		};
 		
 		this.handleSocketError = function(currentTime, error) {
-			this.connectionRetryTime = currentTime.getTime() + this.connectionRetryDelay;
+			this.connectionTime = currentTime.getTime();
 			
 			// InvalidStateError is ignored for now
 			if(error.code === 11) {
@@ -205,12 +236,12 @@ declare('NetworkClient', function() {
 					assert.isDefined(packet.payload);
 					network.ident = packet.payload;
 					log.debug("Received ident as " + network.ident);
+					this.status = network.EnumStatusAuthenticated;
 					break;
 				}
 				
 				case network.EnumCommandPing: {
-					log.debug("Received ping response");
-					//self.lastPingResponse = Date.now();
+					this.pingLastResponse = gameState.gameTime.getTime();
 					break;
 				}
 				

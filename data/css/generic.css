@@ -59,3 +59,12 @@
 	height: calc(100% - 2px);
 	opacity: 0.4;
 }
+
+.textStrokeBlack
+{
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;  
+}

@@ -26,12 +26,8 @@ declare("NetworkPacket", function() {
 		};
 		
 		this.loadFrom = function(rawData) {
-			log.debug('NetworkPacket: ');
-			console.log(rawData);
 			var data = coreUtils.utf8Decode(coreUtils.lzwDecode(rawData));
-			console.log(data);
 			var segments = data.split(this.packetSeparator);
-			console.log(segments);
 			this.ident = segments[0];
 			this.command = parseInt(segments[1]);
 			if(segments.length > 1 && segments[2] !== undefined && segments[2].length > 0) {

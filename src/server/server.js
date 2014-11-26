@@ -111,6 +111,12 @@ declare('Server', function() {
     				break;
     			}
     			
+    			case network.EnumCommandAuth: {
+    				log.debug("Received AUTH! with: ");
+    				console.log(packet.payload);
+    				break;
+    			}
+    			
     			default: {
     				log.error("Received unknown command: " + packet.command);
     			}
