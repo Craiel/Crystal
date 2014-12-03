@@ -1,6 +1,7 @@
 Crystal.main = function() {
 	include('Log');
 	include('Static');
+	include('Resources');
 	include('UserInterface');
 	include('Game');
 	include('GameState');
@@ -10,6 +11,7 @@ Crystal.main = function() {
 	
 	// override our data root if we have it stored somewhere else
 	static.setRoot("");
+	resources.init();
 	
 	// Set the template data
 	include('TemplateProvider').SetData(include('TemplateContent'));

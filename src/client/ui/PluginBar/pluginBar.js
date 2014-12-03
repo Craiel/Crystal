@@ -9,6 +9,8 @@ declare("PluginBar", function() {
     function PluginBar(id) {
         this.id = id;
         
+        this.templateName = "pluginBar";
+        
         this.plugins = {};
         
         // ---------------------------------------------------------------------------

@@ -12,7 +12,7 @@ declare("Panel", function() {
     function Panel(id) {
         this.id = id;
         
-        this.templateName = "Panel";
+        this.templateName = "panel";
         
         this.canClose = true;
         this.canShowInfo = true;
@@ -39,23 +39,23 @@ declare("Panel", function() {
         this.init = function(parent) {
             this.elementInit(parent);
             
-            this.content = element.create(this.id + "_content");
+            this.content = element.create(this.id + "Content");
             this.content.init(this);
             
             if (this.canShowTitle === true) {
-            	this.title = element.create(this.id + "_title");
+            	this.title = element.create(this.id + "Title");
             	this.title.init(this);
             }
             
             if (this.canClose === true) {
-                this.closeButton = button.create(this.id + "_btClose");
+                this.closeButton = button.create(this.id + "ActionClose");
                 this.closeButton.onClick = this.onCloseClick;
                 this.closeButton.init(this);
                 this.closeButton.setText("x");
             }
             
             if (this.canShowInfo === true) {
-                this.infoButton = button.create(this.id + "_btInfo");
+                this.infoButton = button.create(this.id + "ActionInfo");
                 this.infoButton.onClick = this.onInfoClick;
                 this.infoButton.init(this);
                 this.infoButton.setText("i");

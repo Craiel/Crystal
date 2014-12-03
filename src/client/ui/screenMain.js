@@ -23,6 +23,8 @@ declare("ScreenMain", function() {
     function ScreenMain(id) {
         this.id = id;
         
+        this.templateName = "screenMain";
+        
         this.pluginBar = undefined;
         
         this.mainContentFrame = undefined;

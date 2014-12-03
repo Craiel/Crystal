@@ -25,6 +25,8 @@ declare("ViewStatistics", function() {
     function ViewStatistics(id) {
         this.id = id;
         
+        this.templateName = "viewStatistics";
+        
         this.entriesTotal = {};
         this.entriesSession = {};
         

@@ -27,7 +27,7 @@ declare('Network', function() {
         this.EnumStatusConnected = 2;
         this.EnumStatusAuthenticating = 3;
         this.EnumStatusAuthenticated = 4;
-        this.EnumStatusFaild = 5;
+        this.EnumStatusFailed = 5;
         
         // ---------------------------------------------------------------------------
         // network functions

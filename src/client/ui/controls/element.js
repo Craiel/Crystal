@@ -23,7 +23,8 @@ declare("Element", function() {
         }
         
         // fetch the template to use, either custom or go by the id
-        var content = templateProvider.GetTemplate(templateName, attributes);        
+        var content = templateProvider.GetTemplate(templateName, attributes);
+        assert.isDefined(content, "Template for element does not exist: " + templateName);
         return $(content);
     };
         
@@ -201,13 +202,22 @@ declare("Element", function() {
         this.getText = function() {
         	return this._mainDiv.text();
         };
-                
+        
         this.setAttribute = function(name, content) {
         	this._mainDiv.attr(name, content);
         };
         
         this.setOnClick = function(target) {
         	this._mainDiv.click({self: this}, function(event, target) { target(event.data.self); });
+        };
+        
+        this.setKeyPress = function(code, callback) {
+        	this._mainDiv.keypress({self: this}, function(event) {
+        		if(event.which === code) {
+        			callback(event.data.self);
+        			return false;
+        		}
+        	});
         };
     };
     

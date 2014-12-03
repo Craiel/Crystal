@@ -3,6 +3,7 @@ declare("LoginControl", function() {
 	include("Assert");
 	include("Element");
 	include("Button");
+	include("Static");
     
 	LoginControl.prototype = element.create();
 	LoginControl.prototype.$super = parent;
@@ -11,7 +12,7 @@ declare("LoginControl", function() {
     function LoginControl(id) {
         this.id = id;
         
-        this.templateName = "LoginControls";
+        this.templateName = "loginControl";
         
         this.inputName = undefined;
         this.inputPass = undefined;
@@ -37,6 +38,7 @@ declare("LoginControl", function() {
             
             this.inputPass = element.create(this.id + "Pass");
             this.inputPass.init(this);
+            this.inputPass.setKeyPress(static.EnumKeyCodeEnter, this.onLoginClick);
             
             this.buttonRegister = button.create(this.id + "ActionRegister");
             this.buttonRegister.onClick = this.onRegisterClick;

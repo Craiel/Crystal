@@ -11,6 +11,8 @@ declare("Button", function() {
     function Button(id) {
         this.id = id;
         
+        this.templateName = "button";
+        
         this.isToggle = false;
         this.isActive = false;
         this.isUsingActiveIcon = false;

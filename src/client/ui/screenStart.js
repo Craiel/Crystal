@@ -5,8 +5,10 @@ declare("ScreenStart", function() {
 	include("Element");
 	include("MenuBar");
 	include("LoginControl");
+	include("Resources");
 	include("Network");
 	include("NetworkClient");
+	include("NetworkControl");
     
     ScreenStart.prototype = screen.create();
     ScreenStart.prototype.$super = parent;
@@ -15,7 +17,11 @@ declare("ScreenStart", function() {
     function ScreenStart(id) {
         this.id = id;
         
-        this.loginControls = undefined;
+        this.templateName = "screenStart";
+        
+        this.loginControl = undefined;
+        
+        this.networkControl = undefined;
         
         this.startImage = undefined;
         
@@ -35,20 +41,26 @@ declare("ScreenStart", function() {
             
             this.startImage = element.create(this.id + "StartImage");
             this.startImage.init(this);
-            this.startImage.setAttribute("src", "TitleScreen.png");
+            this.startImage.setAttribute("src", resources.ImageStartBackground);
             
             this.controlsParent = element.create(this.id + "Controls");
             this.controlsParent.init(this);
             
-            this.loginControls = loginControl.create(this.id + "LoginControls");
-            this.loginControls.onLoginClick = this.onLoginClick;
-            this.loginControls.init(this.controlsParent);
+            this.loginControl = loginControl.create(this.id + "LoginControls");
+            this.loginControl.onLoginClick = this.onLoginClick;
+            this.loginControl.init(this.controlsParent);
+            
+            this.networkControl = networkControl.create(this.id + "NetworkStatus");
+            this.networkControl.init(this.controlsParent);
         };
         
         this.update = function(currentTime) {
             if(this.screenUpdate(currentTime) === false) {
                 return;
             }
+            
+            this.loginControl.update(currentTime);
+            this.networkControl.update(currentTime);
         };
         
         this.hide = function() {

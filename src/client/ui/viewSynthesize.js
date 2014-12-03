@@ -11,6 +11,8 @@ declare("ViewSynthesize", function() {
     function ViewSynthesize(id) {
         this.id = id;
         
+        this.templateName = "viewSynthesize";
+        
         this.module = undefined;
         this.hitTarget = undefined;
         this.animationArea = undefined;

@@ -10,10 +10,11 @@
   ],
   "Templates": [
     {
-      "Directory": "data\\templates\\",
+      "Directory": "src\\client\\ui\\",
       "FilterStrings": [
         "*.html"
-      ]
+      ],
+      "Option": 1
     }
   ],
   "Sources": [
@@ -49,7 +50,7 @@
   ],
   "StyleSheets": [
     {
-      "Directory": "data\\css\\",
+      "Directory": "src\\client\\ui\\",
       "FilterStrings": [ "*.css" ],
       "Option": 1
     }

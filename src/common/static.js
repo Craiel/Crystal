@@ -131,6 +131,12 @@ declare("Static", function() {
         this.EnumValueGainAuto = 3;
         this.EnumValueGainAutoCrit = 4;
         
+        this.keyCodes = {
+        		13: { id: 'enter', name: StrLoc('Enter') }
+        };
+        
+        this.EnumKeyCodeEnter = 13;
+        
         // ---------------------------------------------------------------------------
         // data functions
         // ---------------------------------------------------------------------------
@@ -144,9 +150,6 @@ declare("Static", function() {
             this.dragDelay = 300; // delay before starting to drag
             
             this.floatFadeDelay = 300; // delay for floating windows to fade on close 
-            
-            // Icons
-            this.iconPlaceholder = 'placeholder.png';
         };
         
         this.getRarityName = function(rarity) {

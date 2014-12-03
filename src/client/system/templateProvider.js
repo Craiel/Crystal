@@ -25,8 +25,7 @@ declare("TemplateProvider", function() {
             if(data[templateName] !== undefined) {
                 template = data[templateName];
             } else {
-                log.warning("Template.Default: " + templateName);
-                template = '<div id="{{id}}"></div>';
+                return undefined;
             }
             
             if(attributes !== undefined) {

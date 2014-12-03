@@ -14,6 +14,8 @@ declare("OptionsPanel", function() {
     function OptionsPanel(id) {
         this.id = id;
         
+        this.templateName = "optionsPanel";
+        
         this.canClose = false;
         this.canShowInfo = false;
         this.canShowTitle = false;
@@ -35,7 +37,7 @@ declare("OptionsPanel", function() {
         this.init = function(parent, attributes) {
             this.panelInit(parent, attributes);
             
-            this.contentTarget = element.create(this.id + "Content");
+            this.contentTarget = element.create(this.id + "OptionContent");
             this.contentTarget.init(this);
         };
         
@@ -70,9 +72,8 @@ declare("OptionsPanel", function() {
             }
 
             // Build the option control div
-            var optionButton = button.create(id + "_button");
+            var optionButton = button.create(id + "Button");
             optionButton.isToggle = true;
-            optionButton.templateName = "OptionsPanelButton";
             optionButton.onClick = function() { settings[stateSetting] = !settings[stateSetting]; };
             optionButton.init(this.contentTarget);
             optionButton.setIcon(buttonIcon);
