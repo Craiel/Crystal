@@ -11,8 +11,8 @@ declare("Panel", function() {
     
     function Panel(id) {
         this.id = id;
-        
-        this.templateName = "panel";
+
+        this.setTemplate("panel");
         
         this.canClose = true;
         this.canShowInfo = true;

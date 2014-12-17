@@ -31,8 +31,8 @@ declare("ScreenLoading", function() {
     
     function ScreenLoading(id) {
         this.id = id;
-        
-        this.templateName = "screenLoading";
+
+        this.setTemplate("screenLoading");
         
         this.progressBar = undefined;
         this.progressText = undefined;

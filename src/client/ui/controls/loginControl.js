@@ -11,8 +11,8 @@ declare("LoginControl", function() {
     
     function LoginControl(id) {
         this.id = id;
-        
-        this.templateName = "loginControl";
+
+        this.setTemplate("loginControl");
         
         this.inputName = undefined;
         this.inputPass = undefined;
@@ -43,17 +43,21 @@ declare("LoginControl", function() {
             this.buttonRegister = button.create(this.id + "ActionRegister");
             this.buttonRegister.onClick = this.onRegisterClick;
             this.buttonRegister.init(this);
+            this.buttonRegister.setText("Register");
             
             this.buttonLogin = button.create(this.id + "ActionLogin");
             this.buttonLogin.onClick = this.onLoginClick;
             this.buttonLogin.init(this);
+            this.buttonLogin.setText("Login");
         };
         
         this.update = function(currentTime) {
         	if(this.elementUpdate(currentTime) === false) {
                 return;
             }
-        	
+
+            this.buttonRegister.update(currentTime);
+            this.buttonLogin.update(currentTime);
         };
         
         this.remove = function(keepDivAlive) {

@@ -10,8 +10,8 @@ declare("ViewInventory", function() {
     
     function ViewInventory(id) {
         this.id = id;
-        
-        this.templateName = "viewInventory";
+
+        this.setTemplate("viewInventory");
         
         // ---------------------------------------------------------------------------
         // overrides

@@ -12,8 +12,8 @@ declare("PluginTime", function() {
     
     function PluginTime(id) {
         this.id = id;
-        
-        this.templateName = "pluginTime";
+
+        this.setTemplate("pluginTime");
         
         // ---------------------------------------------------------------------------
         // overrides

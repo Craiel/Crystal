@@ -11,7 +11,7 @@ declare("ProgressBar", function() {
     function ProgressBar(id) {
         this.id = id;
 
-        this.templateName = "progressBar";
+        this.setTemplate("progressBar");
         
         this.value = 0;
         this.maxValue = 100;

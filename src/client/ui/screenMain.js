@@ -22,8 +22,8 @@ declare("ScreenMain", function() {
     
     function ScreenMain(id) {
         this.id = id;
-        
-        this.templateName = "screenMain";
+
+        this.setTemplate("screenMain");
         
         this.pluginBar = undefined;
         
@@ -81,13 +81,13 @@ declare("ScreenMain", function() {
             this.optionsPanel.addOption("CPOInventory", saveKeys.idnOptionInventoryActive);
             
             this.statisticsView = viewStatistics.create('ViewStatistics');
-            this.statisticsView.init(null);
+            this.statisticsView.init();
             
             this.equipmentView = viewEquipment.create('ViewEquipment');
-            this.equipmentView.init(null);
+            this.equipmentView.init();
             
             this.inventoryView = viewInventory.create('ViewInventory');
-            this.inventoryView.init(null);
+            this.inventoryView.init();
         };
         
         this.update = function(currentTime) {

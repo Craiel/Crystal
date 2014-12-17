@@ -48,14 +48,18 @@ declare("Screen", function() {
         this.getLoadingActions = function() {
         	var generalId = StrLoc('General Loading');
         	return {
-        		generalId: this.load
+        		generalId: this.load,
+                generalId2: this.load,
+                generalId3: this.load,
+                generalId4: this.load
         	};
         };
         
         this.load = function(loadAction) {
         	var self = loadAction.actionHost;
-        	
-        	loadAction.setSubProgressText("File 1");
+
+            loadAction.setSubProgressText("File 1");
+
         	log.debug(StrLoc("No loading in screen {0}").format(self.id));
         };
     };

@@ -10,8 +10,8 @@ declare("PluginMenu", function() {
     
     function PluginMenu(id) {
         this.id = id;
-        
-        this.templateName = "pluginMenu";
+
+        this.setTemplate("pluginMenu");
         
         // ---------------------------------------------------------------------------
         // overrides

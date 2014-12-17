@@ -14,7 +14,9 @@ declare('NetworkClient', function() {
 	// ---------------------------------------------------------------------------	
     function NetworkClient() {
         this.id = "NetworkClient";
-        
+
+		this.enabled = false;
+
         this.socket = undefined;
         this.session = undefined;
         
@@ -60,6 +62,10 @@ declare('NetworkClient', function() {
             if(!this.componentUpdate(currentTime)) {
                 return;
             }
+
+			if(this.enabled === false) {
+				return;
+			}
 
             switch(this.status)
             {

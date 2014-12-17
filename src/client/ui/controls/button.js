@@ -10,8 +10,8 @@ declare("Button", function() {
     
     function Button(id) {
         this.id = id;
-        
-        this.templateName = "button";
+
+        this.setTemplate("button");
         
         this.isToggle = false;
         this.isActive = false;
@@ -34,8 +34,8 @@ declare("Button", function() {
             this.elementInit(parent, attributes);
             
             assert.isDefined(this.onClick, StrLoc("No click event defined for button"));
-            
-            this.getMainElement().click({self: this}, this.onButtonClick);
+
+            this.setOnClick(this.onButtonClick);
         };
         
         // ---------------------------------------------------------------------------
@@ -56,23 +56,23 @@ declare("Button", function() {
         this.updateIcon = function(forceIcon) {
         	var iconElement = this.getMainElement().find("#" + this.id + "_icon");
         	var overlayElement = this.getMainElement().find("#" + this.id + "_overlay");
-        	
+
         	if(this.isToggle && this.isActive) {
         		overlayElement.addClass("colorAccentBackground");
         		if(this.isUsingActiveIcon === true) {
-        			iconElement.attr("src", static.iconRoot + this.iconActive);
+        			iconElement.attr("src", this.iconActive);
         		}
         	} else {
         		overlayElement.removeClass("colorAccentBackground");
         		
         		if(forceIcon === true || this.isUsingActiveIcon === true) {
-        			iconElement.attr("src", static.iconRoot + this.icon);
+        			iconElement.attr("src", this.icon);
         		}
         	}
         };
         
-        this.onButtonClick = function(parameters) {
-        	var self = parameters.data.self;
+        this.onButtonClick = function(self) {
+            console.log("onButtonClick!");
 
         	if(self.isToggle) {
         		self.isActive = !self.isActive;

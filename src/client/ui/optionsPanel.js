@@ -4,17 +4,18 @@ declare("OptionsPanel", function() {
 	include("Static");
 	include("Settings");
 	include("Element");
-	include("Panel");
+    include("Element");
 	include("Button");
+    include("Resources");
     
-	OptionsPanel.prototype = panel.create();
+	OptionsPanel.prototype = element.create();
 	OptionsPanel.prototype.$super = parent;
 	OptionsPanel.prototype.constructor = OptionsPanel;
     
     function OptionsPanel(id) {
         this.id = id;
-        
-        this.templateName = "optionsPanel";
+
+        this.setTemplate("optionsPanel");
         
         this.canClose = false;
         this.canShowInfo = false;
@@ -27,22 +28,22 @@ declare("OptionsPanel", function() {
         // ---------------------------------------------------------------------------
         // overrides
         // ---------------------------------------------------------------------------
-        this.panelInit = this.init;
-        this.panelUpdate = this.update;
-        this.panelRemove = this.remove;
+        this.elementInit = this.init;
+        this.elementUpdate = this.update;
+        this.elementRemove = this.remove;
         
         // ---------------------------------------------------------------------------
         // main functions
         // ---------------------------------------------------------------------------
         this.init = function(parent, attributes) {
-            this.panelInit(parent, attributes);
+            this.elementInit(parent, attributes);
             
             this.contentTarget = element.create(this.id + "OptionContent");
             this.contentTarget.init(this);
         };
         
         this.update = function(currentTime) {
-        	if(this.panelUpdate(currentTime) === false) {
+        	if(this.elementUpdate(currentTime) === false) {
                 return;
             }
         	
@@ -52,7 +53,7 @@ declare("OptionsPanel", function() {
         };
         
         this.remove = function(keepDivAlive) {
-            this.panelRemove(keepDivAlive);
+            this.elementRemove(keepDivAlive);
             
             this.contentTarget.remove(true);
         };
@@ -63,13 +64,13 @@ declare("OptionsPanel", function() {
         this.addOption = function(id, stateSetting, parameters) {
             assert.isDefined(this.getMainElement(), StrLoc("addOption must be called after init"));
             assert.isDefined(stateSetting);
-            
-            var buttonIcon = static.iconPlaceholder;
-            if(parameters !== undefined) {
-            	if(buttonIcon === undefined) {
-            		buttonIcon = static.iconPlaceholder;
-            	}
+
+            // Ensure we have a valid parameters struct for easier evaluation
+            if(parameters === undefined) {
+            	parameters = {};
             }
+
+            var buttonIcon = parameters.icon !== undefined ? parameters.icon : resources.IconPlaceHolder;
 
             // Build the option control div
             var optionButton = button.create(id + "Button");

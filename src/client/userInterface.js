@@ -42,16 +42,17 @@ declare("UserInterface", function() {
             this.componentInit();
             
             this.screenStart = screenStart.create("ScreenStart");
-            this.screenStart.init(null);
+            this.screenStart.init();
             
             this.screenMain = screenMain.create("ScreenMain");
-            this.screenMain.init(null);
+            this.screenMain.init();
             
             this.screenLoading = screenLoading.create("ScreenLoading");
-            this.screenLoading.init(null);
+            this.screenLoading.init();
             
             // Load the starting screen
-            this.loadAndActivate(this.screenStart);
+            //this.loadAndActivate(this.screenStart);
+            this.loadAndActivate(this.screenMain);
             
             // To make sure settings are saved when reloading / navigating away
             $(window).on('beforeunload', function(){ save.save(); });

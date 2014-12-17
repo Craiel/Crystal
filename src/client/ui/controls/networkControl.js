@@ -14,8 +14,8 @@ declare("NetworkControl", function() {
     
     function NetworkControl(id) {
         this.id = id;
-        
-        this.templateName = "networkControl";
+
+        this.setTemplate("networkControl");
                 
         this.buttonSettings = undefined;
         
@@ -76,7 +76,7 @@ declare("NetworkControl", function() {
         		image = resources.IconNetworkOnline;
         		break;
         		
-        	case EnumStatusFailed:
+        	case network.EnumStatusFailed:
         		image = resources.IconNetworkOffline;
         		break;
         	}

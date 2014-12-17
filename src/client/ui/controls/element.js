@@ -42,7 +42,7 @@ declare("Element", function() {
         
         this.parent = undefined;
         
-        this.templateName = undefined;
+        this.templateName = this.templateName !== undefined ? this.templateName : undefined;
         
         this._mainDiv = undefined;
         
@@ -58,11 +58,11 @@ declare("Element", function() {
         // ---------------------------------------------------------------------------
         this.init = function(parent, attributes) {
         	this.componentInit();
-        	
+
+            // Check the parent
         	log.debug(StrLoc(" ELEMENT: {0}").format(this.id));
-        	assert.isDefined(parent, StrLoc("Parent must be defined"));
-        	if(parent !== null) {
-        		if(parent === RootParentKey) {
+        	if (parent !== undefined) {
+        		if (parent === RootParentKey) {
         			log.warning(StrLoc("  --> Appending to ROOT!"));
         			this.parent = $(document.body);
         		} else {
@@ -73,39 +73,41 @@ declare("Element", function() {
         		log.debug(StrLoc("  --> skipping parent"));
         	}
 
-        	// Store the target for this element
-        	var elementTarget = undefined;
-        	
             // try to get our element target
+            var existingElement = undefined;
             if(this.parent !== undefined) {
-            	if(this.parent.getMainElement !== undefined) {
-            		elementTarget = this.parent.getMainElement();
-            	} else {
-            		elementTarget = this.parent;            		
-            	}   
-            	
-            	this._mainDiv = elementTarget.find('#' + this.id);
+                existingElement = this.parent.getMainElement().find('#' + this.id);
             } else {
-                this._mainDiv = $('#' + this.id);
+                existingElement = $('#' + this.id);
             }
-            
-            if(this._mainDiv.length <= 0) {
-                this._mainDiv = undefined;
-                log.debug(StrLoc("  --> from template"));
-            } else {
-            	log.debug(StrLoc("  --> from content"));
-            }
-            
-            // Check if we have a valid element target, if not create it
-            if(this._mainDiv === undefined) {
-                this._mainDiv = createElementContent(this.id, this.parent, this.templateName, attributes);
-                                
-                // null means no registration
-                if(elementTarget !== undefined) {
-                	assert.isDefined(elementTarget, StrLoc("Parent needs to be of UIElement type and initialized"));
-                	elementTarget.append(this._mainDiv);
+
+            // Check if we are supposed to take from template
+            if (this.templateName !== undefined) {
+                var content = createElementContent(this.id, this.parent, this.templateName, attributes);
+                if(existingElement !== undefined && existingElement.length > 0) {
+                    this._mainDiv = content;
+                    existingElement.replaceWith(content);
+                    log.debug(StrLoc("  --> from template (replacing content)"));
+                } else {
+                    this._mainDiv = content;
+
+                    // this is a new element so check if we are supposed to register it
+                    //  undefined means no registration
+                    if(parent !== undefined) {
+                        var targetElement = parent.getMainElement();
+                        assert.isTrue(targetElement !== undefined && targetElement.length > 0, "Parent must be UIElement and initialized: " + parent.id);
+                        parent.getMainElement().append(this._mainDiv);
+                    }
+
+                    log.debug(StrLoc("  --> from template"));
                 }
+            } else {
+                this._mainDiv = existingElement;
+                log.debug(StrLoc("  --> from content"));
             }
+
+            assert.isDefined(this._mainDiv, "MainDiv must be assigned after init: " + this.id);
+            assert.isTrue(this._mainDiv.length > 0, "MainDiv must be valid after init: " + this.id);
         };
         
         this.update = function(currentTime) {
@@ -208,7 +210,8 @@ declare("Element", function() {
         };
         
         this.setOnClick = function(target) {
-        	this._mainDiv.click({self: this}, function(event, target) { target(event.data.self); });
+            assert.isDefined(target);
+        	this._mainDiv.click({ target: target, self: this }, function(event) { event.data.target(event.data.self); });
         };
         
         this.setKeyPress = function(code, callback) {
@@ -218,6 +221,14 @@ declare("Element", function() {
         			return false;
         		}
         	});
+        };
+
+        this.setTemplate = function(name) {
+            if(this.templateName !== undefined) {
+                log.error("Replacing template " + this.templateName + " with " + name + " for " + this.id);
+            }
+
+            this.templateName = name;
         };
     };
     

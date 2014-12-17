@@ -196,7 +196,6 @@ declare("CoreSave", function(require) {
                 	value = type.getWriteValueByType(mapping.getValue(), mapping.type);                	
                 } catch(e) {
                 	log.error(StrLoc("Could not get write value for {0}").format(key));
-                	console.log(mapping.getValue());
                 	throw e;
                 }
                 

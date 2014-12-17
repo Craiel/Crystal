@@ -10,8 +10,8 @@ declare("ViewSynthesize", function() {
     
     function ViewSynthesize(id) {
         this.id = id;
-        
-        this.templateName = "viewSynthesize";
+
+        this.setTemplate("viewSynthesize");
         
         this.module = undefined;
         this.hitTarget = undefined;
@@ -39,7 +39,7 @@ declare("ViewSynthesize", function() {
             
             this.hitTarget = element.create(this.id + "HitTarget");
             this.hitTarget.init(this);
-            this.hitTarget.getMainElement().on("click", { self: this}, this.onHit);
+            this.hitTarget.setOnClick(this.onHit);
             
             this.animationArea = element.create(this.id + "HitAnimationArea");
             this.animationArea.init(this);
@@ -71,8 +71,7 @@ declare("ViewSynthesize", function() {
         	return StrLoc("Synthesize");
         };
         
-        this.onHit = function(parameter) {
-        	var self = parameter.data.self;
+        this.onHit = function(self) {
         	if(self.module === undefined) {
         		log.warning("Module was not loaded!");
         		return;

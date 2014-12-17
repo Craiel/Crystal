@@ -16,8 +16,8 @@ declare("ScreenStart", function() {
     
     function ScreenStart(id) {
         this.id = id;
-        
-        this.templateName = "screenStart";
+
+        this.setTemplate("screenStart");
         
         this.loginControl = undefined;
         
