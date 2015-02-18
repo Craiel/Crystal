@@ -36,7 +36,7 @@
             {
                 string content = source.Absolute.ReadAsString();
 
-                this.ProcessSource(ref content, isDebug);
+                this.ProcessSource(source.Absolute.FileNameWithoutExtension, ref content, isDebug);
 
                 // In debug mode append the file name of the source
                 if (isDebug)
@@ -172,7 +172,7 @@
         // -------------------------------------------------------------------
         // Private
         // -------------------------------------------------------------------
-        private void ProcessSource(ref string source, bool isDebug)
+        private void ProcessSource(string sourceName, ref string source, bool isDebug)
         {
             var processingDirectiveStack = new Stack<Constants.ProcessingInstructions>();
 
@@ -222,6 +222,7 @@
                     string name = match.Groups[2].ToString();
                     string varName = string.Concat(char.ToLower(name[1]), name.Substring(2, name.Length - 3));
                     line = line.Replace(entry, string.Format("var {0} = {1}", varName, entry));
+                    line = line.Replace(name, string.Format("{0},'{1}'", name, sourceName));
                 }
 
                 // Replace StrLoc() with plain localized string
