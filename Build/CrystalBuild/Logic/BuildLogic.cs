@@ -283,20 +283,77 @@
             }
 
             // Read the data
+            string header;
+            string value;
             int dataIndex = 0;
+            bool concatSection = false;
+            IList<string> primaryKeyCheck = new List<string>();
             while (rowEnum.MoveNext())
             {
-                target.AppendLine("{0}{1}: {{", delimiter, dataIndex++);
                 row = (XSSFRow)rowEnum.Current;
                 cellEnum = row.CellIterator();
-                while (cellEnum.MoveNext())
+
+                if (concatSection)
                 {
-                    var cellData = (XSSFCell)cellEnum.Current;
-                    target.AppendLine("{0}    {1}: {2},", delimiter, headers[cellData.ColumnIndex], this.BuildDataEntryValue(cellData.ToString()));
+                    target.AppendLine(",");
                 }
 
-                target.AppendLine("{0}}},", delimiter);
+                if (!this.GetNextCell(cellEnum, headers, out header, out value))
+                {
+                    System.Diagnostics.Trace.TraceWarning("Sheet has no columns, skipping!");
+                    return;
+                }
+
+                value = value.Trim('"');
+                if (primaryKeyCheck.Contains(value) || value.Contains(" "))
+                {
+                    System.Diagnostics.Trace.TraceWarning("Duplicate or invalid primary key data in sheet {0}: {1}", sheet.SheetName, value);
+                    continue;
+                }
+                
+                primaryKeyCheck.Add(value);
+
+                // We use the first column as key for the data
+                target.AppendLine("{0}{1}: {{", delimiter, value);
+
+                bool concatRow = false;
+                while (this.GetNextCell(cellEnum, headers, out header, out value))
+                {
+                    if (concatRow)
+                    {
+                        target.AppendLine(",");
+                    }
+
+                    target.AppendFormat("{0}    {1}: {2}", delimiter, header, value);
+
+                    concatRow = true;
+                }
+                target.AppendLine();
+                target.AppendFormat("{0}}}", delimiter);
+                concatSection = true;
             }
+            target.AppendLine();
+        }
+
+        private bool GetNextCell(IEnumerator cellEnum, IList<string> headers, out string header, out string value)
+        {
+            header = null;
+            value = null;
+
+            if (cellEnum.MoveNext())
+            {
+                var cellData = (XSSFCell)cellEnum.Current;
+                if (headers.Count < cellData.ColumnIndex + 1 || string.IsNullOrEmpty(headers[cellData.ColumnIndex]))
+                {
+                    return false;
+                }
+
+                header = headers[cellData.ColumnIndex];
+                value = this.BuildDataEntryValue(cellData.ToString());
+                return true;
+            }
+
+            return false;
         }
 
         private string BuildDataEntryValue(string source)

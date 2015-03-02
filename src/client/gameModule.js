@@ -36,7 +36,7 @@ declare("GameModule", function() {
         		return false;
         	}
         	
-        	if(this[this.idnIsUnlocked] === false || this[saveKeys.idnIsActive] === false) {
+        	if(this[saveKeys.idnIsUnlocked] === false || this[saveKeys.idnIsActive] === false) {
         		return false;
         	}
         	
