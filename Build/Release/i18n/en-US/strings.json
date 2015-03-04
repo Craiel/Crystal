@@ -90,5 +90,6 @@
   "Server load count": "Server load count",
   "Server save count": "Server save count",
   "Crystal Server": "Crystal Server",
-  "Enter": "Enter"
+  "Enter": "Enter",
+  "Init must be called before update on {0}": "Init must be called before update on {0}"
 }

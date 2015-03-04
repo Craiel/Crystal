@@ -315,8 +315,9 @@
 
                 // We use the first column as key for the data
                 target.AppendLine("{0}{1}: {{", delimiter, value);
+                target.AppendFormat("{0}    id: '{1}'", delimiter, value);
 
-                bool concatRow = false;
+                bool concatRow = true;
                 while (this.GetNextCell(cellEnum, headers, out header, out value))
                 {
                     if (concatRow)
