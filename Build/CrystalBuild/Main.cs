@@ -14,6 +14,9 @@
     
     public class Main : IMain
     {
+        // --compilation_level ADVANCED_OPTIMIZATIONS
+        public const string ClosureCompilerCommand = @"-jar ""{0}compiler.jar""  --js ""{1}"" --js_output_file {2} --language_in=ECMASCRIPT5 --externs ""{3}""";
+
         private readonly ICommandLineArguments arguments;
         private readonly IConfig config;
         private readonly IBuildLogic logic;
@@ -134,18 +137,12 @@
 
                     if (this.useClosure)
                     {
-                        var info = new ProcessStartInfo("java.exe", string.Format(Constants.ClosureCompilerCommand, RuntimeInfo.Assembly.GetDirectory().ToRelative<CarbonDirectory>(RuntimeInfo.WorkingDirectory), targetFile, targetFileClosure, RuntimeInfo.WorkingDirectory.ToFile("externs.js")))
+                        var info = new ProcessStartInfo("java.exe", string.Format(ClosureCompilerCommand, RuntimeInfo.Assembly.GetDirectory().ToRelative<CarbonDirectory>(RuntimeInfo.WorkingDirectory), targetFile, targetFileClosure, RuntimeInfo.WorkingDirectory.ToFile("externs.js")))
                                        {
                                            UseShellExecute = false,
                                            WorkingDirectory = RuntimeInfo.WorkingDirectory.ToString()
                                        };
                         var proc = Process.Start(info);
-                        if (proc == null)
-                        {
-                            Trace.TraceError("Failed to start process: {0} {1}", info.FileName, info.Arguments);
-                            return;
-                        }
-
                         proc.WaitForExit();
                     }
                 }

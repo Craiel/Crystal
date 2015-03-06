@@ -56,6 +56,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\External\NPOI\2.1.1\dotnet4\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
+    <Reference Include="SharpLZW">
+      <HintPath>..\..\..\CarbonCore\External\SharpLZW\SharpLZW.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -70,11 +73,23 @@
     <Compile Include="Config.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Contracts\IBuildLogic.cs" />
+    <Compile Include="Contracts\IBuildUtils.cs" />
     <Compile Include="Contracts\IConfig.cs" />
+    <Compile Include="Contracts\Processors\IContentProcessor.cs" />
+    <Compile Include="Contracts\Processors\ICssProcessor.cs" />
+    <Compile Include="Contracts\Processors\IExcelProcessor.cs" />
+    <Compile Include="Contracts\Processors\IJavaScriptProcessor.cs" />
     <Compile Include="Contracts\IMain.cs" />
+    <Compile Include="Contracts\Processors\ITemplateProcessor.cs" />
     <Compile Include="Entry.cs" />
     <Compile Include="IoC\IoC.cs" />
     <Compile Include="Logic\BuildLogic.cs" />
+    <Compile Include="Logic\BuildUtils.cs" />
+    <Compile Include="Logic\Processors\ContentProcessor.cs" />
+    <Compile Include="Logic\Processors\CssProcessor.cs" />
+    <Compile Include="Logic\Processors\ExcelProcessor.cs" />
+    <Compile Include="Logic\Processors\JavaScriptProcessor.cs" />
+    <Compile Include="Logic\Processors\TemplateProcessor.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
